@@ -8,3 +8,4 @@
 - [[OpenAPI y Swagger]]
 - [[Postman]]
 - [[Quarkus]]
+- [[Obsidian]]
