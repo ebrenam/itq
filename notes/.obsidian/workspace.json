@@ -125,12 +125,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "winget.md",
+                "file": "Software.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "winget"
+              "title": "Software"
             }
           }
         ],
@@ -284,10 +284,10 @@
   },
   "active": "822fdc2a589b4720",
   "lastOpenFiles": [
-    "Quarkus.md",
-    "Software.md",
     "winget.md",
     "Programación distribuida y en la nube.md",
+    "Quarkus.md",
+    "Software.md",
     "Postman.md",
     "Podman.md",
     "OpenAPI y Swagger.md",
