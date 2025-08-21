@@ -1,3 +1,7 @@
 # Instituto Tecnológico de México
 
-El presente repositorio almacena toda la información que se proporciona en la materia "Programación distribuida y en la nube".
+![logo](images/logo-itq.png)
+
+El presente repositorio contiene toda la información que se proporciona en la materia "Programación distribuida y en la nube".
+
+Para cualquier duda, comentario, sugerencia, por favor, enviar mensaje al correo ebrenam@gmail.com.

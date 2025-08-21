@@ -1,0 +1,109 @@
+# ##############################################################################
+# ## Archivos y directorios de Java y Maven/Gradle
+# ##############################################################################
+
+# Archivos de clases compiladas
+*.class
+
+# Archivos de log
+*.log
+
+# Archivos generados por BlueJ
+*.ctxt
+
+# Archivos de Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Archivos de paquete (JARs, WARs, etc.)
+# Estos son artefactos de construcción y no deben ser versionados.
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Registros de fallos de la máquina virtual de Java
+hs_err_pid*
+replay_pid*
+
+# Directorio de salida de la construcción de Maven y Gradle
+/target/
+/build/
+/out/
+
+# ##############################################################################
+# ## Exclusiones de Quarkus
+# ##############################################################################
+
+# Directorios de trabajo de Quarkus
+/quarkus-app/
+/dist/
+
+# Archivos de configuración locales que pueden contener información sensible
+.env
+application-local.properties
+
+# ##############################################################################
+# ## Exclusiones de Docker
+# ##############################################################################
+
+# Archivos y directorios relacionados con la construcción de Docker
+# que no deben incluirse en el control de versiones.
+.dockerignore
+Dockerfile.jvm
+Dockerfile.legacy-jar
+Dockerfile.native
+Dockerfile.native-distroless
+
+# ##############################################################################
+# ## Archivos de configuración de IDEs
+# ##############################################################################
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+.nb-gradle/
+
+# Visual Studio Code
+.vscode/
+
+# ##############################################################################
+# ## Archivos del sistema operativo
+# ##############################################################################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbs.db de Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+*.[Dd]esktop.ini
+
+# Papelera de reciclaje de Windows
+$RECYCLE.BIN/
+
+# ##############################################################################
+# ## Otros
+# ##############################################################################
+
+# Archivos temporales
+*.tmp
+*.swp
+*~
