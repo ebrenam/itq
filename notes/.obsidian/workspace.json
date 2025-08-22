@@ -125,12 +125,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Software.md",
+                "file": "winget.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Software"
+              "title": "winget"
             }
           }
         ],
@@ -284,11 +284,12 @@
   },
   "active": "822fdc2a589b4720",
   "lastOpenFiles": [
-    "Obsidian.md",
     "Software.md",
+    "Programación distribuida y en la nube.md",
+    "Software.pdf",
+    "Obsidian.md",
     "Quarkus.md",
     "winget.md",
-    "Programación distribuida y en la nube.md",
     "Postman.md",
     "Podman.md",
     "OpenAPI y Swagger.md",
