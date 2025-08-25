@@ -1,0 +1,1 @@
+Documento declarativo para k8s
