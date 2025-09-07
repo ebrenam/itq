@@ -7,7 +7,6 @@ Las anotaciones de Spring Boot son una forma de metadatos que se añaden al cód
 
 Las anotaciones de Spring Boot se basan en el concepto de "convención sobre configuración". Esto significa que el framework asume ciertos comportamientos por defecto, y solo necesitas usar anotaciones para desviarte de esa convención o para habilitar funcionalidades específicas.
 
-
 # ¿Qué son las annotations?
 
 **Annotations** (anotaciones) son una característica de lenguajes como Java que permiten agregar metadatos al código fuente. Se escriben usando el símbolo `@` seguido del nombre de la anotación y, opcionalmente, parámetros.
@@ -36,6 +35,7 @@ public class Usuario {
 - `@Entity`, `@Id`: Usadas en JPA para mapear clases a tablas de base de datos.
 
 ## Ventajas
+
 - Facilitan la configuración y automatización.
 - Hacen el código más legible y mantenible.
 - Permiten integración sencilla con frameworks modernos.

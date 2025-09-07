@@ -1,4 +1,4 @@
-# Instituto Tecnológico de México
+# Instituto Tecnológico de Querétaro
 
 ![logo](images/logo-itq.png)
 
