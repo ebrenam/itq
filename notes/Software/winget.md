@@ -1,4 +1,4 @@
-[[Software]]
+[[Software/Software]]
 ## ¿Qué es winget.run?
 
 Es una interfaz web no oficial para el repositorio de winget que hace más fácil:
@@ -50,4 +50,4 @@ winget install GitHub.cli
 - Requiere que tengas winget instalado (viene con Windows App Installer)
 - Es un sitio no oficial (aunque muy confiable)
 
-[[Software]]
+[[Software/Software]]

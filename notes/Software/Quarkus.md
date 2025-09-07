@@ -1,4 +1,4 @@
-[[Software]]
+[[Software/Software]]
 
 **Quarkus** es un framework Java moderno diseñado específicamente para aplicaciones nativas en la nube (cloud-native) y contenedores.
 
@@ -216,4 +216,4 @@ mvn io.quarkus:quarkus-maven-plugin:create \
 	
 	https://quarkus.io/
 
-[[Software]]
+[[Software/Software]]

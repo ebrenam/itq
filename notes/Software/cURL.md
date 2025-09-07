@@ -1,4 +1,4 @@
-[[Software]]
+[[Software/Software]]
 
 - Descarga de Curl para Windows.
 	https://curl.se/windows
@@ -181,4 +181,4 @@ curl -f https://mi-api.com/health || echo "Servicio caído"
 curl --max-time 10 https://mi-api.com/health
 ```
 
-[[Software]]
+[[Software/Software]]
