@@ -1,5 +1,7 @@
 # @SpringBootApplication
 
+[[Conceptos Java]]
+
 La anotación `@SpringBootApplication` es una de las más importantes en aplicaciones Spring Boot. Se coloca sobre la clase principal del proyecto y sirve para habilitar varias configuraciones automáticas.
 
 ## ¿Qué hace?
@@ -28,4 +30,4 @@ public class MiAplicacion {
 
 `@SpringBootApplication` simplifica la configuración y el arranque de aplicaciones Spring Boot, permitiendo que el framework detecte y configure automáticamente los componentes
 
-[[Annotations]]
+[[Conceptos Java]]

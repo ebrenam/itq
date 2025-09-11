@@ -10,9 +10,9 @@ Revisar los siguientes conceptos.
 
 Puntos a evaluar:
 
-	- Características
-	- Ventajas
-	- Desventajas 
+- Características
+- Ventajas
+- Desventajas
 
 ## Calificación
 

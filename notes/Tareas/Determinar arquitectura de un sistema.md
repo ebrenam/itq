@@ -1,10 +1,11 @@
 [[Tareas]]
+
 ## Objetivo
 
 - Analizar un sistema (aplicación, servicio, etc.) y determinar:
-	- Arquitectura.
-	- 3 características de calidad más robustas.
-	- 3 características más debiles del sistema.
+  - Arquitectura.
+  - 3 características de calidad más robustas.
+  - 3 características más debiles del sistema.
 
 ## Observaciones
 

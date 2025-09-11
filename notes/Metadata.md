@@ -2,7 +2,7 @@
 
 **Metadata** (o metadatos) es información que describe otros datos. Es decir, son datos sobre los datos. En este caso son los datos que van a identificar a nuestro proyecto.
 
-## Ejemplos de metadata:
+## Ejemplos de metadata
 
 - En una foto: fecha de captura, cámara usada, resolución.
 - En un archivo de música: artista, álbum, duración.

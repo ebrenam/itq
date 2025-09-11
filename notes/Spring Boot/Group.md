@@ -1,4 +1,5 @@
 [[Spring Starter Project]]
+
 ### Convención de Nombres de Dominio
 
 La principal razón es que la sintaxis com.empresa.proyecto es una forma de invertir el nombre de un dominio web (empresa.com).
@@ -7,14 +8,14 @@ Esto se hace por dos motivos principales:
 
 1. **Garantizar la Unicidad:** Al basar el namespace en un dominio de Internet que posees, reduces enormemente la posibilidad de que dos organizaciones diferentes usen el mismo nombre. Por ejemplo, si una empresa llamada "Acme" y otra llamada "XYZ" crean un servicio web llamado "Facturacion", sus namespaces serían únicos:
 
-	- http://www.acme.com/servicios/facturacion
-	- http://www.xyz.com/servicios/facturacion
+   - http://www.acme.com/servicios/facturacion
+   - http://www.xyz.com/servicios/facturacion
 
-1. **Organización y Estructura:** Esta convención crea una estructura jerárquica que ayuda a organizar los servicios. Si una empresa tiene varios proyectos, puede extender el namespace de forma lógica:
+2. **Organización y Estructura:** Esta convención crea una estructura jerárquica que ayuda a organizar los servicios. Si una empresa tiene varios proyectos, puede extender el namespace de forma lógica:
 
-	- com.empresa.compras
-	- com.empresa.ventas
-	- com.empresa.logistica
+   - com.empresa.compras
+   - com.empresa.ventas
+   - com.empresa.logistica
 
 ### Analogía con Java
 

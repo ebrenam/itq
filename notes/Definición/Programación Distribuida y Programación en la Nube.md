@@ -1,20 +1,21 @@
 [[Definición]]
+
 ## Programación Distribuida
 
-### **Definición:**
+### Definición
 
 - Paradigma donde el procesamiento se divide entre múltiples computadoras
 - Los componentes están físicamente separados pero colaboran
 - Se comunican a través de la red para resolver problemas
 
-### **Características:**
+### Características
 
 - **Ubicación**: Múltiples máquinas (pueden estar en cualquier lugar)
 - **Control**: Generalmente bajo control directo del desarrollador
 - **Infraestructura**: Hardware propio o dedicado
 - **Comunicación**: Protocolos de red (TCP/IP, RPC, messaging)
 
-### **Ejemplos:**
+### Ejemplos
 
 ```text
 - Cluster de servidores en un datacenter
@@ -26,20 +27,20 @@
 
 ## Programación en la Nube
 
-### **Definición:**
+### Definición
 
 - Desarrollo de aplicaciones que utilizan servicios de cloud computing
 - Aprovecha recursos y servicios gestionados por proveedores
 - Se ejecuta en infraestructura virtualizada y escalable
 
-### **Características:**
+### Características
 
 - **Ubicación**: Datacenters del proveedor de nube
 - **Control**: Infraestructura gestionada por terceros
 - **Servicios**: APIs y servicios pre-construidos
 - **Escalabilidad**: Automática y bajo demanda
 
-### **Ejemplos:**
+### Ejemplos
 
 ```text
 - Aplicaciones en AWS, Azure, Google Cloud
@@ -48,7 +49,7 @@
 - APIs y microservicios en Kubernetes
 ```
 
-## Comparación Detallada:
+## Comparación Detallada
 
 ### **1. Infraestructura**
 

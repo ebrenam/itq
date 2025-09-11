@@ -2,23 +2,23 @@
 
 **Programación Distribuida en la Nube** es la combinación de ambos paradigmas: desarrollar sistemas distribuidos que aprovechan los servicios y la infraestructura de cloud computing.
 
-### **Definición:**
+## Definición
 
 - Sistemas distribuidos que se ejecutan en infraestructura de nube
 - Combina la escalabilidad del cloud con la robustez de sistemas distribuidos
 - Utiliza servicios gestionados para simplificar la complejidad distribuida
 - Arquitecturas cloud-native diseñadas para distribución
 
-### **Características clave:**
+## Características clave
 
 - **Multi-region**: Distribución geográfica automática
 - **Auto-scaling**: Escalabilidad dinámica de componentes
 - **Managed services**: Servicios distribuidos como servicio
 - **Event-driven**: Comunicación asíncrona entre componentes
 
-## Arquitecturas Típicas:
+## Arquitecturas Típicas
 
-### **1. Microservicios en la Nube**
+### 1. Microservicios en la Nube
 
 ```yaml
 # Kubernetes deployment distribuido
@@ -50,7 +50,7 @@ spec:
     targetPort: 8080
 ```
 
-### **2. Serverless Distribuido**
+### 2. Serverless Distribuido
 
 ```bash
 # AWS Lambda functions distribuidas
@@ -92,9 +92,9 @@ def notification_processor(event, context):
         send_email(notification['user_id'])
 ```
 
-### **3. Event-Driven Architecture**
+### 3. Event-Driven Architecture
 
-```
+```c
 {
   "EventBridge": {
     "Rules": [
@@ -120,38 +120,38 @@ def notification_processor(event, context):
 }
 ```
 
-## Componentes Distribuidos en la Nube:
+## Componentes Distribuidos en la Nube
 
-### **1. Compute Distribuido**
+### 1. Compute Distribuido
 
 - **Containers**: Docker + Kubernetes/EKS/AKS
 - **Serverless**: Lambda, Azure Functions, Cloud Functions
 - **VM clusters**: Auto Scaling Groups
 - **Batch processing**: AWS Batch, Azure Batch
 
-### **2. Storage Distribuido**
+### 2. Storage Distribuido
 
 - **Object storage**: S3, Azure Blob, Google Cloud Storage
 - **Distributed databases**: DynamoDB, Cosmos DB, Spanner
 - **File systems**: EFS, Azure Files, Cloud Filestore
 - **Caching**: ElastiCache, Azure Cache, Memorystore
 
-### **3. Messaging Distribuido**
+### 3. Messaging Distribuido
 
 - **Message queues**: SQS, Azure Service Bus, Cloud Tasks
 - **Event streaming**: Kinesis, Event Hubs, Pub/Sub
 - **Event buses**: EventBridge, Event Grid, Eventarc
 
-### **4. Networking Distribuido**
+### 4. Networking Distribuido
 
 - **Load balancers**: ALB/NLB, Azure Load Balancer
 - **CDN**: CloudFront, Azure CDN, Cloud CDN
 - **VPC/Virtual networks**: Multi-region networking
 - **Service mesh**: Istio, AWS App Mesh
 
-## Ejemplo Completo - E-commerce Distribuido:
+## Ejemplo Completo - E-commerce Distribuido
 
-### **Arquitectura:**
+### Arquitectura
 
 ```text
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
@@ -175,27 +175,27 @@ def notification_processor(event, context):
                     └─────────────────┘
 ```
 
-## Ventajas de la Programación Distribuida en la Nube:
+## Ventajas de la Programación Distribuida en la Nube
 
-### **1. Escalabilidad Global**
+### 1. Escalabilidad Global
 
 - **Auto-scaling**: Escalado automático por región
 - **Load balancing**: Distribución inteligente de carga
 - **CDN integration**: Content delivery distribuido
 
-### **2. Resilencia**
+### 2. Resilencia
 
 - **Multi-AZ deployment**: Alta disponibilidad
 - **Disaster recovery**: Backup automático multi-región
 - **Circuit breakers**: Manejo de fallos distribuido
 
-### **3. Servicios Gestionados**
+### 3. Servicios Gestionados
 
 - **Databases**: Replicación automática
 - **Messaging**: Colas distribuidas gestionadas
 - **Monitoring**: Observabilidad distribuida
 
-### **4. Desarrollo Simplificado**
+### 4. Desarrollo Simplificado
 
 ```bash
 # Sin gestión de infraestructura
@@ -209,21 +209,22 @@ async def get_user(user_id: str):
     
     return user
 ```
+
 ## Herramientas y Tecnologías:
 
-### **Orquestación:**
+### Orquestación
 
 - **Kubernetes**: Container orchestration
 - **AWS ECS/Fargate**: Managed containers
 - **Service Mesh**: Istio, Linkerd, AWS App Mesh
 
-### **Monitoring:**
+### Monitoring
 
 - **Distributed tracing**: Jaeger, X-Ray, Cloud Trace
 - **Metrics**: CloudWatch, Azure Monitor, Stackdriver
 - **Logging**: ELK Stack, Fluentd, Cloud Logging
 
-### **Development:**
+### Development
 
 - **IaC**: Terraform, CloudFormation, ARM templates
 - **CI/CD**: GitLab CI, GitHub Actions, Azure DevOps

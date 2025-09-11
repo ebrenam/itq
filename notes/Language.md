@@ -35,8 +35,18 @@ En conclusión, aunque la elección de un lenguaje depende de las necesidades de
 
 
 ---
-**RankingLenguaje de Programación
+**Ranking Lenguaje de Programación
 
-Uso Principal1JavaScriptDesarrollo web (front-end y back-end), aplicaciones móviles2PythonInteligencia artificial, aprendizaje automático, ciencia de datos, desarrollo web (back-end)3JavaAplicaciones empresariales, desarrollo de Android4TypeScriptDesarrollo web (front-end), aplicaciones a gran escala5C#Desarrollo de juegos (Unity), aplicaciones de escritorio y empresariales (.NET)6C++Desarrollo de juegos, sistemas embebidos, aplicaciones de alto rendimiento7CSistemas operativos, firmware, programación de bajo nivel8PHPDesarrollo web (back-end)9GoMicroservicios, sistemas de back-end, computación en la nube10SwiftDesarrollo de iOS, macOS, watchOS, y tvOS**
+Uso Principal
+1.  JavaScript - Desarrollo web (front-end y back-end), aplicaciones móviles
+2.  Python - Inteligencia artificial, aprendizaje automático, ciencia de datos, desarrollo web (back-end)
+3. Java - Aplicaciones empresariales, desarrollo de Android
+4. TypeScript - Desarrollo web (front-end), aplicaciones a gran escala
+5. C# - Desarrollo de juegos (Unity), aplicaciones de escritorio y empresariales (.NET)
+6. C++ - Desarrollo de juegos, sistemas embebidos, aplicaciones de alto rendimiento
+7. C - Sistemas operativos, firmware, programación de bajo nivel
+8. PHP - Desarrollo web (back-end)
+9. Go - Microservicios, sistemas de back-end, computación en la nube
+10. Swift - Desarrollo de iOS, macOS, watchOS, y tvOS**
 
 [[Spring Starter Project]]

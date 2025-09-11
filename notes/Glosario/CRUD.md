@@ -77,7 +77,6 @@ public class UsuarioController {
 }
 ```
 
-
 ## Aplicaciones comunes:
 
 ### **Sistemas de gestión:**

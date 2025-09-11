@@ -1,6 +1,7 @@
 [[Home]]
 
 Términos:
+
 - [[CRUD]]
 - [[Container]]
 - [[Cloud Provider]]
