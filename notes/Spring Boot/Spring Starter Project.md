@@ -1,4 +1,4 @@
-	[[Java]]
+[[Java]]
 
 - [[Estándar de codificación de Java]]
 - [[Metadata]]
