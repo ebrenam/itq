@@ -56,7 +56,7 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 6. Actualizar el proyecto con las dependencias agregadas:
 
    - Guardar el pom.xml. 
-   - Actualizar el proyecto Maven: En el menú contextual del proyecto, seleccionar _Maven_🡪_Update Project._
+   - Actualizar el proyecto Maven: En el menú contextual del proyecto, seleccionar _Maven_ -> _Update Project._
 
 7. Dentro del pom.xml, en la sección de plugins, agregar el plugin que corresponda, según la versión de java:
 
@@ -86,7 +86,7 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
   
 8. Genera las clases asociadas a los esquemas mediante:
 
-   - Menú contextual del proyecto  Run As  Maven Install
+   - Menú contextual del proyecto -> Run As -> Maven Install
 
 8. Verificar que se crearon los objetos dentro de la ruta indicada en el pom (/target/generated-sources/jaxb) y dentro del paquete indicado (_com.gym.reservation.dto_)
 
@@ -164,9 +164,9 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 	}
 ```
 
-22. Ejecuta: Menú contextual del proyecto  Run As Maven Install
+22. Ejecuta: Menú contextual del proyecto -> Run As -> Maven Install
 
-23. Ejecuta: Menú contextual del proyecto  Run As Spring Boot App
+23. Ejecuta: Menú contextual del proyecto -> Run As -> Spring Boot App
 
 24. Para verificar que el servicio está expuesto, ingresar la url en un navegador:
 
@@ -174,10 +174,10 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 
 21. La URL del servicio estará formada por:
 
-    - El protocolo  **http://**
-    - El par IP/PTO o dominio  **localhost:8080**
-    - El path indicado en el bean ServletRegistrationBean  **/ws/**
-    - El nombre del bean asignado al Wsdl11Definition  **gym-reservation**
+    - El protocolo -> **http://**
+    - El par IP/PTO o dominio -> **localhost:8080**
+    - El path indicado en el bean ServletRegistrationBean -> **/ws/**
+    - El nombre del bean asignado al Wsdl11Definition -> **gym-reservation**
 
 > **NOTA OPCIONAL:** Si en el equipo está ocupado el puerto 8080 debido a la ejecución de otro software, cambiar el puerto agregando la siguiente  línea en el archivo _application.properties_, ubicado en la carpeta _/src/main/resources_:
 
@@ -197,7 +197,7 @@ server.port=8081 🡨 Indicar el Puerto disponible que será usado
 
 Dentro de SoapUI:
 
-1. Crear un nuevo proyecto SOAP: _File_  _New SOAP Project_
+1. Crear un nuevo proyecto SOAP: _File_ -> _New SOAP Project_
 
 2. Asignar los valores siguientes:
    - Project Name: _gymService_
