@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Web Services/SOAP/Práctica SOAP Services.md",
+                "file": "Web Services/SOAP/clases/gym.xsd.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Práctica SOAP Services"
+              "title": "gym.xsd"
             }
           }
         ],
@@ -151,7 +151,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Web Services/SOAP/Práctica SOAP Services.md",
+                "file": "Web Services/SOAP/clases/gym.xsd.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -161,7 +161,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Práctica SOAP Services"
+              "title": "Backlinks for gym.xsd"
             }
           },
           {
@@ -228,8 +228,8 @@
   },
   "active": "3f41ccdaf79f2ee6",
   "lastOpenFiles": [
-    "Web Services/SOAP/clases/gym.xsd.md",
     "Web Services/SOAP/Práctica SOAP Services.md",
+    "Web Services/SOAP/clases/gym.xsd.md",
     "Web Services/SOAP/clases/gymReservation.wsdl.md",
     "Web Services/SOAP/clases/GymReservationWebServiceConfig.md",
     "Web Services/SOAP/SOAP.md",

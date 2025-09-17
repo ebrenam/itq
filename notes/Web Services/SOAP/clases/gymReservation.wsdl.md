@@ -12,27 +12,37 @@
 		<wsdl:part name="parameter" element="tns:reservation"/>
 	</wsdl:message>
 	<wsdl:message name="CreateReservationMessageResponse">
-		<wsdl:part name="parameter" element="tns:ack"/>
+		<wsdl:part name="parameter" element="tns:confirmation"/>
 	</wsdl:message>
 	<wsdl:message name="GetReservationMessageRequest">
-		<wsdl:part name="parameter" element="tns:reservationCriteria"/>
+		<wsdl:part name="parameter" element="tns:searchCriteria"/>
 	</wsdl:message>
 	<wsdl:message name="GetReservationMessageResponse">
-		<wsdl:part name="parameter" element="tns:reservation"/>
+		<wsdl:part name="parameter" element="tns:confirmations"/>
+	</wsdl:message>
+	<wsdl:message name="CancelReservationMessageRequest">
+		<wsdl:part name="parameter" element="tns:cancelReservation"/>
+	</wsdl:message>
+	<wsdl:message name="CancelReservationMessageResponse">
+		<wsdl:part name="parameter" element="tns:cancelConfirmation"/>
 	</wsdl:message>
 	<wsdl:portType name="ReservationPortType">
-		<wsdl:operation name="CreateReservationOperation">
+		<wsdl:operation name="createReservationOperation">
 			<wsdl:input message="tns:CreateReservationMessageRequest"/>
 			<wsdl:output message="tns:CreateReservationMessageResponse"/>
 		</wsdl:operation>
-		<wsdl:operation name="GetReservationOperation">
+		<wsdl:operation name="getReservationOperation">
 			<wsdl:input message="tns:GetReservationMessageRequest"/>
 			<wsdl:output message="tns:GetReservationMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="cancelReservationOperation">
+			<wsdl:input message="tns:CancelReservationMessageRequest"/>
+			<wsdl:output message="tns:CancelReservationMessageResponse"/>
 		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:binding name="ReservationBinding" type="tns:ReservationPortType">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-		<wsdl:operation name="CreateReservationOperation">
+		<wsdl:operation name="createReservationOperation">
 			<soap:operation soapAction="createReservation"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
@@ -41,7 +51,16 @@
 				<soap:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="GetReservationOperation">
+		<wsdl:operation name="getReservationOperation">
+			<soap:operation soapAction="getReservation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="cancelReservationOperation">
 			<soap:operation soapAction="getReservation"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
@@ -53,7 +72,7 @@
 	</wsdl:binding>
 	<wsdl:service name="GymReservationService">
 		<wsdl:port name="ReservationPort" binding="tns:ReservationBinding">
-			<soap:address location="http://localhost:8080/ws/gym-reservation"/>
+			<soap:address location="http://localhost:8080/ws/gym-reservation.wsdl"/>
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
