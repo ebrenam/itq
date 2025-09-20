@@ -27,7 +27,9 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 2. Crear la carpeta `wsdl` dentro del proyecto: _/src/main/resources/wsdl_
 
 3. Copiar el WSDL correspondiente al proyecto dentro de la carpeta recién creada:
-	- [[gymReservation.wsdl]] ![wsdl](../SOAP/clases/gymReservation.wsdl)
+	- [[gymReservation.wsdl]]
+	- [gymReservation.wsdl](../SOAP/clases/gymReservation.wsdl.md)
+	- ![wsdl](../SOAP/clases/gymReservation.wsdl)
 
 4. Crear la carpeta `xsd` dentro del proyecto: _/src/main/resources/xsd_ y copia el XSD correspondiente:
 	- [[gym.xsd]] ![xsd](../SOAP/clases/gym.xsd)
@@ -203,21 +205,21 @@ Dentro de SoapUI:
    - Project Name: _gymService_
    - Initial WSDL: Navegar hacia la ruta de _gymReservation.wsdl_ y seleccionarlo.
 
-3. Al expandir el árbol del proyecto, se deberá ver el binding _ReservationBinding_ y dentro de él, las operaciones c_reateReservationOperation_ y g_etReservationOperation_.
+1. Al expandir el árbol del proyecto, se deberá ver el binding _ReservationBinding_ y dentro de él, las operaciones _createReservationOperation_ y _getReservationOperation_.
 
-4. Dentro de cada operación, se encuentra un request nombrado _Request 1_. Este valor puede ser cambiado, pero no es necesario para fines prácticos.
+2. Dentro de cada operación, se encuentra un request nombrado _Request 1_. Este valor puede ser cambiado, pero no es necesario para fines prácticos.
 
-5. Hacer doble clic en _Request 1_ de la operación c_reateReservationOperation_
+3. Hacer doble clic en _Request 1_ de la operación _createReservationOperation_
   
-6. En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (_gymReservation.wsdl)_:
+4. En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (_gymReservation.wsdl)_:
 
 	> http://localhost:8080/ws/autos.wsdl
 
-7. Insertar valores para cada elemento del request.
+5. Insertar valores para cada elemento del request.
 
-8. Ejecutar la solicitud haciendo clic en el botón   de la ventana de request.
+6. Ejecutar la solicitud haciendo clic en el botón   de la ventana de request.
 
-9. Verificar la respuesta recibida.
+7. Verificar la respuesta recibida.
 
 ## Referencias
 
