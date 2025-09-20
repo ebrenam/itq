@@ -32,7 +32,7 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 - Crea la carpeta `xsd` dentro del proyecto: `/src/main/resources/xsd`.
 
 - Copia el XSD correspondiente:
-	- [gym.xsd](../SOAP/clases/gym.xsd)
+	- [gym.xsd](../SOAP/clases/gym.xsd.md)
 
 - Agrega las siguientes dependencias de forma manual en el `pom.xml` (En el caso de la dependencia de jaxb podría ser necesario cambiar la versión de manera que sea compatible con la versión de Spring Boot):
 
