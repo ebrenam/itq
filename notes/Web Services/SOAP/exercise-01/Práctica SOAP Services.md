@@ -28,6 +28,7 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 
 - Copia el WSDL correspondiente al proyecto dentro de la carpeta recién creada:
 	- [gymReservation.wsdl](Web%20Services/SOAP/exercise-01/artifacts/gymReservation.wsdl.md)
+	- [gym](../exercise-01/artifacts/gymReservation.wsdl.md))
 
 - Crea la carpeta `xsd` dentro del proyecto: `/src/main/resources/xsd`.
 

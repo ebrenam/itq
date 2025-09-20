@@ -97,7 +97,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Web Services/SOAP/exercise-02/Práctica SOAP Services.md",
+                "file": "Web Services/SOAP/exercise-01/Práctica SOAP Services.md",
                 "mode": "source",
                 "source": false
               },
@@ -256,12 +256,12 @@
   },
   "active": "d43f09710d055b7c",
   "lastOpenFiles": [
-    "Web Services/SOAP/exercise-02/artifacts/gym.xsd.md",
-    "Web Services/SOAP/exercise-02/Práctica SOAP Services.md",
-    "Web Services/SOAP/exercise-02/artifacts/gymReservation.wsdl.md",
     "Web Services/SOAP/exercise-01/artifacts/gymReservation.wsdl.md",
-    "Web Services/SOAP/exercise-01/artifacts/gym.xsd.md",
     "Web Services/SOAP/exercise-01/Práctica SOAP Services.md",
+    "Web Services/SOAP/exercise-02/Práctica SOAP Services.md",
+    "Web Services/SOAP/exercise-02/artifacts/gym.xsd.md",
+    "Web Services/SOAP/exercise-02/artifacts/gymReservation.wsdl.md",
+    "Web Services/SOAP/exercise-01/artifacts/gym.xsd.md",
     "Web Services/SOAP/SOAP Services.md",
     "Web Services/SOAP/exercise-02/classes",
     "Web Services/SOAP/exercise-02/artifacts",
