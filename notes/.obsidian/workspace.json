@@ -242,9 +242,10 @@
   },
   "active": "0e337ea36aab46af",
   "lastOpenFiles": [
-    "Web Services/SOAP/clases/gymReservation.wsdl.md",
-    "Web Services/SOAP/Práctica SOAP Services.md",
     "Web Services/SOAP/clases/gym.xsd.md",
+    "Web Services/SOAP/Práctica SOAP Services.md",
+    "Web Services/SOAP/clases/gymReservation.wsdl.md",
+    "Web Services/SOAP/alternativa.md",
     "Web Services/SOAP/clases/GymReservationWebServiceConfig.md",
     "Web Services/SOAP/clases/GymEndpoint.md",
     "Web Services/REST/REST Services.md",

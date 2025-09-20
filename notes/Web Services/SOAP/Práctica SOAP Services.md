@@ -5,11 +5,11 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 
 ## Creación del Servicio
 
-1. Crear un proyecto `Spring Boot` con las siguientes características:
+- Crea un proyecto `Spring Boot` con las siguientes características:
 
-> Se puede utilizar Spring Tool Suite o <https://start.spring.io/>
+> 	Se puede utilizar Spring Tool Suite o <https://start.spring.io/>
 
-| Campo        | Valor                                                                                                                            |
+|              |                                                                                                                                  |
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------- |
 | Project      | Maven                                                                                                                            |
 | Language     | Java                                                                                                                             |
@@ -24,17 +24,17 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 | Java         | 21                                                                                                                               |
 | Dependencies | Spring Web, Spring Web Services                                                                                                  |
 
-2. Crear la carpeta `wsdl` dentro del proyecto: _/src/main/resources/wsdl_
+- Crea la carpeta `wsdl` dentro del proyecto: `/src/main/resources/wsdl`.
 
-3. Copiar el WSDL correspondiente al proyecto dentro de la carpeta recién creada:
-	- [[gymReservation.wsdl]]
+- Copia el WSDL correspondiente al proyecto dentro de la carpeta recién creada:
 	- [gymReservation.wsdl](../SOAP/clases/gymReservation.wsdl.md)
-	- ![wsdl](../SOAP/clases/gymReservation.wsdl)
 
-4. Crear la carpeta `xsd` dentro del proyecto: _/src/main/resources/xsd_ y copia el XSD correspondiente:
-	- [[gym.xsd]] ![xsd](../SOAP/clases/gym.xsd)
+- Crea la carpeta `xsd` dentro del proyecto: `/src/main/resources/xsd`.
 
-5. Agregar las siguientes dependencias de forma manual en el `pom.xml` (En el caso de la dependencia de jaxb podría ser necesario cambiar la versión de manera que sea compatible con la versión de Springboot):
+- Copia el XSD correspondiente:
+	- [gym.xsd](../SOAP/clases/gym.xsd)
+
+- Agrega las siguientes dependencias de forma manual en el `pom.xml` (En el caso de la dependencia de jaxb podría ser necesario cambiar la versión de manera que sea compatible con la versión de Spring Boot):
 
 ```xml
 		<dependency>
@@ -55,12 +55,11 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 		</dependency>
 ```  
 
-6. Actualizar el proyecto con las dependencias agregadas:
+- Actualiza el proyecto con las dependencias agregadas:
+	- Guarda el pom.xml. 
+	- Actualiza el proyecto Maven: En el menú contextual del proyecto, seleccionar `Maven` -> `Update Project`.
 
-   - Guardar el pom.xml. 
-   - Actualizar el proyecto Maven: En el menú contextual del proyecto, seleccionar _Maven_ -> _Update Project._
-
-7. Dentro del pom.xml, en la sección de plugins, agregar el plugin que corresponda, según la versión de java:
+- Dentro del pom.xml, en la sección de plugins, agregar el plugin que corresponda, según la versión de java:
 
 ```xml
 			<!--Plugin para java 21-->
@@ -86,36 +85,50 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
            </plugin>
 ```
   
-8. Genera las clases asociadas a los esquemas mediante:
+- Genera las clases asociadas a los esquemas mediante:
+	- Menú contextual del proyecto -> `Run As` -> `Maven Install`
 
-   - Menú contextual del proyecto -> Run As -> Maven Install
+- Verifica que se crearon los objetos dentro de la ruta indicada en el pom (`/target/generated-sources/jaxb`) y dentro del paquete indicado (`com.gym.reservation.dto`).
 
-8. Verificar que se crearon los objetos dentro de la ruta indicada en el pom (/target/generated-sources/jaxb) y dentro del paquete indicado (_com.gym.reservation.dto_)
+- Explora el contenido del paquete.
 
-9. Explora el contenido del paquete.
+- Comenta el plugin dentro del pom.
 
-10. Comenta el plugin dentro del pom.
+- Arrastra las clases `com.gym.reservation.dto` hacia el paquete raíz del proyecto.
 
-11. Arrastrar las clases _com.gym.reservation.dto_ hacia el paquete raíz del proyecto.
+- Crea el paquete `com.gym.reservation.service`.
 
-12. Crear el paquete _com.gym.reservation.service_
+- Crea la clase `GymEndpoint`.
 
-13. Crear la clase _GymEndpoint_
-
-14. Agrega la anotación _@Endpoint_ antes de la sentencia declaratoria de la clase.
+- Agrega la anotación `@Endpoint` antes de la sentencia declaratoria de la clase.
 
 ```java
 @Endpoint
+public class GymEndpoint {
 ```
 
-15. Dentro de la clase GymEndpoint, crear la constante de clase (este valor es el mismo que el namespace de los artefactos xml):
+- Dentro de la clase GymEndpoint, crear la constante de clase (este valor es el mismo que el namespace de los artefactos xml):
 
 ```java
 	private static final String NAMESPACE_URI = "http://com.gym";
 ```
 
+	- Extracto de `gymReservation.wsdl`.
 
-17. Crear el método público createReservation:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://com.gym" targetNamespace="http://com.gym">
+	<wsdl:types>
+		<xs:schema targetNamespace="http://com.gym" elementFormDefault="qualified">
+```
+
+	- Extracto de `gym.xsd`.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:tns="http://com.gym" targetNamespace="http://com.gym">
+```
+
+- Crear el método público createReservation:
 
 ```java
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "reservation")
@@ -131,18 +144,21 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 	}
 ```
 
-> **NOTA:** localPart contiene el nombre del elemento raíz que se indica como part en el mensaje request del método de creación de reservación en el WSDL.
+- Corrige los errores que se presentan en la clase realizando la importación de las dependencias.
 
-18. Dentro del paquete _com.gym.reservation.service_, crear la clase _GymReservationWebServiceConfig_
+> **NOTA:** `localPart` contiene el nombre del elemento raíz que se indica como `part` en el mensaje request del método de creación de reservación en el WSDL.
 
-19. Etiqueta la clase con:
+- Dentro del paquete `com.gym.reservation.service`, crear la clase `GymReservationWebServiceConfig`.
+
+- Etiqueta la clase con `@EnableWs` y `@Configuration`:
 
 ```java
 @EnableWs //Habilita a la clase con la funcionalidad para crear un WS SOAP
 @Configuration //Habilita a la clase con la funcionalidad para procesar Beans
+public class GymReservationWebServiceConfig {
 ```
 
-20. Agregar los siguientes beans
+- Agregar los siguientes beans
 
 ```java
 	@Bean
@@ -166,7 +182,10 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 	}
 ```
 
-22. Ejecuta: Menú contextual del proyecto -> Run As -> Maven Install
+- Corrige los errores que se presentan en la clase realizando la importación de las dependencias.
+	- Importante, la referencia para clase `ApplicationContext` debe ser `import org.springframework.context.ApplicationContext;`.
+
+- Ejecuta: Menú contextual del proyecto -> `Run As` -> `Maven Install`.
 
 23. Ejecuta: Menú contextual del proyecto -> Run As -> Spring Boot App
 
