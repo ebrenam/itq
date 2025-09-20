@@ -1,4 +1,6 @@
-[[Práctica SOAP Services]]
+[[Web Services/SOAP/exercise-01/Práctica SOAP Services]]
+
+- Archivo `GymEndpoint.java`
 
 ```java
 package com.gym.reservation.service;
@@ -30,4 +32,4 @@ public class GymEndpoint {
 }
 ```
 
-[[Práctica SOAP Services]]
+[[Web Services/SOAP/exercise-01/Práctica SOAP Services]]

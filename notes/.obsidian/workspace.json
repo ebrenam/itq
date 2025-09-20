@@ -69,7 +69,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Web Services/SOAP/Ejercicio-01/clases/gymReservation.wsdl.md",
+                "file": "Web Services/SOAP/exercise-01/artifacts/gymReservation.wsdl.md",
                 "mode": "source",
                 "source": false
               },
@@ -83,7 +83,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Web Services/SOAP/Ejercicio-01/clases/gymReservation.wsdl.md",
+                "file": "Web Services/SOAP/exercise-01/artifacts/gymReservation.wsdl.md",
                 "mode": "source",
                 "source": false
               },
@@ -97,7 +97,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Web Services/SOAP/Ejercicio-01/Práctica SOAP Services.md",
+                "file": "Web Services/SOAP/exercise-02/Práctica SOAP Services.md",
                 "mode": "source",
                 "source": false
               },
@@ -163,8 +163,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 364.500732421875,
-    "collapsed": true
+    "width": 364.500732421875
   },
   "right": {
     "id": "d0ac91ed5bfa2523",
@@ -257,15 +256,22 @@
   },
   "active": "d43f09710d055b7c",
   "lastOpenFiles": [
-    "Web Services/SOAP/Ejercicio-01/clases/gymReservation.wsdl.md",
-    "Web Services/SOAP/Ejercicio-01/Práctica SOAP Services.md",
-    "Web Services/SOAP/SOAP.md",
-    "Web Services/SOAP/Ejercicio-01",
-    "Web Services/SOAP/alternativa.md",
+    "Web Services/SOAP/exercise-02/artifacts/gym.xsd.md",
+    "Web Services/SOAP/exercise-02/Práctica SOAP Services.md",
+    "Web Services/SOAP/exercise-02/artifacts/gymReservation.wsdl.md",
+    "Web Services/SOAP/exercise-01/artifacts/gymReservation.wsdl.md",
+    "Web Services/SOAP/exercise-01/artifacts/gym.xsd.md",
+    "Web Services/SOAP/exercise-01/Práctica SOAP Services.md",
     "Web Services/SOAP/SOAP Services.md",
-    "Web Services/SOAP/Ejercicio-01/clases/GymReservationWebServiceConfig.java.md",
-    "Web Services/SOAP/Ejercicio-01/clases/GymEndpoint.java.md",
-    "Web Services/SOAP/Ejercicio-01/clases/gym.xsd.md",
+    "Web Services/SOAP/exercise-02/classes",
+    "Web Services/SOAP/exercise-02/artifacts",
+    "Web Services/SOAP/SOAP.md",
+    "Web Services/SOAP/exercise-02",
+    "Web Services/SOAP/exercise-01/classes/GymReservationWebServiceConfig.java.md",
+    "Web Services/SOAP/exercise-01/classes/GymEndpoint.java.md",
+    "Web Services/SOAP/exercise-01/artifacts",
+    "Web Services/SOAP/exercise-01",
+    "Web Services/SOAP/alternativa.md",
     "Web Services/REST/REST Services.md",
     "Web Services/SOAP/clases/gym.xsd",
     "Web Services/SOAP/clases/gymReservation.wsdl",
@@ -274,10 +280,6 @@
     "Web Services/SOAP/clases/service/GymReservationWebServiceConfig.java",
     "Web Services/SOAP/clases/service/GymEndpoint.java",
     "Web Services/SOAP/clases/service",
-    "Web Services/SOAP/clases/xsd/gym.xsd",
-    "Web Services/SOAP/clases/xsd",
-    "Web Services/SOAP/clases/wsdl/gymReservation.wsdl",
-    "Web Services/SOAP/clases/wsdl",
     "Web Services/Web Services.md",
     "Java/Conceptos Java.md",
     "Servicios.md",
@@ -290,8 +292,6 @@
     "Spring Boot/Artefactos.md",
     "Inject Dependency.md",
     "Servlet.md",
-    "Spring Boot/XSD.md",
-    "Spring Boot/Spring Initializr.md",
     "Untitled.canvas",
     "Untitled 1.canvas"
   ]

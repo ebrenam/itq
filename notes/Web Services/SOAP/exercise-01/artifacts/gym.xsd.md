@@ -1,4 +1,4 @@
-[[Práctica SOAP Services]]
+[[Web Services/SOAP/exercise-01/Práctica SOAP Services]]
 
 - Archivo `gym.xsd`
 
@@ -160,4 +160,4 @@
 </xs:schema>
 ```
 
-[[Práctica SOAP Services]]
+[[Web Services/SOAP/exercise-01/Práctica SOAP Services]]

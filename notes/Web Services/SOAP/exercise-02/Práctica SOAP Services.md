@@ -1,38 +1,15 @@
 
-## Construcción de un servicio Web SOAP a partir de un contrato dado
-
-El ejercicio supone la creación de un servicio para la gestión de reserva de `clases/actividades` dentro de un gimnasio. El ejemplo puede ser utilizado para construir otro negocio, para lo cual, los nombres (**proyecto**, **clases**, **paquetes**, **métodos**), los **esquemas**, **contratos** y **datos derivados** deberán ajustarse a los requerimientos del proyecto que se desarrolle.
-
-## Creación del Servicio
-
-- Crea un proyecto `Spring Boot` con las siguientes características:
-
-> 	Se puede utilizar Spring Tool Suite o <https://start.spring.io/>
-
-|              |                                                                                                                                  |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| Project      | Maven                                                                                                                            |
-| Language     | Java                                                                                                                             |
-| Spring Boot  | 3.5.5                                                                                                                            |
-| Group        | com.gym.reservation                                                                                                              |
-| Artifact     | gym-reservation-service                                                                                                          |
-| Version      | 1.0                                                                                                                              |
-| Name         | gym-reservation-service                                                                                                          |
-| Description  | Contiene la funcionalidad de gestión de reservaciones de clases y/o actividades dentro de un gimnasio por parte de los clientes. |
-| Package      | com.gym.reservation                                                                                                              |
-| Packing      | Jar                                                                                                                              |
-| Java         | 21                                                                                                                               |
-| Dependencies | Spring Web, Spring Web Services                                                                                                  |
+## Actualización del Servicio
 
 - Crea la carpeta `wsdl` dentro del proyecto: `/src/main/resources/wsdl`.
 
 - Copia el WSDL correspondiente al proyecto dentro de la carpeta recién creada:
-	- [gymReservation.wsdl](gymReservation.wsdl.md)
+	- [gymReservation.wsdl](Web%20Services/SOAP/exercise-02/artifacts/gymReservation.wsdl.md)
 
 - Crea la carpeta `xsd` dentro del proyecto: `/src/main/resources/xsd`.
 
 - Copia el XSD correspondiente:
-	- [gym.xsd](gym.xsd.md)
+	- [gym.xsd](Web%20Services/SOAP/exercise-02/artifacts/gym.xsd.md)
 
 - Agrega las siguientes dependencias de forma manual en el `pom.xml` (En el caso de la dependencia de jaxb podría ser necesario cambiar la versión de manera que sea compatible con la versión de Spring Boot):
 
