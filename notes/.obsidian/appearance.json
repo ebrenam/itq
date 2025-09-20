@@ -1,4 +1,5 @@
 {
   "baseFontSize": 10,
-  "baseFontSizeAction": true
+  "baseFontSizeAction": true,
+  "cssTheme": "GitHub Theme"
 }

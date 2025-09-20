@@ -27,12 +27,12 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 - Crea la carpeta `wsdl` dentro del proyecto: `/src/main/resources/wsdl`.
 
 - Copia el WSDL correspondiente al proyecto dentro de la carpeta recién creada:
-	- [gymReservation.wsdl](../SOAP/clases/gymReservation.wsdl.md)
+	- [gymReservation.wsdl](gymReservation.wsdl.md)
 
 - Crea la carpeta `xsd` dentro del proyecto: `/src/main/resources/xsd`.
 
 - Copia el XSD correspondiente:
-	- [gym.xsd](../SOAP/clases/gym.xsd.md)
+	- [gym.xsd](gym.xsd.md)
 
 - Agrega las siguientes dependencias de forma manual en el `pom.xml` (En el caso de la dependencia de jaxb podría ser necesario cambiar la versión de manera que sea compatible con la versión de Spring Boot):
 
@@ -144,9 +144,19 @@ public class GymEndpoint {
 	}
 ```
 
+> **NOTA:** `localPart` contiene el nombre del elemento raíz que se indica como `part` en el mensaje request del método de creación de reservación en el WSDL.
+
 - Corrige los errores que se presentan en la clase realizando la importación de las dependencias.
 
-> **NOTA:** `localPart` contiene el nombre del elemento raíz que se indica como `part` en el mensaje request del método de creación de reservación en el WSDL.
+```java
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+
+import com.gym.reservation.dto.Confirmation;
+import com.gym.reservation.dto.Reservation;
+```
 
 - Dentro del paquete `com.gym.reservation.service`, crear la clase `GymReservationWebServiceConfig`.
 
@@ -158,7 +168,7 @@ public class GymEndpoint {
 public class GymReservationWebServiceConfig {
 ```
 
-- Agregar los siguientes beans
+- Agrega los siguientes `beans`.
 
 ```java
 	@Bean
@@ -183,62 +193,86 @@ public class GymReservationWebServiceConfig {
 ```
 
 - Corrige los errores que se presentan en la clase realizando la importación de las dependencias.
-	- Importante, la referencia para clase `ApplicationContext` debe ser `import org.springframework.context.ApplicationContext;`.
+	- **Importante**: La referencia para clase `ApplicationContext` debe ser `import org.springframework.context.ApplicationContext;`.
+
+```java
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.ws.config.annotation.EnableWs;
+import org.springframework.ws.transport.http.MessageDispatcherServlet;
+import org.springframework.ws.wsdl.wsdl11.SimpleWsdl11Definition;
+import org.springframework.ws.wsdl.wsdl11.Wsdl11Definition;
+import org.springframework.xml.xsd.SimpleXsdSchema;
+import org.springframework.xml.xsd.XsdSchema;
+```
 
 - Ejecuta: Menú contextual del proyecto -> `Run As` -> `Maven Install`.
 
-23. Ejecuta: Menú contextual del proyecto -> Run As -> Spring Boot App
+- Ejecuta: Menú contextual del proyecto -> `Run As` -> `Spring Boot App`.
 
-24. Para verificar que el servicio está expuesto, ingresar la url en un navegador:
+- Para verificar que el servicio está expuesto, ingresar la url en un navegador:
 
-> http://localhost:8080/ws/gym-reservation.wsdl
+> <http://localhost:8080/ws/gym-reservation.wsdl>
 
-21. La URL del servicio estará formada por:
+- La URL del servicio estará formada por:
 
     - El protocolo -> **http://**
     - El par IP/PTO o dominio -> **localhost:8080**
     - El path indicado en el bean ServletRegistrationBean -> **/ws/**
     - El nombre del bean asignado al Wsdl11Definition -> **gym-reservation**
 
-> **NOTA OPCIONAL:** Si en el equipo está ocupado el puerto 8080 debido a la ejecución de otro software, cambiar el puerto agregando la siguiente  línea en el archivo _application.properties_, ubicado en la carpeta _/src/main/resources_:
+> **NOTA OPCIONAL:** Si en el equipo está ocupado el puerto `8080` debido a la ejecución de otro software, se debe indicar el puerto a utilizar agregando la siguiente línea en el archivo `application.properties`, ubicado en la carpeta `/src/main/resources`:
 
-server.port=8081 🡨 Indicar el Puerto disponible que será usado
+```properties
+server.port=8081
+```
 
 
-25. Deberá visualizarse el contrato es decir, el contenido de _gymReservation.wsdl_
+- Deberá visualizarse el contrato es decir, el contenido de `gymReservation.wsdl`.
 
-26. Dentro del file system, crear la carpeta /opt/soapUI/
+- Dentro del file system, crea la carpeta `/opt/soapUI/`.
 
-27. Copiar los siguientes archivos en la carpeta recién creada:
+- Copiar los siguientes archivos en la carpeta recién creada:
 
-    - _gymReservation.wsdl_
-    - _gym.xsd_
+    - `gymReservation.wsdl`
+    - `gym.xsd`
 
 ## Prueba del Servicio
 
 Dentro de SoapUI:
 
-1. Crear un nuevo proyecto SOAP: _File_ -> _New SOAP Project_
+- Crea un nuevo proyecto SOAP: `File` -> `New SOAP Project`
 
-2. Asignar los valores siguientes:
-   - Project Name: _gymService_
-   - Initial WSDL: Navegar hacia la ruta de _gymReservation.wsdl_ y seleccionarlo.
+- Asigna los valores siguientes:
+   - Project Name: `gymService`
+   - Initial WSDL: Navegar hacia la ruta de `gymReservation.wsdl` y seleccionarlo.
 
-1. Al expandir el árbol del proyecto, se deberá ver el binding _ReservationBinding_ y dentro de él, las operaciones _createReservationOperation_ y _getReservationOperation_.
+- Al expandir el árbol del proyecto, se deberá ver el binding `ReservationBinding` y dentro de él, las operaciones `createReservationOperation` y `getReservationOperation`.
 
-2. Dentro de cada operación, se encuentra un request nombrado _Request 1_. Este valor puede ser cambiado, pero no es necesario para fines prácticos.
+- Dentro de cada operación, se encuentra un request nombrado `Request 1`. Este valor puede ser cambiado, pero no es necesario para fines prácticos.
 
-3. Hacer doble clic en _Request 1_ de la operación _createReservationOperation_
+- Hacer doble clic en `Request 1` de la operación `createReservationOperation`.
   
-4. En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (_gymReservation.wsdl)_:
+- En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (`gymReservation.wsdl`):
 
-	> http://localhost:8080/ws/autos.wsdl
+```xml
+<wsdl:service name="GymReservationService">
+	<wsdl:port name="ReservationPort" binding="tns:ReservationBinding">
+		<soap:address location="http://localhost:8080/ws/gym-reservation"/>
+	</wsdl:port>
+</wsdl:service>
+```
 
-5. Insertar valores para cada elemento del request.
+> http://localhost:8080/ws/gym-reservation
 
-6. Ejecutar la solicitud haciendo clic en el botón   de la ventana de request.
+- Insertar valores para cada elemento del request.
 
-7. Verificar la respuesta recibida.
+- Ejecutar la solicitud haciendo clic en el botón `submit` de la ventana de request.
+
+- Verificar la respuesta recibida.
 
 ## Referencias
 
