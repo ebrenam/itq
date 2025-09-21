@@ -1,4 +1,4 @@
-# Práctiva SOAP Services
+# Práctica SOAP Services
 
 ## Construcción de un servicio Web SOAP a partir de un contrato dado
 

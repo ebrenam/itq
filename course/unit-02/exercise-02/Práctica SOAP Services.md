@@ -1,4 +1,4 @@
-# Práctiva SOAP Services
+# Práctica SOAP Services
 
 ## Actualización del Servicio
 
@@ -149,43 +149,68 @@ import com.gym.reservation.dto.Reservation;
 
   - Inserta valores para cada elemento del request.
   - Ejecuta la solicitud haciendo clic en el botón `submit` de la ventana de request.
-  - Verificar la respuesta recibida. Se deberá mostrar una estructura de tipo confirmation con los datos dummy que se indicaron en el método createReservation de la clase GymEndpoint.
+  - Verifica la respuesta recibida. Se deberá mostrar una estructura de tipo confirmation con los datos dummy que se indicaron en el método createReservation de la clase GymEndpoint.
+
+    ```soap
+    <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+        <ns2:confirmation xmlns:ns2="http://com.gym">
+            <ns2:confirmation>
+                <ns2:idReservation>123</ns2:idReservation>
+                <ns2:idRoom>20</ns2:idRoom>
+                <ns2:instructor>Paquito</ns2:instructor>
+            </ns2:confirmation>
+        </ns2:confirmation>
+    </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>
+    ```
+
+## Prueba del Servicio (operación cancelReservation)
 
 - Probar la operación `cancelConfirmation`:
-Hacer doble clic en Request 1 de la operación cancelReservationOperation
-En la caja de URL debe mostrarse el valor correspondiente a la etiqueta soap:address location del contrato (gymReservation.wsdl):
+  - Hacer doble clic en `Request 1` de la operación `cancelReservationOperation`.
+  - En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (`gymReservation.wsdl`):
+    > localhost:8080/ws/gym-reservation.wsdl
 
-localhost:8080/ws/gym-reservation.wsdl
+  - Inserta valores para cada elemento del request.
+  - Ejecuta la solicitud haciendo clic en el botón `submit` de la ventana de request.
+  - Verifica la respuesta recibida. No se muestra ningún valor en SoapUI, sin embargo, en la bitácora del servicio (consola de STS), se puede ver el siguiente mensaje de error que se debe a que no existe un método en la clase GymEndpoint que soporte la funcionalidad de consulta de reservaciones:
 
-Insertar valores para cada elemento del request.
-Ejecutar la solicitud haciendo clic en el botón  de la ventana de request.
-Verificar la respuesta recibida. No se muestra ningún valor en SoapUI, sin embargo, en la bitácora del servicio (consola de STS), se puede ver el siguiente mensaje de error que se debe a que no existe un método en la clase GymEndpoint que soporte la funcionalidad de consulta de reservaciones:
-No endpoint mapping found for [SaajSoapMessage {http://com.gym} cancelConfirmation]
-Para corregir el error, debe implementarse el método correspondiente a la solicitud de cancelación de una reservación:
-@PayloadRoot(namespace = NAMESPACE_URI, localPart = "cancelReservation")
-	@ResponsePayload
-	public CancelConfirmation cancelReservation(@RequestPayload CancelReservation request) {
-		CancelConfirmation response = new CancelConfirmation ();
-		response.setIdReservation(request.getIdReservation());
-		return response;
-	}
-Ejecutar nuevamente la prueba de la operación cancelConfirmation (paso 30). Se puede verificar que retorna los datos esperados. 
-Probar la operación getReservationOperation:
-Hacer doble clic en Request 1 de la operación getReservationOperation
-En la caja de URL debe mostrarse el valor correspondiente a la etiqueta soap:address location del contrato (gymReservation.wsdl):
+    ```bash
+    No endpoint mapping found for [SaajSoapMessage {http://com.gym}cancelReservation]
+    ```
 
-localhost:8080/ws/gym-reservation.wsdl
+  - Para corregir el error, debe implementarse el método correspondiente a la solicitud de cancelación de una reservación:
 
-Insertar valores para cada elemento del request.
-Ejecutar la solicitud haciendo clic en el botón  de la ventana de request.
-Verificar la respuesta recibida. No se muestra ningún valor en SoapUI, sin embargo, en la bitácora del servicio (consola de STS), se puede ver el siguiente mensaje de error que se debe a que no existe un método en la clase GymEndpoint que soporte la funcionalidad de consulta de reservaciones:
-No endpoint mapping found for [SaajSoapMessage {http://com.gym} searchCriteria]
-Para corregir el error, debe implementarse el método correspondiente a la solicitud de consulta de reservaciones. Realizar esta adecuación y volver a probar la operación.
+    ```java
+        @PayloadRoot(namespace = NAMESPACE_URI, localPart = "cancelReservation")
+        @ResponsePayload
+        public CancelConfirmation cancelReservation(@RequestPayload CancelReservation request) {
+            CancelConfirmation response = new CancelConfirmation ();
+            response.setIdReservation(request.getIdReservation());
+            return response;
+        }
+    ```
 
+  - Ejecuta nuevamente la prueba de la operación cancelConfirmation. Se puede verificar que retorna los datos esperados.
 
+## Prueba del Servicio (operación getReservationOperation)
 
+- Probar la operación `getReservationOperation`:
+  - Hacer doble clic en `Request 1` de la operación `getReservationOperation`.
+  - En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (`gymReservation.wsdl`):
+    > localhost:8080/ws/gym-reservation.wsdl
 
+  - Inserta valores para cada elemento del request.
+  - Ejecuta la solicitud haciendo clic en el botón  de la ventana de request.
+  - Verifica la respuesta recibida. No se muestra ningún valor en SoapUI, sin embargo, en la bitácora del servicio (consola de STS), se puede ver el siguiente mensaje de error que se debe a que no existe un método en la clase GymEndpoint que soporte la funcionalidad de consulta de reservaciones:
 
+    ```bash
+    No endpoint mapping found for [SaajSoapMessage {http://com.gym}searchCriteria]
+    ```
+
+    - Para corregir el error, debe implementarse el método correspondiente a la solicitud de consulta de reservaciones. Realizar esta adecuación y volver a probar la operación.
 
 ## Referencias
 
