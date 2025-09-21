@@ -135,12 +135,15 @@ public class GymEndpoint {
 	@ResponsePayload
 	public Confirmation createReservation(@RequestPayload Reservation request) {
 		Confirmation response = new Confirmation ();
+		ConfirmationType confirmationType = new ConfirmationType ();
 		
-		response.setIdReservation(123);
-		response.setIdRoom(20);
-		response.setInstructor("Paquito");
+		confirmationType.setIdReservation(123);
+		confirmationType.setIdRoom(20);
+		confirmationType.setInstructor("Paquito");
+
+		response.setConfirmation(confirmationType);
 		
-		return response;		
+		return response;
 	}
 ```
 
@@ -250,7 +253,7 @@ Dentro de SoapUI:
    - Project Name: `gymService`
    - Initial WSDL: Navegar hacia la ruta de `gymReservation.wsdl` y seleccionarlo.
 
-- Al expandir el árbol del proyecto, se deberá ver el binding `ReservationBinding` y dentro de él, las operaciones `createReservationOperation` y `getReservationOperation`.
+- Al expandir el árbol del proyecto, se deberá ver el binding `ReservationBinding` y dentro de él, las operaciones `cancelReservationOperation`, `createReservationOperation` y `getReservationOperation`.
 
 - Dentro de cada operación, se encuentra un request nombrado `Request 1`. Este valor puede ser cambiado, pero no es necesario para fines prácticos.
 
@@ -272,7 +275,73 @@ Dentro de SoapUI:
 
 - Ejecutar la solicitud haciendo clic en el botón `submit` de la ventana de request.
 
-- Verificar la respuesta recibida.
+- Verificar la respuesta recibida. Se deberá mostrar una estructura de tipo **confirmation** con los datos dummy que se indicaron en el método **createReservation** de la clase GymEndpoint.
+
+## Prueba del Servicio (operación cancelConfirmation)
+
+- Hacer doble clic en `Request 1` de la operación `
+`.
+  
+- En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (`gymReservation.wsdl`):
+
+```xml
+<wsdl:service name="GymReservationService">
+	<wsdl:port name="ReservationPort" binding="tns:ReservationBinding">
+		<soap:address location="http://localhost:8080/ws/gym-reservation"/>
+	</wsdl:port>
+</wsdl:service>
+```
+
+> http://localhost:8080/ws/gym-reservation
+
+- Insertar valores para cada elemento del request.
+
+- Ejecutar la solicitud haciendo clic en el botón `submit` de la ventana de request.
+
+- Verificar la respuesta recibida. No se muestra ningún valor en SoapUI, sin embargo, en la bitácora del servicio (consola de STS), se puede ver el siguiente mensaje de error que se debe a que no existe un método en la clase GymEndpoint que soporte la funcionalidad de consulta de reservaciones:
+
+`No endpoint mapping found for [SaajSoapMessage {http://com.gym} cancelConfirmation]`
+
+- Para corregir el error, debe implementarse el método correspondiente a la solicitud de cancelación de una reservación:
+
+```java
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "cancelReservation")
+	@ResponsePayload
+	public CancelConfirmation cancelReservation(@RequestPayload CancelReservation request) {
+		CancelConfirmation response = new CancelConfirmation ();
+		response.setIdReservation(request.getIdReservation());
+		return response;
+	}
+```
+
+- Ejecutar nuevamente la prueba de la operación cancelConfirmation. Se puede verificar que retorna los datos esperados.
+
+## Prueba del Servicio (operación getReservationOperation)
+
+- Hacer doble clic en `Request 1` de la operación `
+`.
+  
+- En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (`gymReservation.wsdl`):
+
+```xml
+<wsdl:service name="GymReservationService">
+	<wsdl:port name="ReservationPort" binding="tns:ReservationBinding">
+		<soap:address location="http://localhost:8080/ws/gym-reservation"/>
+	</wsdl:port>
+</wsdl:service>
+```
+
+> http://localhost:8080/ws/gym-reservation
+
+- Insertar valores para cada elemento del request.
+
+- Ejecutar la solicitud haciendo clic en el botón `submit` de la ventana de request.
+
+- Verificar la respuesta recibida. No se muestra ningún valor en SoapUI, sin embargo, en la bitácora del servicio (consola de STS), se puede ver el siguiente mensaje de error que se debe a que no existe un método en la clase GymEndpoint que soporte la funcionalidad de consulta de reservaciones:
+
+`No endpoint mapping found for [SaajSoapMessage {http://com.gym} searchCriteria]`
+
+- Para corregir el error, debe implementarse el método correspondiente a la solicitud de consulta de reservaciones. Realizar esta adecuación y volver a probar la operación.
 
 ## Referencias
 
