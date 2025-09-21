@@ -58,7 +58,7 @@
 			</wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="cancelReservationOperation">
-			<soap:operation soapAction="getReservation"/>
+			<soap:operation soapAction="cancelReservation"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>
