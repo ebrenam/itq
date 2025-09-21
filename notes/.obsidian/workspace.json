@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Web Services/REST/REST Services.md",
+                "file": "Definición/Qué es Programación Distribuida en la Nube.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "REST Services"
+              "title": "Qué es Programación Distribuida en la Nube"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "que",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -171,10 +171,12 @@
   },
   "active": "014cfde08d840f13",
   "lastOpenFiles": [
+    "Definición/Programación Distribuida y Programación en la Nube.md",
+    "Definición/Qué es Programación Distribuida en la Nube.md",
+    "Web Services/REST/REST Services.md",
     "Web Services/SOAP/SOAP Services.md",
     "Web Services/SOAP/SOAP.md",
     "Web Services/SOAP/alternativa.md",
-    "Web Services/REST/REST Services.md",
     "Web Services/SOAP/exercise-02/Práctica SOAP Services.md",
     "Web Services/SOAP/exercise-02/artifacts/gym.xsd.md",
     "Web Services/SOAP/exercise-02/artifacts/gymReservation.wsdl.md",
@@ -205,8 +207,6 @@
     "Spring Boot/Beans.md",
     "Spring Boot/Artifact.md",
     "Spring Boot/Artefactos.md",
-    "Inject Dependency.md",
-    "Servlet.md",
     "Untitled.canvas",
     "Untitled 1.canvas"
   ]
