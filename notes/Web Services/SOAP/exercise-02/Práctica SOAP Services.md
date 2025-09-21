@@ -1,42 +1,13 @@
 
 ## Actualización del Servicio
 
-- Crea la carpeta `wsdl` dentro del proyecto: `/src/main/resources/wsdl`.
-
-- Copia el WSDL correspondiente al proyecto dentro de la carpeta recién creada:
+- En la carpeta `wsdl` dentro del proyecto: `/src/main/resources/wsdl` copia la nueva versión del WSDL:
 	- [gymReservation.wsdl](../exercise-02/artifacts/gymReservation.wsdl.md)
 
-- Crea la carpeta `xsd` dentro del proyecto: `/src/main/resources/xsd`.
-
-- Copia el XSD correspondiente:
+- En la carpeta `xsd` dentro del proyecto: `/src/main/resources/xsd`, copia la nueva versión del XSD:
 	- [gym.xsd](../exercise-02/artifacts/gym.xsd.md)
 
-- Agrega las siguientes dependencias de forma manual en el `pom.xml` (En el caso de la dependencia de jaxb podría ser necesario cambiar la versión de manera que sea compatible con la versión de Spring Boot):
-
-```xml
-		<dependency>
-			<groupId>wsdl4j</groupId>
-			<artifactId>wsdl4j</artifactId>
-		</dependency>
-
-		<dependency>
-		    <groupId>jakarta.xml.bind</groupId>
-		    <artifactId>jakarta.xml.bind-api</artifactId>
-		    <version>3.0.1</version>
-		</dependency>
-
-		<dependency>
-		    <groupId>org.glassfish.jaxb</groupId>
-		    <artifactId>jaxb-runtime</artifactId>
-		    <version>3.0.1</version>
-		</dependency>
-```  
-
-- Actualiza el proyecto con las dependencias agregadas:
-	- Guarda el pom.xml. 
-	- Actualiza el proyecto Maven: En el menú contextual del proyecto, seleccionar `Maven` -> `Update Project`.
-
-- Dentro del pom.xml, en la sección de plugins, agregar el plugin que corresponda, según la versión de java:
+- Dentro del pom.xml, en la sección de plugins, activa el plugin:
 
 ```xml
 			<!--Plugin para java 21-->
@@ -62,7 +33,7 @@
            </plugin>
 ```
   
-- Genera las clases asociadas a los esquemas mediante:
+- Genera las clases asociadas a los nuevos esquemas mediante:
 	- Menú contextual del proyecto -> `Run As` -> `Maven Install`
 
 - Verifica que se crearon los objetos dentro de la ruta indicada en el pom (`/target/generated-sources/jaxb`) y dentro del paquete indicado (`com.gym.reservation.dto`).

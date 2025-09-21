@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "e8640d5065a69177",
+        "id": "d8cc01331953b062",
         "type": "tabs",
         "children": [
           {
-            "id": "dc1ab1015f9a7e89",
+            "id": "014cfde08d840f13",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -19,94 +19,9 @@
               },
               "icon": "lucide-file",
               "title": "REST Services"
-            }
-          },
-          {
-            "id": "538f91a8879f22d8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Web Services/REST/REST Services.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "REST Services"
-            }
-          },
-          {
-            "id": "07f367c4bc3565d3",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Web Services/SOAP/Práctica SOAP Services.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Práctica SOAP Services"
-            }
-          },
-          {
-            "id": "b223db30d34a4a0e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Web Services/SOAP/Práctica SOAP Services.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Práctica SOAP Services"
-            }
-          },
-          {
-            "id": "3f41ccdaf79f2ee6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Web Services/SOAP/exercise-01/artifacts/gymReservation.wsdl.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "gymReservation.wsdl"
-            }
-          },
-          {
-            "id": "0e337ea36aab46af",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Web Services/SOAP/exercise-01/artifacts/gymReservation.wsdl.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "gymReservation.wsdl"
-            }
-          },
-          {
-            "id": "d43f09710d055b7c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Web Services/SOAP/exercise-01/Práctica SOAP Services.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Práctica SOAP Services"
             }
           }
-        ],
-        "currentTab": 6
+        ]
       }
     ],
     "direction": "vertical"
@@ -163,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 364.500732421875
+    "width": 254.500732421875
   },
   "right": {
     "id": "d0ac91ed5bfa2523",
@@ -254,13 +169,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "d43f09710d055b7c",
+  "active": "014cfde08d840f13",
   "lastOpenFiles": [
-    "Web Services/SOAP/exercise-01/artifacts/gymReservation.wsdl.md",
-    "Web Services/SOAP/exercise-01/Práctica SOAP Services.md",
-    "Web Services/SOAP/exercise-02/Práctica SOAP Services.md",
     "Web Services/SOAP/exercise-02/artifacts/gym.xsd.md",
     "Web Services/SOAP/exercise-02/artifacts/gymReservation.wsdl.md",
+    "Web Services/REST/REST Services.md",
+    "Web Services/SOAP/exercise-02/Práctica SOAP Services.md",
+    "Web Services/SOAP/exercise-01/artifacts/gymReservation.wsdl.md",
+    "Web Services/SOAP/exercise-01/Práctica SOAP Services.md",
     "Web Services/SOAP/exercise-01/artifacts/gym.xsd.md",
     "Web Services/SOAP/SOAP Services.md",
     "Web Services/SOAP/exercise-02/classes",
@@ -272,7 +188,6 @@
     "Web Services/SOAP/exercise-01/artifacts",
     "Web Services/SOAP/exercise-01",
     "Web Services/SOAP/alternativa.md",
-    "Web Services/REST/REST Services.md",
     "Web Services/SOAP/clases/gym.xsd",
     "Web Services/SOAP/clases/gymReservation.wsdl",
     "Web Services/SOAP/clases/service/GymReservationWebServiceConfig.md",
