@@ -279,8 +279,7 @@ Dentro de SoapUI:
 
 ## Prueba del Servicio (operación cancelConfirmation)
 
-- Hacer doble clic en `Request 1` de la operación `
-`.
+- Hacer doble clic en `Request 1` de la operación `cancelConfirmation`.
   
 - En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (`gymReservation.wsdl`):
 
@@ -318,8 +317,7 @@ Dentro de SoapUI:
 
 ## Prueba del Servicio (operación getReservationOperation)
 
-- Hacer doble clic en `Request 1` de la operación `
-`.
+- Hacer doble clic en `Request 1` de la operación `getReservationOperation`.
   
 - En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (`gymReservation.wsdl`):
 
