@@ -124,12 +124,13 @@ public class GymEndpoint {
 ```
 
     - Extracto de `gym.xsd`.
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:tns="http://com.gym" targetNamespace="http://com.gym">
 ```
 
-- Crear el método público createReservation:
+- Crea el método público createReservation:
 
 ```java
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "reservation")
@@ -231,49 +232,43 @@ import org.springframework.xml.xsd.XsdSchema;
 server.port=8081
 ```
 
-
 - Deberá visualizarse el contrato es decir, el contenido de `gymReservation.wsdl`.
 
 - Dentro del file system, crea la carpeta `/opt/soapUI/`.
 
-- Copiar los siguientes archivos en la carpeta recién creada:
+- Copia los siguientes archivos en la carpeta recién creada:
 
   - `gymReservation.wsdl`
   - `gym.xsd`
 
 ## Prueba del Servicio
 
-Dentro de SoapUI:
+- Dentro de SoapUI:
+  - Crea un nuevo proyecto SOAP: `File` -> `New SOAP Project`
+  - Asigna los valores siguientes:
+    - Project Name: `gymService`
+    - Initial WSDL: Navegar hacia la ruta de `gymReservation.wsdl` y seleccionarlo.
+  - Al expandir el árbol del proyecto, se deberá ver el binding `ReservationBinding` y dentro de él, las operaciones `createReservationOperation` y `getReservationOperation`.
+  - Dentro de cada operación, se encuentra un request nombrado `Request 1`. Este valor puede ser cambiado, pero no es necesario para fines prácticos.
 
-- Crea un nuevo proyecto SOAP: `File` -> `New SOAP Project`
+- Probar la operación `createReservatioOperation`:
+  - Hacer doble clic en `Request 1` de la operación `createReservationOperation`.
+  - En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (`gymReservation.wsdl`):
+    > http://localhost:8080/ws/gym-reservation
 
-- Asigna los valores siguientes:
-  - Project Name: `gymService`
-  - Initial WSDL: Navegar hacia la ruta de `gymReservation.wsdl` y seleccionarlo.
+    - Extracto gymReservation.wsdl.
 
-- Al expandir el árbol del proyecto, se deberá ver el binding `ReservationBinding` y dentro de él, las operaciones `createReservationOperation` y `getReservationOperation`.
+    ```xml
+    <wsdl:service name="GymReservationService">
+        <wsdl:port name="ReservationPort" binding="tns:ReservationBinding">
+            <soap:address location="http://localhost:8080/ws/gym-reservation"/>
+        </wsdl:port>
+    </wsdl:service>
+    ```
 
-- Dentro de cada operación, se encuentra un request nombrado `Request 1`. Este valor puede ser cambiado, pero no es necesario para fines prácticos.
-
-- Hacer doble clic en `Request 1` de la operación `createReservationOperation`.
-  
-- En la caja de URL debe mostrarse el valor correspondiente a la etiqueta _soap:address location_ del contrato (`gymReservation.wsdl`):
-
-```xml
-<wsdl:service name="GymReservationService">
-    <wsdl:port name="ReservationPort" binding="tns:ReservationBinding">
-        <soap:address location="http://localhost:8080/ws/gym-reservation"/>
-    </wsdl:port>
-</wsdl:service>
-```
-
-> http://localhost:8080/ws/gym-reservation
-
-- Insertar valores para cada elemento del request.
-
-- Ejecutar la solicitud haciendo clic en el botón `submit` de la ventana de request.
-
-- Verificar la respuesta recibida.
+  - Inserta valores para cada elemento del request.
+  - Ejecuta la solicitud haciendo clic en el botón `submit` de la ventana de request.
+  - Verifica la respuesta recibida.
 
 ## Referencias
 
