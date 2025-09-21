@@ -1,3 +1,4 @@
+# Práctiva SOAP Services
 
 ## Construcción de un servicio Web SOAP a partir de un contrato dado
 
@@ -7,7 +8,7 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 
 - Crea un proyecto `Spring Boot` con las siguientes características:
 
-> 	Se puede utilizar Spring Tool Suite o <https://start.spring.io/>
+>     Se puede utilizar Spring Tool Suite o <https://start.spring.io/>
 
 |              |                                                                                                                                  |
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -27,43 +28,43 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 - Crea la carpeta `wsdl` dentro del proyecto: `/src/main/resources/wsdl`.
 
 - Copia el WSDL correspondiente al proyecto dentro de la carpeta recién creada:
-	- [gymReservation.wsdl](artifacts/gymReservation.wsdl)
+  - [gymReservation.wsdl](artifacts/gymReservation.wsdl)
 
 - Crea la carpeta `xsd` dentro del proyecto: `/src/main/resources/xsd`.
 
 - Copia el XSD correspondiente:
-	- [gym.xsd](artifacts/gym.xsd)
+  - [gym.xsd](artifacts/gym.xsd)
 
 - Agrega las siguientes dependencias de forma manual en el `pom.xml` (En el caso de la dependencia de jaxb podría ser necesario cambiar la versión de manera que sea compatible con la versión de Spring Boot):
 
 ```xml
-		<dependency>
-			<groupId>wsdl4j</groupId>
-			<artifactId>wsdl4j</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+        </dependency>
 
-		<dependency>
-		    <groupId>jakarta.xml.bind</groupId>
-		    <artifactId>jakarta.xml.bind-api</artifactId>
-		    <version>3.0.1</version>
-		</dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>3.0.1</version>
+        </dependency>
 
-		<dependency>
-		    <groupId>org.glassfish.jaxb</groupId>
-		    <artifactId>jaxb-runtime</artifactId>
-		    <version>3.0.1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>3.0.1</version>
+        </dependency>
 ```  
 
 - Actualiza el proyecto con las dependencias agregadas:
-	- Guarda el pom.xml. 
-	- Actualiza el proyecto Maven: En el menú contextual del proyecto, seleccionar `Maven` -> `Update Project`.
+  - Guarda el pom.xml.
+  - Actualiza el proyecto Maven: En el menú contextual del proyecto, seleccionar `Maven` -> `Update Project`.
 
 - Dentro del pom.xml, en la sección de plugins, agregar el plugin que corresponda, según la versión de java:
 
 ```xml
-			<!--Plugin para java 21-->
-			<plugin>
+            <!--Plugin para java 21-->
+            <plugin>
                <groupId>org.codehaus.mojo</groupId>
                <artifactId>jaxb2-maven-plugin</artifactId>
                <version>3.1.0</version>
@@ -86,7 +87,7 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 ```
   
 - Genera las clases asociadas a los esquemas mediante:
-	- Menú contextual del proyecto -> `Run As` -> `Maven Install`
+  - Menú contextual del proyecto -> `Run As` -> `Maven Install`
 
 - Verifica que se crearon los objetos dentro de la ruta indicada en el pom (`/target/generated-sources/jaxb`) y dentro del paquete indicado (`com.gym.reservation.dto`).
 
@@ -110,19 +111,19 @@ public class GymEndpoint {
 - Dentro de la clase GymEndpoint, crear la constante de clase (este valor es el mismo que el namespace de los artefactos xml):
 
 ```java
-	private static final String NAMESPACE_URI = "http://com.gym";
+    private static final String NAMESPACE_URI = "http://com.gym";
 ```
 
-	- Extracto de `gymReservation.wsdl`.
+    - Extracto de `gymReservation.wsdl`.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://com.gym" targetNamespace="http://com.gym">
-	<wsdl:types>
-		<xs:schema targetNamespace="http://com.gym" elementFormDefault="qualified">
+    <wsdl:types>
+        <xs:schema targetNamespace="http://com.gym" elementFormDefault="qualified">
 ```
 
-	- Extracto de `gym.xsd`.
+    - Extracto de `gym.xsd`.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:tns="http://com.gym" targetNamespace="http://com.gym">
@@ -131,17 +132,17 @@ public class GymEndpoint {
 - Crear el método público createReservation:
 
 ```java
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "reservation")
-	@ResponsePayload
-	public Confirmation createReservation(@RequestPayload Reservation request) {
-		Confirmation response = new Confirmation ();
-		
-		response.setIdReservation(123);
-		response.setIdRoom(20);
-		response.setInstructor("Paquito");
-		
-		return response;		
-	}
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "reservation")
+    @ResponsePayload
+    public Confirmation createReservation(@RequestPayload Reservation request) {
+        Confirmation response = new Confirmation ();
+        
+        response.setIdReservation(123);
+        response.setIdRoom(20);
+        response.setInstructor("Paquito");
+        
+        return response;        
+    }
 ```
 
 > **NOTA:** `localPart` contiene el nombre del elemento raíz que se indica como `part` en el mensaje request del método de creación de reservación en el WSDL.
@@ -171,29 +172,29 @@ public class GymReservationWebServiceConfig {
 - Agrega los siguientes `beans`.
 
 ```java
-	@Bean
-	ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
-		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
-		servlet.setApplicationContext(applicationContext);
-		servlet.setTransformWsdlLocations(true);
-		return new ServletRegistrationBean<>(servlet, "/ws/*");
-	}
-	
-	@Bean(name = "gym-reservation")
-	Wsdl11Definition defaultWsdl11Definition() {
-		SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
-		wsdl11Definition.setWsdl(new ClassPathResource("wsdl/gymReservation.wsdl"));
-		return wsdl11Definition;
-	}
-	
-	@Bean (name = "gym")
-	XsdSchema tallerSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("xsd/gym.xsd"));
-	}
+    @Bean
+    ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
+        MessageDispatcherServlet servlet = new MessageDispatcherServlet();
+        servlet.setApplicationContext(applicationContext);
+        servlet.setTransformWsdlLocations(true);
+        return new ServletRegistrationBean<>(servlet, "/ws/*");
+    }
+    
+    @Bean(name = "gym-reservation")
+    Wsdl11Definition defaultWsdl11Definition() {
+        SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
+        wsdl11Definition.setWsdl(new ClassPathResource("wsdl/gymReservation.wsdl"));
+        return wsdl11Definition;
+    }
+    
+    @Bean (name = "gym")
+    XsdSchema tallerSchema() {
+        return new SimpleXsdSchema(new ClassPathResource("xsd/gym.xsd"));
+    }
 ```
 
 - Corrige los errores que se presentan en la clase realizando la importación de las dependencias.
-	- **Importante**: La referencia para clase `ApplicationContext` debe ser `import org.springframework.context.ApplicationContext;`.
+  - **Importante**: La referencia para clase `ApplicationContext` debe ser `import org.springframework.context.ApplicationContext;`.
 
 ```java
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -219,10 +220,10 @@ import org.springframework.xml.xsd.XsdSchema;
 
 - La URL del servicio estará formada por:
 
-    - El protocolo -> **http://**
-    - El par IP/PTO o dominio -> **localhost:8080**
-    - El path indicado en el bean ServletRegistrationBean -> **/ws/**
-    - El nombre del bean asignado al Wsdl11Definition -> **gym-reservation**
+  - El protocolo -> **http://**
+  - El par IP/PTO o dominio -> **localhost:8080**
+  - El path indicado en el bean ServletRegistrationBean -> **/ws/**
+  - El nombre del bean asignado al Wsdl11Definition -> **gym-reservation**
 
 > **NOTA OPCIONAL:** Si en el equipo está ocupado el puerto `8080` debido a la ejecución de otro software, se debe indicar el puerto a utilizar agregando la siguiente línea en el archivo `application.properties`, ubicado en la carpeta `/src/main/resources`:
 
@@ -237,8 +238,8 @@ server.port=8081
 
 - Copiar los siguientes archivos en la carpeta recién creada:
 
-    - `gymReservation.wsdl`
-    - `gym.xsd`
+  - `gymReservation.wsdl`
+  - `gym.xsd`
 
 ## Prueba del Servicio
 
@@ -247,8 +248,8 @@ Dentro de SoapUI:
 - Crea un nuevo proyecto SOAP: `File` -> `New SOAP Project`
 
 - Asigna los valores siguientes:
-   - Project Name: `gymService`
-   - Initial WSDL: Navegar hacia la ruta de `gymReservation.wsdl` y seleccionarlo.
+  - Project Name: `gymService`
+  - Initial WSDL: Navegar hacia la ruta de `gymReservation.wsdl` y seleccionarlo.
 
 - Al expandir el árbol del proyecto, se deberá ver el binding `ReservationBinding` y dentro de él, las operaciones `createReservationOperation` y `getReservationOperation`.
 
@@ -260,9 +261,9 @@ Dentro de SoapUI:
 
 ```xml
 <wsdl:service name="GymReservationService">
-	<wsdl:port name="ReservationPort" binding="tns:ReservationBinding">
-		<soap:address location="http://localhost:8080/ws/gym-reservation"/>
-	</wsdl:port>
+    <wsdl:port name="ReservationPort" binding="tns:ReservationBinding">
+        <soap:address location="http://localhost:8080/ws/gym-reservation"/>
+    </wsdl:port>
 </wsdl:service>
 ```
 

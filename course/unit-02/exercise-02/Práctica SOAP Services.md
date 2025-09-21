@@ -2,10 +2,10 @@
 ## Actualización del Servicio
 
 - En la carpeta `wsdl` dentro del proyecto: `/src/main/resources/wsdl` copia la nueva versión del WSDL:
-	- [gymReservation.wsdl](../exercise-02/artifacts/gymReservation.wsdl.md)
+	- [gymReservation.wsdl](artifacts/gymReservation.wsdl.md)
 
 - En la carpeta `xsd` dentro del proyecto: `/src/main/resources/xsd`, copia la nueva versión del XSD:
-	- [gym.xsd](../exercise-02/artifacts/gym.xsd.md)
+	- [gym.xsd](artifacts/gym.xsd.md)
 
 - Dentro del pom.xml, en la sección de plugins, activa el plugin:
 
