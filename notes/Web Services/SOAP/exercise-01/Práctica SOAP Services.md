@@ -27,13 +27,12 @@ El ejercicio supone la creación de un servicio para la gestión de reserva de `
 - Crea la carpeta `wsdl` dentro del proyecto: `/src/main/resources/wsdl`.
 
 - Copia el WSDL correspondiente al proyecto dentro de la carpeta recién creada:
-	- [gymReservation.wsdl](Web%20Services/SOAP/exercise-01/artifacts/gymReservation.wsdl.md)
-	- [gym](../exercise-01/artifacts/gymReservation.wsdl.md))
+	- [gymReservation.wsdl](../exercise-01/artifacts/gymReservation.wsdl.md)
 
 - Crea la carpeta `xsd` dentro del proyecto: `/src/main/resources/xsd`.
 
 - Copia el XSD correspondiente:
-	- [gym.xsd](Web%20Services/SOAP/exercise-01/artifacts/gym.xsd.md)
+	- [gym.xsd](../exercise-01/artifacts/gym.xsd.md)
 
 - Agrega las siguientes dependencias de forma manual en el `pom.xml` (En el caso de la dependencia de jaxb podría ser necesario cambiar la versión de manera que sea compatible con la versión de Spring Boot):
 
