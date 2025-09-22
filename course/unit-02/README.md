@@ -87,7 +87,6 @@ flowchart TD
     style Binding fill:#f1f8e9
 ```
 
-
 ## gym.xsd
 
 Explicación del diagrama:
@@ -108,53 +107,6 @@ Explicación del diagrama:
   - Día de semana limitado a 7 valores
   - Sala entre 1-20
   - Descuento opcional con precisión decimal
-
-```mermaid
-erDiagram
-    reservationType {
-        string idClient "Pattern: (BC|PC)-[0-9]{3}"
-        string activity "5-255 chars"
-        string dayOfWeek "Enum: Lun|Mar|Mie|Jue|Vie|Sab|Dom"
-        string time
-    }
-    
-    confirmationType {
-        int idReservation
-        int idRoom "Range: 1-20"
-        string instructor "Optional, max 255 chars"
-        decimal discount "Optional, 4 digits, 2 decimals"
-    }
-    
-    reservation {
-        reservationType reservationData
-    }
-    
-    searchCriteria {
-        reservationType searchData
-    }
-    
-    confirmation {
-        confirmationType confirmationData
-    }
-    
-    confirmations {
-        confirmationType[] confirmationList "0 to many"
-    }
-    
-    cancelReservation {
-        int idReservation
-    }
-    
-    cancelConfirmation {
-        int idReservation
-    }
-
-    %% Relationships
-    reservation ||--|| reservationType : contains
-    searchCriteria ||--|| reservationType : contains
-    confirmation ||--|| confirmationType : contains
-    confirmations ||--o{ confirmationType : contains
-```
 
 ### reservationType
 
@@ -214,7 +166,7 @@ erDiagram
     }
 ```
 
-### confirmationType
+### cancelConfirmation
 
 ```mermaid
 erDiagram
