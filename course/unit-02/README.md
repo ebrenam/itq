@@ -79,12 +79,6 @@ flowchart LR
     GetRes --> T4
     CancelReq --> T5
     CancelRes --> T6
-    
-    style Service fill:#e1f5fe
-    style PortType fill:#f3e5f5
-    style Messages fill:#e8f5e8
-    style Types fill:#fff3e0
-    style Binding fill:#f1f8e9
 ```
 
 ## gym.xsd
