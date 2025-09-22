@@ -17,7 +17,7 @@ Explicación del diagrama:
 - Tipos: Todos los elementos están definidos en el XSD `gym.xsd` incluido en la sección `<wsdl:types>`
 
 ```mermaid
-flowchart TD
+flowchart LR
     subgraph Service["GymReservationService"]
         Port["ReservationPort<br/>Location: http://localhost:8080/ws/gym-reservation"]
     end
