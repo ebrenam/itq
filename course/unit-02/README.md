@@ -60,11 +60,10 @@ flowchart LR
     
     Service --> Port
     Port --> Binding
-    Binding --> PortType
     
-    PortType --> Op1
-    PortType --> Op2
-    PortType --> Op3
+    Binding --> Op1
+    Binding --> Op2
+    Binding --> Op3
     
     Op1 --> CreateReq
     Op1 --> CreateRes
