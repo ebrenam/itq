@@ -133,17 +133,17 @@ public class Usuario {
 
 ```java
 @SpringBootApplication  // Punto de entrada de la aplicación
-@Configuration         // Clase de configuración
-@Service              // Clase de servicio de negocio
-@Component            // Componente genérico de Spring
-@Bean                // Método que produce un bean
-@Autowired           // Inyección automática de dependencias
+@Configuration          // Clase de configuración
+@Service                // Clase de servicio de negocio
+@Component              // Componente genérico de Spring
+@Bean                   // Método que produce un bean
+@Autowired              // Inyección automática de dependencias
 ```
 
 #### **🌐 Anotaciones de Web Services**
 
 ```java
-@EnableWs            // Habilita soporte para Web Services SOAP
+@EnableWs           // Habilita soporte para Web Services SOAP
 @Endpoint           // Marca la clase como endpoint SOAP
 @PayloadRoot        // Define qué mensajes maneja cada método
 @RequestPayload     // Parámetro de entrada del mensaje SOAP
@@ -156,7 +156,7 @@ public class Usuario {
 @XmlRootElement     // Elemento raíz del XML
 @XmlElement         // Campo que se mapea a un elemento XML
 @XmlAccessorType    // Cómo acceder a los campos (FIELD, PROPERTY)
-@XmlType           // Información del tipo XML
+@XmlType            // Información del tipo XML
 ```
 
 ### 🎓 Ejemplo Práctico: Análisis de GymEndpoint
