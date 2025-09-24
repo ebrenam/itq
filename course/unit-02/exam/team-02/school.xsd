@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XSD para el Equipo 2: Inscripción a Cursos Escolares -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" 
+           attributeFormDefault="unqualified" 
+           xmlns:tns="http://com.school" 
+           targetNamespace="http://com.school">
+
+	<!-- Tipo para la solicitud de inscripción -->
+	<xs:complexType name="enrollmentRequestType">
+		<xs:sequence>
+			<!-- ID del estudiante, con formato ST-NNNNN -->
+			<xs:element name="studentId">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="ST-[0-9]{5}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			
+			<!-- Código del curso, con formato MAT-101 -->
+			<xs:element name="courseCode">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[A-Z]{3}-[0-9]{3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+
+			<!-- Semestre en el que se inscribe el curso -->
+			<xs:element name="semester">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Fall"/>
+						<xs:enumeration value="Spring"/>
+						<xs:enumeration value="Summer"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>		
+	</xs:complexType>
+	
+	<!-- Tipo para la confirmación de la inscripción -->
+	<xs:complexType name="enrollmentConfirmationType">
+		<xs:sequence>
+			<xs:element name="enrollmentId" type="xs:string" />
+			<xs:element name="classroom" type="xs:string" />
+			<xs:element name="professor" type="xs:string" minOccurs="0" />
+			<xs:element name="tuitionFee" type="xs:decimal" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Elementos raíz para las operaciones -->
+	<xs:element name="enrollmentRequest">  
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="enrollment" type="tns:enrollmentRequestType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="enrollmentConfirmation">
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="confirmation" type="tns:enrollmentConfirmationType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="cancelEnrollmentRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="enrollmentId" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="cancelEnrollmentConfirmation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="xs:string" />
+				<xs:element name="enrollmentId" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

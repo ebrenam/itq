@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XSD para el Equipo 5: Compra de Boletos de Cine -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" 
+           attributeFormDefault="unqualified" 
+           xmlns:tns="http://com.cinema" 
+           targetNamespace="http://com.cinema">
+
+	<!-- Tipo para la solicitud de boletos -->
+	<xs:complexType name="ticketRequestType">
+		<xs:sequence>
+			<xs:element name="movieTitle" type="xs:string" />
+			<xs:element name="showTime" type="xs:time" />
+			<xs:element name="numberOfTickets" type="xs:positiveInteger" />
+		</xs:sequence>		
+	</xs:complexType>
+	
+	<!-- Tipo para la confirmación de la compra -->
+	<xs:complexType name="bookingConfirmationType">
+		<xs:sequence>
+			<xs:element name="bookingId" type="xs:string" />
+			<xs:element name="screenNumber" type="xs:int" />
+			<!-- Lista de asientos asignados, ej: "F10, F11" -->
+			<xs:element name="seatNumbers" type="xs:string" />
+			<xs:element name="totalPrice" type="xs:decimal" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Elementos raíz para las operaciones -->
+	<xs:element name="ticketRequest">  
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="booking" type="tns:ticketRequestType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="bookingConfirmation">
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="confirmation" type="tns:bookingConfirmationType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="cancelBookingRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="bookingId" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="cancelBookingConfirmation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="xs:string" />
+				<xs:element name="bookingId" type="xs:string" />
+				<xs:element name="refundAmount" type="xs:decimal" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

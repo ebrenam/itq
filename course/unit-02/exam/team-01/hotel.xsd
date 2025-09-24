@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XSD para el Equipo 6: Reserva de Habitaciones de Hotel -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" 
+           attributeFormDefault="unqualified" 
+           xmlns:tns="http://com.hotel" 
+           targetNamespace="http://com.hotel">
+
+	<!-- Tipo para la solicitud de reserva -->
+	<xs:complexType name="roomReservationRequestType">
+		<xs:sequence>
+			<xs:element name="guestName" type="xs:string" />
+			<xs:element name="checkInDate" type="xs:date" />
+			<xs:element name="checkOutDate" type="xs:date" />
+			<xs:element name="numberOfGuests" type="xs:positiveInteger" />
+			<xs:element name="roomType">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Single"/>
+						<xs:enumeration value="Double"/>
+						<xs:enumeration value="Suite"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>		
+	</xs:complexType>
+	
+	<!-- Tipo para la confirmación de la reserva -->
+	<xs:complexType name="reservationConfirmationType">
+		<xs:sequence>
+			<xs:element name="reservationId" type="xs:string" />
+			<xs:element name="roomNumber" type="xs:string" />
+			<xs:element name="totalCost" type="xs:decimal" />
+			<xs:element name="confirmationStatus" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Elementos raíz para las operaciones -->
+	<xs:element name="roomReservationRequest">  
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="reservation" type="tns:roomReservationRequestType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="reservationConfirmation">
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="confirmation" type="tns:reservationConfirmationType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="cancelReservationRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="reservationId" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="cancelReservationConfirmation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="xs:string" />
+				<xs:element name="reservationId" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

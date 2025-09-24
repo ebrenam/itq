@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- WSDL para el Equipo 6: Reserva de Habitaciones de Hotel -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:tns="http://com.hotel" 
+                  targetNamespace="http://com.hotel">
+	<wsdl:types>
+		<xs:schema targetNamespace="http://com.hotel" elementFormDefault="qualified">
+			<xs:include schemaLocation="hotel.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+
+	<!-- Mensajes para la operación de reservar habitación -->
+	<wsdl:message name="ReserveRoomRequest">
+		<wsdl:part name="parameter" element="tns:roomReservationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ReserveRoomResponse">
+		<wsdl:part name="parameter" element="tns:reservationConfirmation"/>
+	</wsdl:message>
+
+	<!-- Mensajes para la operación de cancelar reserva -->
+	<wsdl:message name="CancelReservationRequest">
+		<wsdl:part name="parameter" element="tns:cancelReservationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CancelReservationResponse">
+		<wsdl:part name="parameter" element="tns:cancelReservationConfirmation"/>
+	</wsdl:message>
+
+	<!-- Definición de las operaciones del servicio -->
+	<wsdl:portType name="RoomReservationPortType">
+		<wsdl:operation name="reserveRoom">
+			<wsdl:input message="tns:ReserveRoomRequest"/>
+			<wsdl:output message="tns:ReserveRoomResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="cancelReservation">
+			<wsdl:input message="tns:CancelReservationRequest"/>
+			<wsdl:output message="tns:CancelReservationResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- Binding de las operaciones a SOAP/HTTP -->
+	<wsdl:binding name="RoomReservationBinding" type="tns:RoomReservationPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="reserveRoom">
+			<soap:operation soapAction="reserveRoom"/>
+			<wsdl:input><soap:body use="literal"/></wsdl:input>
+			<wsdl:output><soap:body use="literal"/></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="cancelReservation">
+			<soap:operation soapAction="cancelReservation"/>
+			<wsdl:input><soap:body use="literal"/></wsdl:input>
+			<wsdl:output><soap:body use="literal"/></wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="RoomReservationService">
+		<wsdl:port name="RoomReservationPort" binding="tns:RoomReservationBinding">
+			<soap:address location="http://localhost:8080/ws/room-reservation"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

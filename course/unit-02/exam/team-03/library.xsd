@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XSD para el Equipo 3: Préstamo de Libros en Biblioteca -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" 
+           attributeFormDefault="unqualified" 
+           xmlns:tns="http://com.library" 
+           targetNamespace="http://com.library">
+
+	<!-- Tipo para la solicitud de préstamo -->
+	<xs:complexType name="loanRequestType">
+		<xs:sequence>
+			<!-- ID del miembro de la biblioteca -->
+			<xs:element name="memberId">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="LIB-[A-Z]{2}-[0-9]{4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			
+			<!-- ISBN del libro a solicitar -->
+			<xs:element name="isbn" type="xs:string" />
+		</xs:sequence>		
+	</xs:complexType>
+	
+	<!-- Tipo para la confirmación del préstamo -->
+	<xs:complexType name="loanConfirmationType">
+		<xs:sequence>
+			<xs:element name="loanId" type="xs:string" />
+			<xs:element name="bookTitle" type="xs:string" />
+			<!-- Fecha de devolución obligatoria -->
+			<xs:element name="dueDate" type="xs:date" />
+			<xs:element name="status" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Elementos raíz para las operaciones -->
+	<xs:element name="loanRequest">  
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="loan" type="tns:loanRequestType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="loanConfirmation">
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="confirmation" type="tns:loanConfirmationType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="returnBookRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="loanId" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="returnBookConfirmation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="xs:string" />
+				<xs:element name="loanId" type="xs:string" />
+				<xs:element name="fine" type="xs:decimal" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

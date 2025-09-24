@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- WSDL para el Equipo 4: Agendamiento de Citas Médicas -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:tns="http://com.clinic" 
+                  targetNamespace="http://com.clinic">
+	<wsdl:types>
+		<xs:schema targetNamespace="http://com.clinic" elementFormDefault="qualified">
+			<xs:include schemaLocation="clinic_team4.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+
+	<!-- Mensajes para la operación de agendar cita -->
+	<wsdl:message name="BookAppointmentRequest">
+		<wsdl:part name="parameter" element="tns:appointmentRequest"/>
+	</wsdl:message>
+	<wsdl:message name="BookAppointmentResponse">
+		<wsdl:part name="parameter" element="tns:appointmentConfirmation"/>
+	</wsdl:message>
+
+	<!-- Mensajes para la operación de cancelar cita -->
+	<wsdl:message name="CancelAppointmentRequest">
+		<wsdl:part name="parameter" element="tns:cancelAppointmentRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CancelAppointmentResponse">
+		<wsdl:part name="parameter" element="tns:cancelAppointmentConfirmation"/>
+	</wsdl:message>
+
+	<!-- Definición de las operaciones del servicio -->
+	<wsdl:portType name="AppointmentPortType">
+		<wsdl:operation name="bookAppointment">
+			<wsdl:input message="tns:BookAppointmentRequest"/>
+			<wsdl:output message="tns:BookAppointmentResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="cancelAppointment">
+			<wsdl:input message="tns:CancelAppointmentRequest"/>
+			<wsdl:output message="tns:CancelAppointmentResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- Binding de las operaciones a SOAP/HTTP -->
+	<wsdl:binding name="AppointmentBinding" type="tns:AppointmentPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="bookAppointment">
+			<soap:operation soapAction="bookAppointment"/>
+			<wsdl:input><soap:body use="literal"/></wsdl:input>
+			<wsdl:output><soap:body use="literal"/></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="cancelAppointment">
+			<soap:operation soapAction="cancelAppointment"/>
+			<wsdl:input><soap:body use="literal"/></wsdl:input>
+			<wsdl:output><soap:body use="literal"/></wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="AppointmentBookingService">
+		<wsdl:port name="AppointmentPort" binding="tns:AppointmentBinding">
+			<soap:address location="http://localhost:8080/ws/appointment-booking"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

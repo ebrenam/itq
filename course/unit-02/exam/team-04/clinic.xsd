@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XSD para el Equipo 4: Agendamiento de Citas Médicas -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" 
+           attributeFormDefault="unqualified" 
+           xmlns:tns="http://com.clinic" 
+           targetNamespace="http://com.clinic">
+
+	<!-- Tipo para la solicitud de cita -->
+	<xs:complexType name="appointmentRequestType">
+		<xs:sequence>
+			<!-- ID del paciente -->
+			<xs:element name="patientId" type="xs:string" />
+			
+			<!-- ID del doctor -->
+			<xs:element name="doctorId" type="xs:string" />
+
+			<!-- Fecha y hora de la cita -->
+			<xs:element name="appointmentDateTime" type="xs:dateTime" />
+			
+			<!-- Motivo de la consulta -->
+			<xs:element name="reason" type="xs:string" />
+		</xs:sequence>		
+	</xs:complexType>
+	
+	<!-- Tipo para la confirmación de la cita -->
+	<xs:complexType name="appointmentConfirmationType">
+		<xs:sequence>
+			<xs:element name="appointmentId" type="xs:string" />
+			<xs:element name="officeNumber" type="xs:string" />
+			<xs:element name="specialty" type="xs:string" />
+			<xs:element name="status" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Elementos raíz para las operaciones -->
+	<xs:element name="appointmentRequest">  
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="appointment" type="tns:appointmentRequestType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="appointmentConfirmation">
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="confirmation" type="tns:appointmentConfirmationType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="cancelAppointmentRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="appointmentId" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="cancelAppointmentConfirmation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="xs:string" />
+				<xs:element name="appointmentId" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

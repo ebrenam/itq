@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- WSDL para el Equipo 2: Inscripción a Cursos Escolares -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:tns="http://com.school" 
+                  targetNamespace="http://com.school">
+	<wsdl:types>
+		<xs:schema targetNamespace="http://com.school" elementFormDefault="qualified">
+			<xs:include schemaLocation="school.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+
+	<!-- Mensajes para la operación de crear inscripción -->
+	<wsdl:message name="CreateEnrollmentRequest">
+		<wsdl:part name="parameter" element="tns:enrollmentRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CreateEnrollmentResponse">
+		<wsdl:part name="parameter" element="tns:enrollmentConfirmation"/>
+	</wsdl:message>
+
+	<!-- Mensajes para la operación de cancelar inscripción -->
+	<wsdl:message name="CancelEnrollmentRequest">
+		<wsdl:part name="parameter" element="tns:cancelEnrollmentRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CancelEnrollmentResponse">
+		<wsdl:part name="parameter" element="tns:cancelEnrollmentConfirmation"/>
+	</wsdl:message>
+
+	<!-- Definición de las operaciones del servicio -->
+	<wsdl:portType name="EnrollmentPortType">
+		<wsdl:operation name="createEnrollment">
+			<wsdl:input message="tns:CreateEnrollmentRequest"/>
+			<wsdl:output message="tns:CreateEnrollmentResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="cancelEnrollment">
+			<wsdl:input message="tns:CancelEnrollmentRequest"/>
+			<wsdl:output message="tns:CancelEnrollmentResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- Binding de las operaciones a SOAP/HTTP -->
+	<wsdl:binding name="EnrollmentBinding" type="tns:EnrollmentPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="createEnrollment">
+			<soap:operation soapAction="createEnrollment"/>
+			<wsdl:input><soap:body use="literal"/></wsdl:input>
+			<wsdl:output><soap:body use="literal"/></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="cancelEnrollment">
+			<soap:operation soapAction="cancelEnrollment"/>
+			<wsdl:input><soap:body use="literal"/></wsdl:input>
+			<wsdl:output><soap:body use="literal"/></wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="SchoolEnrollmentService">
+		<wsdl:port name="EnrollmentPort" binding="tns:EnrollmentBinding">
+			<soap:address location="http://localhost:8080/ws/school-enrollment"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

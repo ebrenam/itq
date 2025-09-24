@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- WSDL para el Equipo 5: Compra de Boletos de Cine -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:tns="http://com.cinema" 
+                  targetNamespace="http://com.cinema">
+	<wsdl:types>
+		<xs:schema targetNamespace="http://com.cinema" elementFormDefault="qualified">
+			<xs:include schemaLocation="cinema.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+
+	<!-- Mensajes para la operación de comprar boletos -->
+	<wsdl:message name="BookTicketsRequest">
+		<wsdl:part name="parameter" element="tns:ticketRequest"/>
+	</wsdl:message>
+	<wsdl:message name="BookTicketsResponse">
+		<wsdl:part name="parameter" element="tns:bookingConfirmation"/>
+	</wsdl:message>
+
+	<!-- Mensajes para la operación de cancelar compra -->
+	<wsdl:message name="CancelBookingRequest">
+		<wsdl:part name="parameter" element="tns:cancelBookingRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CancelBookingResponse">
+		<wsdl:part name="parameter" element="tns:cancelBookingConfirmation"/>
+	</wsdl:message>
+
+	<!-- Definición de las operaciones del servicio -->
+	<wsdl:portType name="TicketBookingPortType">
+		<wsdl:operation name="bookTickets">
+			<wsdl:input message="tns:BookTicketsRequest"/>
+			<wsdl:output message="tns:BookTicketsResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="cancelBooking">
+			<wsdl:input message="tns:CancelBookingRequest"/>
+			<wsdl:output message="tns:CancelBookingResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- Binding de las operaciones a SOAP/HTTP -->
+	<wsdl:binding name="TicketBookingBinding" type="tns:TicketBookingPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="bookTickets">
+			<soap:operation soapAction="bookTickets"/>
+			<wsdl:input><soap:body use="literal"/></wsdl:input>
+			<wsdl:output><soap:body use="literal"/></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="cancelBooking">
+			<soap:operation soapAction="cancelBooking"/>
+			<wsdl:input><soap:body use="literal"/></wsdl:input>
+			<wsdl:output><soap:body use="literal"/></wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="TicketBookingService">
+		<wsdl:port name="TicketBookingPort" binding="tns:TicketBookingBinding">
+			<soap:address location="http://localhost:8080/ws/ticket-booking"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

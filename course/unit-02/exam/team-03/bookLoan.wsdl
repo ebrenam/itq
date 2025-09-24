@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- WSDL para el Equipo 3: Préstamo de Libros en Biblioteca -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:tns="http://com.library" 
+                  targetNamespace="http://com.library">
+	<wsdl:types>
+		<xs:schema targetNamespace="http://com.library" elementFormDefault="qualified">
+			<xs:include schemaLocation="library.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+
+	<!-- Mensajes para la operación de solicitar préstamo -->
+	<wsdl:message name="RequestBookLoanRequest">
+		<wsdl:part name="parameter" element="tns:loanRequest"/>
+	</wsdl:message>
+	<wsdl:message name="RequestBookLoanResponse">
+		<wsdl:part name="parameter" element="tns:loanConfirmation"/>
+	</wsdl:message>
+
+	<!-- Mensajes para la operación de devolver libro -->
+	<wsdl:message name="ReturnBookRequest">
+		<wsdl:part name="parameter" element="tns:returnBookRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ReturnBookResponse">
+		<wsdl:part name="parameter" element="tns:returnBookConfirmation"/>
+	</wsdl:message>
+
+	<!-- Definición de las operaciones del servicio -->
+	<wsdl:portType name="BookLoanPortType">
+		<wsdl:operation name="requestBookLoan">
+			<wsdl:input message="tns:RequestBookLoanRequest"/>
+			<wsdl:output message="tns:RequestBookLoanResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="returnBook">
+			<wsdl:input message="tns:ReturnBookRequest"/>
+			<wsdl:output message="tns:ReturnBookResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- Binding de las operaciones a SOAP/HTTP -->
+	<wsdl:binding name="BookLoanBinding" type="tns:BookLoanPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="requestBookLoan">
+			<soap:operation soapAction="requestBookLoan"/>
+			<wsdl:input><soap:body use="literal"/></wsdl:input>
+			<wsdl:output><soap:body use="literal"/></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="returnBook">
+			<soap:operation soapAction="returnBook"/>
+			<wsdl:input><soap:body use="literal"/></wsdl:input>
+			<wsdl:output><soap:body use="literal"/></wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="BookLoanService">
+		<wsdl:port name="BookLoanPort" binding="tns:BookLoanBinding">
+			<soap:address location="http://localhost:8080/ws/book-loan"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
