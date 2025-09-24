@@ -227,6 +227,389 @@ Cuando llega un cliente (petición SOAP), el sistema sabe exactamente a quién d
 
 ---
 
+## ☕ ¿Qué son los Beans en Spring?
+
+### 📝 Concepto Básico
+
+Un **Bean** en Spring es simplemente un objeto que es **creado, configurado y gestionado** por el contenedor de Spring (IoC Container). Es como tener un "asistente personal" que se encarga de crear y mantener todos los objetos que tu aplicación necesita.
+
+### 🏭 Analogía Simple: La Fábrica de Objetos
+
+Imagina que Spring es una **fábrica automatizada**:
+
+```
+🏭 Fábrica Spring
+├── 📋 Lista de "recetas" (clases con @Component, @Service, etc.)
+├── 🤖 Robot constructor (IoC Container)
+├── 📦 Almacén de objetos listos (Application Context)
+└── 🚚 Sistema de entrega automática (@Autowired)
+```
+
+**Proceso:**
+1. **Spring escanea** tu código buscando clases marcadas con anotaciones especiales
+2. **Crea automáticamente** instancias de esas clases (los beans)
+3. **Los almacena** en su "almacén" (Application Context)
+4. **Los entrega** cuando otra clase los necesita
+
+### 🎯 ¿Para qué se Utilizan los Beans?
+
+#### 1. **Gestión Automática de Objetos**
+```java
+// ❌ Sin Spring (manual):
+public class ReservationController {
+    private ReservationService service;
+    private DatabaseRepository repository;
+    
+    public ReservationController() {
+        // Tienes que crear todo manualmente
+        this.repository = new DatabaseRepository();
+        this.service = new ReservationService(repository);
+    }
+}
+
+// ✅ Con Spring (automático):
+@Controller
+public class ReservationController {
+    @Autowired
+    private ReservationService service;  // Spring lo crea e inyecta automáticamente
+    
+    // ¡No necesitas constructor ni new!
+}
+```
+
+#### 2. **Singleton por Defecto (Una Sola Instancia)**
+```java
+@Service
+public class EmailService {
+    public void sendEmail(String message) {
+        System.out.println("Enviando: " + message);
+    }
+}
+
+// Spring crea UNA SOLA instancia de EmailService
+// Todas las clases que lo necesiten comparten la misma instancia
+```
+
+#### 3. **Inyección de Dependencias Automática**
+```java
+@Service
+public class GymReservationService {
+    
+    private EmailService emailService;        // Dependencia 1
+    private DatabaseService databaseService;  // Dependencia 2
+    private LoggingService loggingService;    // Dependencia 3
+    
+    // Constructor injection - Spring inyecta automáticamente todo
+    public GymReservationService(EmailService emailService, 
+                               DatabaseService databaseService,
+                               LoggingService loggingService) {
+        this.emailService = emailService;
+        this.databaseService = databaseService;
+        this.loggingService = loggingService;
+    }
+    
+    public void makeReservation(Reservation reservation) {
+        databaseService.save(reservation);           // Usa bean 1
+        emailService.sendConfirmation(reservation);  // Usa bean 2  
+        loggingService.log("Reserva creada");        // Usa bean 3
+    }
+}
+```
+
+### 🏷️ Tipos de Anotaciones para Crear Beans
+
+#### **Anotaciones de Estereotipo (Stereotype Annotations)**
+
+```java
+@Component    // Bean genérico - "Esto es un componente de Spring"
+public class GenericComponent {
+    // Cualquier lógica
+}
+
+@Service      // Bean de lógica de negocio - "Esto contiene reglas de negocio"
+public class ReservationService {
+    // Lógica para manejar reservas
+}
+
+@Repository   // Bean de acceso a datos - "Esto accede a la base de datos"
+public class ReservationRepository {
+    // Operaciones CRUD con la base de datos
+}
+
+@Controller   // Bean de control web - "Esto maneja peticiones web"
+public class ReservationController {
+    // Maneja peticiones HTTP
+}
+
+@RestController // Bean de API REST - "Esto es una API REST"
+public class ReservationRestController {
+    // Endpoints REST que devuelven JSON
+}
+
+@Configuration // Bean de configuración - "Esto configura otros beans"
+public class AppConfig {
+    // Métodos que crean y configuran otros beans
+}
+```
+
+#### **Jerarquía de Anotaciones:**
+```
+@Component (padre)
+├── @Service
+├── @Repository  
+├── @Controller
+│   └── @RestController
+└── @Configuration
+```
+
+**💡 Todas heredan de `@Component`**, por lo que todas crean beans.
+
+### 🔧 Métodos para Crear Beans
+
+#### **Método 1: Anotaciones de Clase (Más Común)**
+```java
+@Service  // ← Spring automáticamente crea un bean de esta clase
+public class EmailService {
+    public void sendEmail(String message) {
+        System.out.println("Email enviado: " + message);
+    }
+}
+```
+
+#### **Método 2: Métodos @Bean en Clases @Configuration**
+```java
+@Configuration
+public class AppConfig {
+    
+    @Bean  // ← Este método produce un bean
+    public EmailService emailService() {
+        EmailService service = new EmailService();
+        service.setServerConfig("smtp.gmail.com");
+        return service;  // Spring toma este objeto y lo gestiona como bean
+    }
+    
+    @Bean
+    public DatabaseConnection databaseConnection() {
+        return new DatabaseConnection("jdbc:mysql://localhost:3306/gym");
+    }
+}
+```
+
+### 🔄 Ciclo de Vida de un Bean
+
+```java
+@Service
+public class ReservationService {
+    
+    @PostConstruct  // ← Se ejecuta DESPUÉS de crear el bean
+    public void initialize() {
+        System.out.println("ReservationService inicializado");
+        // Configuración inicial, conexiones, etc.
+    }
+    
+    @PreDestroy     // ← Se ejecuta ANTES de destruir el bean
+    public void cleanup() {
+        System.out.println("ReservationService destruyéndose");
+        // Limpieza, cerrar conexiones, etc.
+    }
+}
+```
+
+**Flujo completo:**
+```
+1. Spring escanea clases
+2. Encuentra @Service
+3. Crea instancia con new ReservationService()
+4. Ejecuta @PostConstruct initialize()
+5. Bean listo para usar
+6. Aplicación se cierra
+7. Ejecuta @PreDestroy cleanup()
+8. Destruye el bean
+```
+
+### 🎯 Scopes (Alcance) de los Beans
+
+```java
+@Service
+@Scope("singleton")  // DEFAULT - Una sola instancia para toda la app
+public class EmailService { }
+
+@Service  
+@Scope("prototype")  // Nueva instancia cada vez que se solicite
+public class ReportGenerator { }
+
+@Controller
+@Scope("request")    // Una instancia por petición HTTP
+public class WebController { }
+
+@Controller
+@Scope("session")    // Una instancia por sesión de usuario
+public class UserController { }
+```
+
+### 🔍 Ejemplo Práctico en Nuestro Proyecto
+
+```java
+// 1. GymEndpoint es un bean (por @Endpoint que hereda de @Component)
+@Endpoint
+public class GymEndpoint {
+    
+    // 2. Spring inyecta automáticamente otros beans que necesite
+    @Autowired
+    private ReservationService reservationService;  // Bean automático
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "reservation")
+    @ResponsePayload
+    public Confirmation createReservation(@RequestPayload Reservation request) {
+        // 3. Usa el bean inyectado
+        return reservationService.processReservation(request);
+    }
+}
+
+// 4. Servicio como bean independiente
+@Service  // ← Crea automáticamente un bean
+public class ReservationService {
+    
+    @Autowired
+    private EmailService emailService;      // Bean dependiente
+    
+    @Autowired  
+    private DatabaseService databaseService; // Otro bean dependiente
+    
+    public Confirmation processReservation(Reservation reservation) {
+        // Lógica usando otros beans
+        Confirmation conf = databaseService.saveReservation(reservation);
+        emailService.sendConfirmation(conf);
+        return conf;
+    }
+}
+
+// 5. Más beans del ecosistema
+@Service
+public class EmailService {
+    public void sendConfirmation(Confirmation conf) {
+        System.out.println("Confirmación enviada: " + conf.getIdReservation());
+    }
+}
+
+@Repository
+public class DatabaseService {
+    public Confirmation saveReservation(Reservation reservation) {
+        // Simula guardado en BD
+        Confirmation conf = new Confirmation();
+        // ... lógica ...
+        return conf;
+    }
+}
+```
+
+### 🎪 ¿Cómo Spring "Une" Todo Automáticamente?
+
+```java
+// Spring hace esto automáticamente al arrancar:
+
+// 1. Escanea y encuentra estas clases:
+// - GymEndpoint (tiene @Endpoint)
+// - ReservationService (tiene @Service)  
+// - EmailService (tiene @Service)
+// - DatabaseService (tiene @Repository)
+
+// 2. Crea instancias:
+EmailService emailBean = new EmailService();
+DatabaseService databaseBean = new DatabaseService();  
+ReservationService reservationBean = new ReservationService(emailBean, databaseBean);
+GymEndpoint endpointBean = new GymEndpoint(reservationBean);
+
+// 3. Los guarda en su "almacén" (Application Context)
+// 4. Los inyecta donde se necesiten (@Autowired)
+```
+
+### 🚀 Ventajas de Usar Beans
+
+| Ventaja | Sin Beans | Con Beans |
+|---------|-----------|-----------|
+| **Creación** | `new MiClase()` manual | Automática por Spring |
+| **Dependencias** | `new Dependencia()` manual | `@Autowired` automático |
+| **Singleton** | Implementar patrón manualmente | Por defecto |
+| **Configuración** | Hardcoded en constructor | Externalizada |
+| **Testing** | Difícil de mockear | Fácil inyección de mocks |
+| **Mantenimiento** | Cambios en muchos lugares | Cambios centralizados |
+
+### 🧪 Ejemplo de Testing con Beans
+
+```java
+@SpringBootTest
+public class ReservationServiceTest {
+    
+    @Autowired
+    private ReservationService reservationService;  // Bean real
+    
+    @MockBean  // ← Spring reemplaza el bean real con un mock
+    private EmailService emailService;
+    
+    @Test
+    public void testCreateReservation() {
+        // emailService es ahora un mock, no el bean real
+        when(emailService.sendConfirmation(any())).thenReturn(true);
+        
+        // El test usa el servicio real, pero con dependencias mockeadas
+        Confirmation result = reservationService.processReservation(new Reservation());
+        
+        assertNotNull(result);
+    }
+}
+```
+
+### 💡 Conceptos Clave para Recordar
+
+#### ✅ **Un Bean es:**
+- Un objeto gestionado por Spring
+- Creado automáticamente cuando la aplicación arranca
+- Inyectado automáticamente donde se necesite
+- Por defecto es Singleton (una sola instancia)
+
+#### ✅ **Los Beans se usan para:**
+- Eliminar la creación manual de objetos (`new`)
+- Gestionar dependencias automáticamente
+- Facilitar el testing (mocks)
+- Centralizar la configuración
+- Implementar patrones como Singleton sin código extra
+
+#### ✅ **Creación de Beans:**
+- `@Component`, `@Service`, `@Repository`, `@Controller` (automático)
+- `@Bean` en clases `@Configuration` (manual/personalizado)
+
+#### ✅ **Inyección de Beans:**
+- `@Autowired` (automático por tipo)
+- Constructor injection (recomendado)
+- Field injection (más simple, menos testeable)
+
+### 🎯 En Nuestro Proyecto SOAP
+
+```java
+// Este flujo ocurre automáticamente:
+
+@SpringBootApplication  // ← Arranca Spring
+public class GymReservationServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(...);  // ← Spring crea todos los beans
+    }
+}
+
+// Beans creados automáticamente:
+// 1. GymEndpoint (por @Endpoint)
+// 2. GymReservationWebServiceConfig (por @Configuration) 
+// 3. MessageDispatcherServlet (por método @Bean)
+// 4. Wsdl11Definition (por método @Bean)
+
+// Resultado:
+// ✅ Servicio SOAP funcionando en http://localhost:8080/ws/
+// ✅ WSDL disponible en http://localhost:8080/ws/gym-reservation.wsdl
+// ✅ Todo configurado y conectado automáticamente
+```
+
+---
+
 ## 🔧 Componentes Clave del Proyecto
 
 ### 1. 📄 **Archivo XSD (gym.xsd)** - El Esquema de Datos
