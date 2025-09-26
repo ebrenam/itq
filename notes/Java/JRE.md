@@ -1,1 +1,0 @@
-Paquete estándar de librerías de Java
