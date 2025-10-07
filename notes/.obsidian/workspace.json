@@ -107,7 +107,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 254.500732421875
+    "width": 254.500732421875,
+    "collapsed": true
   },
   "right": {
     "id": "d0ac91ed5bfa2523",
@@ -200,8 +201,9 @@
   },
   "active": "74664682a1ca7f57",
   "lastOpenFiles": [
-    "Web Services/REST/Diseño de APIs vs DB vs URLs.md",
+    "Web Services/REST/Esquemas.md",
     "Web Services/REST/Creación de un Contrato OpenAPI Specification (OAS).md",
+    "Web Services/REST/Diseño de APIs vs DB vs URLs.md",
     "Web Services/SOAP/Servicio Web SOAP con Spring Boot.md",
     "Web Services/SOAP/SOAP Services.md",
     "Web Services/REST/REST Services.md",
@@ -227,7 +229,6 @@
     "Spring Boot/Name.md",
     "Spring Boot/Java Bean.md",
     "Spring Boot/Group.md",
-    "Spring Boot/Estándar de codificación de Java.md",
     "Web Services/SOAP/exercise-02/classes",
     "Web Services/SOAP/exercise-02/artifacts",
     "Web Services/SOAP/exercise-02",

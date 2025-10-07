@@ -755,3 +755,79 @@ components:
 ---
 
 ## 🧪 Paso 19: Herramientas para Probar
+
+### Swagger UI:
+
+1. Copia tu archivo YAML
+2. Ve a [https://editor.swagger.io/](vscode-file://vscode-app/Applications/Visual%20Studio%20Code.app/Contents/Resources/app/out/vs/code/electron-browser/workbench/workbench.html)
+3. Pega el contenido
+4. Interactúa con la documentación
+
+### Comando para validar:
+
+```bash
+# Si tienes swagger-codegen instalado
+swagger-codegen validate -i GymReservation.yaml
+```
+
+---
+
+## 💡 Conceptos Clave Aprendidos
+
+|Concepto|Propósito|Ejemplo|
+|---|---|---|
+|**`openapi`**|Versión del estándar|`3.0.4`|
+|**`info`**|Metadatos de la API|título, versión, contacto|
+|**`servers`**|URLs donde está la API|desarrollo, producción|
+|**`tags`**|Organización de operaciones|`Reservations`|
+|**`paths`**|Endpoints disponibles|`/reservations`, `/reservations/{id}`|
+|**Métodos HTTP**|Operaciones CRUD|`GET`, `POST`, `PUT`, `PATCH`, `DELETE`|
+|**`parameters`**|Datos de entrada|query, path, header|
+|**`requestBody`**|Datos en el cuerpo|JSON para POST/PUT/PATCH|
+|**`responses`**|Respuestas posibles|códigos HTTP + schemas|
+|**`components/schemas`**|Estructuras de datos|objetos reutilizables|
+|**Validaciones**|Reglas de datos|pattern, min/max, enum|
+
+---
+
+## 📈 Resumen del Flujo Construido
+
+```mermaid
+graph TD
+    A[openapi: 3.0.4] --> B[info: Metadatos]
+    B --> C[servers: URLs]
+    C --> D[tags: Organización]
+    D --> E[paths: /reservations]
+    
+    E --> F1[POST: Crear]
+    E --> F2[GET: Buscar]
+    
+    E --> G["/reservations/{id}"]
+    G --> H1[PUT: Actualizar Completo]
+    G --> H2[PATCH: Actualizar Parcial] 
+    G --> H3[DELETE: Cancelar]
+    
+    F1 --> I[components/schemas]
+    F2 --> I
+    H1 --> I
+    H2 --> I
+    H3 --> I
+    
+    I --> J1[Reservation]
+    I --> J2[ReservationPatch]
+    I --> J3[Confirmation]
+    I --> J4[ConfirmationList]
+    I --> J5[CancelConfirmation]
+    I --> J6[Error]
+```
+
+---
+
+## 🚀 Próximos Pasos
+
+1. **Generar código**: Usar herramientas como OpenAPI Generator
+2. **Implementar**: Crear el servidor basado en el contrato
+3. **Testing**: Usar el contrato para pruebas automatizadas
+4. **Documentación viva**: Integrar Swagger UI en tu aplicación
+
+**¡Has completado tu primer contrato OpenAPI profesional!** 🎉
