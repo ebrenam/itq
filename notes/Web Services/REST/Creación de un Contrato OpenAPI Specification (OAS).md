@@ -32,7 +32,7 @@ openapi: 3.0.4 # Versión de OpenAPI que usaremos
 
 ---
 
-## ## 📋 Paso 2: Información General (info)
+## 📋 Paso 2: Información General (info)
 
 Agregamos metadatos del proyecto:
 
@@ -60,7 +60,7 @@ info:
 
 ---
 
-## ## 🌐 Paso 3: Servidores (servers)
+## 🌐 Paso 3: Servidores (servers)
 
 Definimos dónde está disponible la API:
 
@@ -108,7 +108,7 @@ tags:
 
 ---
 
-## ## 🛣️ Paso 5: Primera Operación - Crear Reserva (POST)
+## 🛣️ Paso 5: Primera Operación - Crear Reserva (POST)
 
 Construimos nuestra primera operación paso a paso:
 
