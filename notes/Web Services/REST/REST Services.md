@@ -1,4 +1,3 @@
-[[Web Services]]
 
 # ¿Qué son los servicios REST?
 
@@ -30,5 +29,3 @@ DELETE /api/countries/ES        # Eliminar España
 
 **Resumen:**  
 Un servicio REST es un servicio web que sigue el estilo arquitectónico REST, usando HTTP y recursos identificados por URLs, permitiendo la comunicación sencilla y eficiente entre aplicaciones.
-
-[[Web Services]]

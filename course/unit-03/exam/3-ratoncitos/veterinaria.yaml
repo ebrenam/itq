@@ -1,0 +1,162 @@
+openapi: 3.0.4
+info:
+  title: PetCare Veterinary API
+  description: API REST para la gestión de citas, mascotas y dueños en una clínica veterinaria.
+  version: 1.0.0
+  contact:
+    name: ITQ Distributed and Cloud Systems
+    email: contacto@petcare.mx
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html  
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Servidor local de desarrollo
+  - url: https://api.petcare.com/api/v1
+    description: Servidor de producción en la nube AWS
+
+tags:
+  - name: owners
+    description: Operaciones relacionadas con los dueños de mascotas
+  - name: pets
+    description: Operaciones sobre el registro de mascotas
+  - name: appointments
+    description: Gestión de citas veterinarias
+
+# --------------------- PATHS ---------------------
+paths:
+  /owners:
+    get:
+      tags:
+        - owners
+      summary: Obtener todos los dueños registrados
+      responses:
+        '201':
+          description: Lista de todos los dueños registrados
+    post:
+      tags:
+        - owners
+      summary: Registrar un nuevo dueño
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - phone
+              properties:
+                name:
+                  title: Nombre del dueño
+                  type: string
+                  minLength: 3
+                  example: Yaneli Díaz
+                phone:
+                  title: Teléfono
+                  type: string
+                  pattern: '^[0-9]{10}$'
+                  example: "4421234567"
+                email:
+                  title: Correo electrónico
+                  type: string
+                  format: email
+                  example: yanelidiaz93@gmail.com
+      responses:
+        '201':
+          description: Dueño registrado exitosamente
+
+  /pets:
+    get:
+      tags:
+        - pets
+      summary: Obtener todas las mascotas registradas
+      responses:
+        '201':
+          description: Lista de mascotas
+    post:
+      tags:
+        - pets
+      summary: Registrar una nueva mascota
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - species
+                - ownerId
+              properties:
+                name:
+                  title: Nombre de la mascota
+                  type: string
+                  example: Tomas
+                species:
+                  title: Especie
+                  type: string
+                  enum: [Perro, Gato, Conejo, Ave]
+                  example: Perro
+                breed:
+                  title: Raza
+                  type: string
+                  example: Husky
+                age:
+                  title: Edad
+                  type: integer
+                  minimum: 0
+                  example: 4
+                ownerId:
+                  title: ID del dueño
+                  type: integer
+                  example: 1
+      responses:
+        '201':
+          description: Mascota registrada correctamente
+
+  /appointments:
+    get:
+      tags:
+        - appointments
+      summary: Obtener todas las citas agendadas
+      responses:
+        '200':
+          description: Lista de citas veterinarias
+    post:
+      tags:
+        - appointments
+      summary: Registrar una nueva cita veterinaria
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - petId
+                - date
+                - reason
+              properties:
+                petId:
+                  title: ID de la mascota
+                  type: integer
+                  example: 2
+                date:
+                  title: Fecha de la cita
+                  type: string
+                  format: date-time
+                  example: "2025-11-03T10:00:00"
+                reason:
+                  title: Motivo de la cita
+                  type: string
+                  enum: [Vacunación, Consulta general, Emergencia, Control]
+                  example: Vacunación
+                notes:
+                  title: Notas adicionales
+                  type: string
+                  example: Revisar posible alergia
+      responses:
+        '201':
+          description: Cita registrada exitosamente
