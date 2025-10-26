@@ -1,3 +1,4 @@
+```yaml
 openapi: 3.0.4
 info:
   title: Gym Reservation API
@@ -451,3 +452,4 @@ components:
           type: object
           description: Detalles adicionales del error
           additionalProperties: true
+```

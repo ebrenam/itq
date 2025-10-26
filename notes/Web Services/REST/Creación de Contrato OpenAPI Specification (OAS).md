@@ -163,7 +163,7 @@ paths:
                   example: "BC-123"
                 activity:
                   type: string
-                  minLength: 5
+                  minLength: 3
                   maxLength: 255
                   example: "Yoga"
                 dayOfWeek:
@@ -460,7 +460,7 @@ paths:
           required: false
           schema:
             type: string
-            minLength: 5
+            minLength: 3
             maxLength: 255
           example: "Yoga"
         - name: dayOfWeek
@@ -756,7 +756,7 @@ components:
         activity:
           type: string
           description: Nombre de la actividad
-          minLength: 5                   # Validación de longitud
+          minLength: 3                   # Validación de longitud
           maxLength: 255
           example: "Yoga"
         dayOfWeek:
@@ -804,7 +804,7 @@ components:
         activity:
           type: string
           description: Nombre de la actividad
-          minLength: 5
+          minLength: 3
           maxLength: 255
           example: "Yoga"
         dayOfWeek:
