@@ -145,19 +145,19 @@ Con el `pom.xml` configurado, vamos a generar las clases.
 
 1. **Ejecutar Maven:** Abre una terminal en la raíz de tu proyecto y ejecuta el siguiente comando:
 
-	Opción 1:
+	**Opción 1:**
     ```bash
 	   mvn generate-sources
     ```
 
-	Opción 2:
+	**Opción 2:**
 
 	```bash
 	mvn openapi-generator:generate
 	mvn openapi-generator:generate@generate-sources
 	```
 
-	Opción 3:
+	**Opción 3:**
 
 	```bash
 	mvn clean generate-sources
@@ -195,22 +195,29 @@ Supongamos que tu OAS define un endpoint `POST /reservations` que recibe una `Re
         
     - `@Validated`: Necesario para que Spring active las validaciones en los parámetros.
         
-    
     ```java
     package com.ejemplo.api.controller;
-    
-    import com.ejemplo.api.model.Reservation; // <-- Importa tu modelo generado
+
+    import com.ejemplo.api.model.Confirmation; // <-- Importa el modelo generado
+    import com.ejemplo.api.model.Reservation; // <-- Importa el modelo generado
+
     import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.validation.annotation.Validated;
-    import org.springframework.web.bind.annotation.*;
-    
+    import org.springframework.web.bind.annotation.PostMapping;
+    import org.springframework.web.bind.annotation.RequestBody;
+    import org.springframework.web.bind.annotation.RequestMapping;
+    import org.springframework.web.bind.annotation.RestController;
+
+    import jakarta.validation.Valid; // --> Permite la validación de los request bodies
+
     @RestController
     @RequestMapping("/api/v1") // Prefijo base de la API
     @Validated // Activa la validación
     public class ReservationController {
-    
+        
         // ... aquí irán los métodos
+    
     }
     ```
     
@@ -222,43 +229,56 @@ Supongamos que tu OAS define un endpoint `POST /reservations` que recibe una `Re
         
     - Usamos `@Valid` _antes_ del `@RequestBody` para que Spring revise las anotaciones de validación del modelo (ej. `@NotNull`) antes de que nuestro método se ejecute.
         
-    - Devolvemos un `ResponseEntity<Reservation>` para tener control total sobre la respuesta (código HTTP, headers y cuerpo).
+    - Devolvemos un `ResponseEntity<Confirmation>` para tener control total sobre la respuesta (código HTTP, headers y cuerpo).
     
     ```java
     // ... dentro de la clase ReservationController ...
     
     @PostMapping("/reservations")
     public ResponseEntity<Confirmation> createReservation(
-        @Valid @RequestBody Reservation reservationRequest
-    ) {
-        // Por ahora, solo simularemos que lo guardamos
-        // y le asignamos un ID
-        System.out.println("Reservation recibido: " + reservationRequest.getNombre());
-    
+        @Valid @RequestBody Reservation reservationRequest) 
+    {
+        System.out.println("Reservation recibido: " + reservationRequest.getIdClient());
+
         // Simulamos que la DB le asigna un ID
-        reservationRequest.setId(1L); 
+        Confirmation confirmationResponse = new Confirmation();
+        confirmationResponse.setIdReservation(12345); // ID simulado
+        confirmationResponse.setIdRoom(5); // Sala asignada simulada
+        confirmationResponse.setInstructor("Juan Pérez"); // Instructor asignado simulado
+        confirmationResponse.setDiscount(null); // Sin descuento por defecto
     
         // Devolvemos el reservation creado con un código 201 (CREATED)
-        return new ResponseEntity<>(reservationRequest, HttpStatus.CREATED);
-    }
-    
-    @GetMapping("/reservations/{id}")
-    public ResponseEntity<Reservation> obtenerReservationPorId(
-        @PathVariable("id") Long id
-    ) {
-        // Simulación: creamos un reservation de prueba
-        Reservation reservationEncontrado = new Reservation();
-        reservationEncontrado.setId(id);
-        reservationEncontrado.setNombre("Reservation de prueba");
-        reservationEncontrado.setPrecio(99.99);
-    
-        // Devolvemos el reservation con código 200 (OK)
-        return ResponseEntity.ok(reservationEncontrado);
+        return new ResponseEntity<>(confirmationResponse, HttpStatus.CREATED);
     }
     ```
-    
 
----
+    - Se agrega otro método de ejemplo implementando la operación GET.
+
+    ```java
+    @GetMapping("/reservations/{reservationId}")
+    public ResponseEntity<Confirmation> getReservationById(@PathVariable("reservationId") Integer reservationId) 
+    {
+        System.out.println("Buscando Reservation con ID: " + reservationId);
+
+        // Validación básica del ID
+        if (reservationId == null || reservationId < 1 || reservationId > 999999) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        // Simulamos buscar la reserva en la base de datos
+        // En un caso real, aquí harías: reservationService.findById(reservationId)
+        
+        // Simulamos que encontramos la reserva
+        Confirmation confirmationResponse = new Confirmation();
+        confirmationResponse.setIdReservation(reservationId);
+        confirmationResponse.setIdRoom(8); // Sala asignada simulada
+        confirmationResponse.setInstructor("Ana López"); // Instructor asignado simulado
+        confirmationResponse.setDiscount(15.00); // Descuento simulado
+        
+        // Devolvemos la confirmación con código 200 (OK)
+        return ResponseEntity.ok(confirmationResponse);
+    }
+    ```
 
 ## 🛠️ Paso 6: (Opcional pero recomendado) Añadir Capa de Servicio
 
