@@ -238,7 +238,7 @@ Supongamos que tu OAS define un endpoint `POST /reservations` que recibe una `Re
     public ResponseEntity<Confirmation> createReservation(
         @Valid @RequestBody Reservation reservationRequest) 
     {
-        System.out.println("Reservation recibido: " + reservationRequest.getIdClient());
+        System.out.println("Controller - Reservation recibida: " + reservationRequest.getIdClient());
 
         // Simulamos que la DB le asigna un ID
         Confirmation confirmationResponse = new Confirmation();
@@ -258,7 +258,7 @@ Supongamos que tu OAS define un endpoint `POST /reservations` que recibe una `Re
     @GetMapping("/reservations/{reservationId}")
     public ResponseEntity<Confirmation> getReservationById(@PathVariable("reservationId") Integer reservationId) 
     {
-        System.out.println("Buscando Reservation con ID: " + reservationId);
+        System.out.println("Controller - Buscando Reservation con ID: " + reservationId);
 
         // Validación básica del ID
         if (reservationId == null || reservationId < 1 || reservationId > 999999) {
@@ -290,29 +290,43 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
     
     ```java
     package com.ejemplo.api.service;
-    
-    import com.ejemplo.api.model.Reservation;
+
     import org.springframework.stereotype.Service;
-    
+
+    import com.ejemplo.api.model.Confirmation;
+    import com.ejemplo.api.model.Reservation;
+
     @Service
     public class ReservationService {
-    
-        public Reservation guardarReservation(Reservation reservation) {
-            // Aquí iría la lógica para guardar en la base de datos (ej. usando un Repository)
-            System.out.println("Guardando reservation en el servicio: " + reservation.getNombre());
-    
+
+        public Confirmation createReservation(Reservation reservation) {
+            System.out.println("Service - Reservation recibida: " + reservation.getIdClient());
+
+            // Aquí iría la lógica para guardar en la base de datos
+
             // Simulamos que la DB le asigna un ID
-            reservation.setId(1L);
-            return reservation;
+            Confirmation confirmationResponse = new Confirmation();
+            confirmationResponse.setIdReservation(12345); // ID simulado
+            confirmationResponse.setIdRoom(5); // Sala asignada simulada
+            confirmationResponse.setInstructor("Juan Pérez"); // Instructor asignado simulado
+            confirmationResponse.setDiscount(null); // Sin descuento por defecto
+
+            return confirmationResponse;
         }
-    
-        public Reservation buscarReservation(Long id) {
-            // Aquí iría la lógica de búsqueda en la DB
-            Reservation reservationEncontrado = new Reservation();
-            reservationEncontrado.setId(id);
-            reservationEncontrado.setNombre("Reservation de prueba desde Servicio");
-            reservationEncontrado.setPrecio(99.99);
-            return reservationEncontrado;
+
+        public Confirmation getReservationById(Integer reservationId) {
+            System.out.println("Service - Buscando Reservation con ID: " + reservationId);
+
+            // Aquí iría la lógica para buscar la reserva en la base de datos
+
+            // Simulamos que encontramos la reserva
+            Confirmation confirmationResponse = new Confirmation();
+            confirmationResponse.setIdReservation(reservationId);
+            confirmationResponse.setIdRoom(8); // Sala asignada simulada
+            confirmationResponse.setInstructor("Ana López"); // Instructor asignado simulado
+            confirmationResponse.setDiscount(15.00); // Descuento simulado
+
+            return confirmationResponse;
         }
     }
     ```
