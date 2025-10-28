@@ -410,7 +410,7 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
 
 ¡Es la hora de la verdad!
 
-1. **Ejecutar la Aplicación:** Ejecuta tu clase principal `MiApiRestApplication.java` (o usa `mvn spring-boot:run`).
+1. **Ejecutar la Aplicación:** Ejecuta tu clase principal `OasApiRestApplication.java` (o usa `mvn spring-boot:run`).
     
 2. **Abrir Postman.**
     
@@ -437,7 +437,7 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
         }
         ```
         
-    - **¡Enviar!** Deberías recibir una respuesta `201 Created` con el JSON del reservation, ahora incluyendo el ID "1".
+    - **¡Enviar!** Deberías recibir una respuesta `201 Created` con el JSON del `confirmation`, ahora incluyendo el idReservation "12345".
         
 4. **Probar el `GET /reservations/{id}`:**
     
@@ -445,4 +445,4 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
         
     - **URL:** `http://localhost:8080/api/v1/reservations/1` (o el ID que quieras probar).
         
-    - **¡Enviar!** Deberías recibir una respuesta `200 OK` con el JSON del reservation de prueba.
+    - **¡Enviar!** Deberías recibir una respuesta `200 OK` con el JSON del `confirmation` de prueba.
