@@ -337,36 +337,68 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
     
     ```java
     // ... en ReservationController.java ...
+    package com.ejemplo.api.controller;
+
+    import com.ejemplo.api.model.Confirmation; // <-- Importa el modelo generado
+    import com.ejemplo.api.model.Error;
+    import com.ejemplo.api.model.Reservation; // <-- Importa el modelo generado
     import com.ejemplo.api.service.ReservationService;
+
     import org.springframework.beans.factory.annotation.Autowired;
-    
+    import org.springframework.http.HttpStatus;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.validation.annotation.Validated;
+    import org.springframework.web.bind.annotation.GetMapping;
+    import org.springframework.web.bind.annotation.PathVariable;
+    import org.springframework.web.bind.annotation.PostMapping;
+    import org.springframework.web.bind.annotation.RequestBody;
+    import org.springframework.web.bind.annotation.RequestMapping;
+    import org.springframework.web.bind.annotation.RestController;
+
+    import jakarta.validation.Valid; // --> Permite la validación de los request bodies 
+
     @RestController
-    @RequestMapping("/api/v1")
-    @Validated
+    @RequestMapping("/api/v1") // Prefijo base de la API
+    @Validated // Activa la validación
     public class ReservationController {
-    
+
         // Inyección de dependencias: Spring nos "pasa" una instancia del servicio
         @Autowired
         private ReservationService reservationService;
-    
+
         @PostMapping("/reservations")
-        public ResponseEntity<Reservation> crearReservation(
-            @Valid @RequestBody Reservation reservationRequest
-        ) {
+        public ResponseEntity<Confirmation> createReservation(
+            @Valid @RequestBody Reservation reservationRequest) 
+        {
+            System.out.println("Reservation recibido: " + reservationRequest.getIdClient());
+
             // El controller delega la lógica al servicio
-            Reservation reservationGuardado = reservationService.guardarReservation(reservationRequest);
-    
-            return new ResponseEntity<>(reservationGuardado, HttpStatus.CREATED);
+            Confirmation confirmationResponse = reservationService.createReservation(reservationRequest);
+        
+            // Devolvemos el reservation creado con un código 201 (CREATED)
+            return new ResponseEntity<>(confirmationResponse, HttpStatus.CREATED);
         }
-    
-        @GetMapping("/reservations/{id}")
-        public ResponseEntity<Reservation> obtenerReservationPorId(
-            @PathVariable("id") Long id
-        ) {
+
+        @GetMapping("/reservations/{reservationId}")
+        public ResponseEntity<?> getReservationById(@PathVariable("reservationId") Integer reservationId) 
+        {
+            System.out.println("Buscando Reservation con ID: " + reservationId);
+
+            // Validación básica del ID
+            if (reservationId == null || reservationId < 1 || reservationId > 999999) {
+                Error errorResponse = new Error();
+                errorResponse.setCode("404");
+                errorResponse.setMessage("El ID de la reserva es inválido. Debe estar entre 1 y 999999.");
+                // errorResponse.setDetails("ID proporcionado: " + reservationId);
+                
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+            }
+            
             // El controller delega la lógica al servicio
-            Reservation reservationEncontrado = reservationService.buscarReservation(id);
-    
-            return ResponseEntity.ok(reservationEncontrado);
+            Confirmation confirmationResponse = reservationService.getReservationById(reservationId);
+            
+            // Devolvemos la confirmación con código 200 (OK)
+            return ResponseEntity.ok(confirmationResponse);
         }
     }
     ```
