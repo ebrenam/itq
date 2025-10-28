@@ -255,29 +255,29 @@ Supongamos que tu OAS define un endpoint `POST /reservations` que recibe una `Re
     - Se agrega otro método de ejemplo implementando la operación GET.
 
     ```java
-    @GetMapping("/reservations/{reservationId}")
-    public ResponseEntity<Confirmation> getReservationById(@PathVariable("reservationId") Integer reservationId) 
-    {
-        System.out.println("Controller - Buscando Reservation con ID: " + reservationId);
-
-        // Validación básica del ID
-        if (reservationId == null || reservationId < 1 || reservationId > 999999) {
-            return ResponseEntity.notFound().build();
-        }
-        
-        // Simulamos buscar la reserva en la base de datos
-        // En un caso real, aquí harías: reservationService.findById(reservationId)
-        
-        // Simulamos que encontramos la reserva
-        Confirmation confirmationResponse = new Confirmation();
-        confirmationResponse.setIdReservation(reservationId);
-        confirmationResponse.setIdRoom(8); // Sala asignada simulada
-        confirmationResponse.setInstructor("Ana López"); // Instructor asignado simulado
-        confirmationResponse.setDiscount(15.00); // Descuento simulado
-        
-        // Devolvemos la confirmación con código 200 (OK)
-        return ResponseEntity.ok(confirmationResponse);
-    }
+	    @GetMapping("/reservations/{reservationId}")
+	    public ResponseEntity<Confirmation> getReservationById(@PathVariable("reservationId") Integer reservationId) 
+	    {
+	        System.out.println("Controller - Buscando Reservation con ID: " + reservationId);
+	
+	        // Validación básica del ID
+	        if (reservationId == null || reservationId < 1 || reservationId > 999999) {
+	            return ResponseEntity.notFound().build();
+	        }
+	        
+	        // Simulamos buscar la reserva en la base de datos
+	        // En un caso real, aquí harías: reservationService.findById(reservationId)
+	        
+	        // Simulamos que encontramos la reserva
+	        Confirmation confirmationResponse = new Confirmation();
+	        confirmationResponse.setIdReservation(reservationId);
+	        confirmationResponse.setIdRoom(8); // Sala asignada simulada
+	        confirmationResponse.setInstructor("Ana López"); // Instructor asignado simulado
+	        confirmationResponse.setDiscount(15.00); // Descuento simulado
+	        
+	        // Devolvemos la confirmación con código 200 (OK)
+	        return ResponseEntity.ok(confirmationResponse);
+	    }
     ```
 
 ## 🛠️ Paso 6: (Opcional pero recomendado) Añadir Capa de Servicio
