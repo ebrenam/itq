@@ -232,24 +232,24 @@ Supongamos que tu OAS define un endpoint `POST /reservations` que recibe una `Re
     - Devolvemos un `ResponseEntity<Confirmation>` para tener control total sobre la respuesta (código HTTP, headers y cuerpo).
     
     ```java
-    // ... dentro de la clase ReservationController ...
-    
-    @PostMapping("/reservations")
-    public ResponseEntity<Confirmation> createReservation(
-        @Valid @RequestBody Reservation reservationRequest) 
-    {
-        System.out.println("Controller - Reservation recibida: " + reservationRequest.getIdClient());
-
-        // Simulamos que la DB le asigna un ID
-        Confirmation confirmationResponse = new Confirmation();
-        confirmationResponse.setIdReservation(12345); // ID simulado
-        confirmationResponse.setIdRoom(5); // Sala asignada simulada
-        confirmationResponse.setInstructor("Juan Pérez"); // Instructor asignado simulado
-        confirmationResponse.setDiscount(null); // Sin descuento por defecto
-    
-        // Devolvemos el reservation creado con un código 201 (CREATED)
-        return new ResponseEntity<>(confirmationResponse, HttpStatus.CREATED);
-    }
+	    // ... dentro de la clase ReservationController ...
+	    
+	    @PostMapping("/reservations")
+	    public ResponseEntity<Confirmation> createReservation(
+	        @Valid @RequestBody Reservation reservationRequest) 
+	    {
+	        System.out.println("Controller - Reservation recibida: " + reservationRequest.getIdClient());
+	
+	        // Simulamos que la DB le asigna un ID
+	        Confirmation confirmationResponse = new Confirmation();
+	        confirmationResponse.setIdReservation(12345); // ID simulado
+	        confirmationResponse.setIdRoom(5); // Sala asignada simulada
+	        confirmationResponse.setInstructor("Juan Pérez"); // Instructor asignado simulado
+	        confirmationResponse.setDiscount(null); // Sin descuento por defecto
+	    
+	        // Devolvemos el reservation creado con un código 201 (CREATED)
+	        return new ResponseEntity<>(confirmationResponse, HttpStatus.CREATED);
+	    }
     ```
 
     - Se agrega otro método de ejemplo implementando la operación GET.
