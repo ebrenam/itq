@@ -951,7 +951,7 @@ components:
           description: Mensaje de error legible
           example: "El ID del cliente debe seguir el formato BC-XXX o PC-XXX"
         details:
-          type: object
+          type: string
           description: Detalles adicionales del error
           additionalProperties: true
 ```
