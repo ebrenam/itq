@@ -339,8 +339,8 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
     // ... en ReservationController.java ...
     package com.ejemplo.api.controller;
 
+    import com.ejemplo.api.model.ApiError;
     import com.ejemplo.api.model.Confirmation; // <-- Importa el modelo generado
-    import com.ejemplo.api.model.Error;
     import com.ejemplo.api.model.Reservation; // <-- Importa el modelo generado
     import com.ejemplo.api.service.ReservationService;
 
@@ -386,10 +386,10 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
 
             // Validación básica del ID
             if (reservationId == null || reservationId < 1 || reservationId > 999999) {
-                Error errorResponse = new Error();
-                errorResponse.setCode("404");
+                ApiError errorResponse = new ApiError();
+                errorResponse.setCode("400");
                 errorResponse.setMessage("El ID de la reserva es inválido. Debe estar entre 1 y 999999.");
-                // errorResponse.setDetails("ID proporcionado: " + reservationId);
+                errorResponse.setDetails("ID proporcionado: " + reservationId);
                 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
             }
