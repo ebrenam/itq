@@ -459,6 +459,8 @@ components:
           additionalProperties: true
 ```
 
+---
+
 ## Versión actualizada del contrato
 
 ```yaml
@@ -520,19 +522,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
         '409':
           description: Conflicto - horario no disponible
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
         '500':
           description: Error interno del servidor
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
 
     get:
       summary: Buscar reservas
@@ -596,13 +598,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
         '404':
           description: No se encontraron reservas
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
 
   /reservations/{reservationId}:
     get:
@@ -638,7 +640,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
 
     put:
       summary: Actualizar reserva completa
@@ -684,25 +686,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
         '404':
           description: Reserva no encontrada
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
         '409':
           description: Conflicto - nuevo horario no disponible
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
         '500':
           description: Error interno del servidor
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
 
     patch:
       summary: Actualizar reserva parcialmente
@@ -746,19 +748,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
         '404':
           description: Reserva no encontrada
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
         '409':
           description: Conflicto - nuevo horario no disponible
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
 
     delete:
       summary: Cancelar reserva
@@ -792,13 +794,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
         '409':
           description: No se puede cancelar la reserva
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
 
 components:
   schemas:
@@ -935,7 +937,7 @@ components:
           description: Fecha y hora de cancelación
           example: "2024-01-15T10:30:00Z"
 
-    Error:
+    ApiError:
       type: object
       description: Respuesta de error estándar
       required:
