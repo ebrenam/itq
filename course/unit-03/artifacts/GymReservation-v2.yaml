@@ -489,4 +489,4 @@ components:
         details:
           type: string
           description: Detalles adicionales del error
-          additionalProperties: true
+          example: "El ID proporcionado 'BX-123' no cumple con el patrón requerido."
