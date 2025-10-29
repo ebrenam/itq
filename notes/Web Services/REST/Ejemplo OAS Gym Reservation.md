@@ -1,6 +1,14 @@
+- [Notas](#notas)
+- [Versión inicial del contrato](#versión-inicial-del-contrato)
+- [Versión actualizada del contrato](#versión-actualizada-del-contrato)
+
+## Notas
+
 - Existen dos versiones del contrato, esto se debe a los ajustes realizados por la revisión del mismo durante el proceso de generación de código.
 
 - Considera utilizar la última versión disponible.
+
+
 ## Versión inicial del contrato
 
 ```yaml
