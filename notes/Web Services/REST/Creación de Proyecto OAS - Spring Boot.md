@@ -10,26 +10,25 @@ Aquí tienes una guía paso a paso asumiendo que ya tienes tu archivo `.yaml` o 
 Primero, generaremos la estructura base de nuestro proyecto Spring Boot.
 
 1. Ve a [start.spring.io](https://start.spring.io/).
-    
+
 2. Configura tu proyecto:
-    
-    - **Project:** Maven        
-    - **Language:** Java      
-    - **Spring Boot:** Elige una versión estable (ej. 3.2.x).        
-    - **Project Metadata:**        
-        - **Group:** `com.ejemplo` (o el de tu organización)       
-        - **Artifact:** `oas-api-rest`            
-        - **Name:** `oas-api-rest`           
+
+    - **Project:** Maven
+    - **Language:** Java
+    - **Spring Boot:** Elige una versión estable (ej. 3.2.x).
+    - **Project Metadata:**
+        - **Group:** `com.ejemplo` (o el de tu organización)
+        - **Artifact:** `oas-api-rest`
+        - **Name:** `oas-api-rest`
         - **Package name:** `com.ejemplo.api` (¡Importante! Usaremos este como base).
-            
+
 3. **Añadir dependencias:** Busca y agrega las siguientes dependencias esenciales:
-    
+
     - **Spring Web:** Necesario para crear controladores REST.
-        
+
 4. Haz clic en **"Generate"**. Esto descargará un archivo `.zip`.
-    
+
 5. Descomprime el archivo y abre el proyecto en tu IDE favorito (IntelliJ, Eclipse, VSCode).
-    
 
 ---
 
@@ -38,17 +37,16 @@ Primero, generaremos la estructura base de nuestro proyecto Spring Boot.
 Una buena organización es clave.
 
 1. **Colocar el OAS:** Dentro de la carpeta `src/main/resources`, crea una nueva carpeta llamada `api`. Copia tu archivo (ej. `openapi.yaml`) dentro de ella.
-    
+
     - Ruta final: `src/main/resources/api/openapi.yaml`
-        
+
 2. **Verificar paquetes:** En `src/main/java`, ya tendrás tu paquete base (ej. `com.ejemplo.api`). Dentro de este, crea los siguientes sub-paquetes si no existen:
-    
+
     - `com.ejemplo.api.controller` (Para nuestros controladores)
-        
+
     - `com.ejemplo.api.model` (Aquí moveremos los modelos generados)
-        
+
     - `com.ejemplo.api.service` (Para la lógica de negocio)
-        
 
 Tu estructura debería verse así:
 
@@ -78,7 +76,7 @@ Ahora, le diremos a Maven cómo leer nuestro `openapi.yaml` y generar las clases
 Abre tu archivo `pom.xml` en la raíz del proyecto.
 
 1. **Añadir dependencias que faltaron:** Asegúrate de tener estas dependencias dentro de la etiqueta `<dependencies>`:
-    
+
     ```xml
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -102,9 +100,9 @@ Abre tu archivo `pom.xml` en la raíz del proyecto.
             <version>2.2.19</version>
         </dependency>
     ```
-    
+
 2. **Añadir el plugin generador:** Dentro de la etiqueta `<build>`, agrega la sección `<plugins>` (si no existe) y añade el siguiente plugin. Este es el motor que generará el código.
-    
+
     ```xml
             <plugin>
                 <groupId>org.openapitools</groupId>
@@ -135,7 +133,6 @@ Abre tu archivo `pom.xml` en la raíz del proyecto.
                 </executions>
             </plugin>
     ```
-    
 
 ---
 
@@ -164,15 +161,15 @@ Con el `pom.xml` configurado, vamos a generar las clases.
 	```
 
     - **Nota:** Si se usa un IDE, puede hacerse desde la pestaña "Maven" -> "Plugins" -> "openapi-generator" -> "openapi-generator:generate".
-        
+
 2. **Verificar archivos generados:** Este comando _no_ pone los archivos en `src/main/java`. Los crea en la carpeta `target`. Ve a: `target/generated-sources/openapi/src/main/java/com/ejemplo/api/model`
-    
+
 3. **Mover los modelos:**
-    
+
     - Copia todos los archivos `.java` que encuentres en ese directorio (por ejemplo: `Reservation.java`, `Confirmation.java`, `Error.java`, etc.).
-        
+
     - Pégalos en tu paquete de código fuente: `src/main/java/com/ejemplo/api/model`
-        
+
 4. **Desactivar generación de modelos:** Comentar el plugin que permite generar los modelos.
 
 ¡Listo! Ahora tu proyecto "conoce" las estructuras de datos (Modelos/POJOs) definidas en tu API. 
@@ -186,15 +183,15 @@ Aquí es donde implementamos los _endpoints_. El OAS nos dice _qué_ debemos con
 Supongamos que tu OAS define un endpoint `POST /reservations` que recibe una `Reservation` y devuelve un `Confirmation`.
 
 1. **Crear la Clase Controller:** En el paquete `com.ejemplo.api.controller`, crea una nueva clase Java, por ejemplo, `ReservationController.java`.
-    
+
 2. **Añadir Anotaciones:**
-    
+
     - `@RestController`: Le dice a Spring que esta clase manejará peticiones HTTP.
-        
+
     - `@RequestMapping("/api/v1")`: (Opcional) Define un prefijo base para todas las rutas en esta clase. Debe coincidir con tu OAS.
-        
+
     - `@Validated`: Necesario para que Spring active las validaciones en los parámetros.
-        
+
     ```java
     package com.ejemplo.api.controller;
 
@@ -222,17 +219,17 @@ Supongamos que tu OAS define un endpoint `POST /reservations` que recibe una `Re
     
     }
     ```
-    
+
 3. **Implementar el Endpoint (Método):**
-    
+
     - Usamos `@PostMapping("/reservations")` para mapear la ruta y el método HTTP.
-        
+
     - Usamos `@RequestBody` para indicarle a Spring que convierta el JSON de la petición en un objeto `Reservation`.
-        
+
     - Usamos `@Valid` _antes_ del `@RequestBody` para que Spring revise las anotaciones de validación del modelo (ej. `@NotNull`) antes de que nuestro método se ejecute.
-        
+
     - Devolvemos un `ResponseEntity<Confirmation>` para tener control total sobre la respuesta (código HTTP, headers y cuerpo).
-    
+
     ```java
 	    // ... dentro de la clase ReservationController ...
 	    
@@ -287,9 +284,9 @@ Supongamos que tu OAS define un endpoint `POST /reservations` que recibe una `Re
 Los controladores no deben tener lógica de negocio (cálculos, acceso a base de datos). Deben delegar esa tarea a una **Capa de Servicio**.
 
 1. **Crear `ReservationService`:** En `com.ejemplo.api.service`, crea una clase `ReservationService.java`.
-    
+
 2. **Anotar con `@Service`:** Esto le dice a Spring que gestione esta clase como un "bean".
-    
+
     ```java
     package com.ejemplo.api.service;
 
@@ -332,9 +329,9 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
         }
     }
     ```
-    
+
 3. **Usar el Servicio en el Controller:** Modifica tu `ReservationController` para "inyectar" (`@Autowired`) el servicio y usarlo.
-    
+
     ```java
     // ... en ReservationController.java ...
     package com.ejemplo.api.controller;
@@ -402,7 +399,6 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
         }
     }
     ```
-    
 
 ---
 
@@ -411,38 +407,36 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
 ¡Es la hora de la verdad!
 
 1. **Ejecutar la Aplicación:** Ejecuta tu clase principal `OasApiRestApplication.java` (o usa `mvn spring-boot:run`).
-    
+
 2. **Abrir Postman.**
-    
+
 3. **Probar el `POST /reservations`:**
-    
+
     - **Método:** `POST`
-        
+
     - **URL:** `http://localhost:8080/api/v1/reservations`
-        
+
     - **Pestaña "Body"**:
-        
+
         - Selecciona `raw` y `JSON`.
-            
+
         - Escribe el JSON de tu reservation (¡los nombres deben coincidir con tu modelo!).
-            
-        
-        JSON
-        
-        ```
+
+        ```json
         {
-          "nombre": "Mi Primer Reservation",
-          "precio": 150.75,
-          "categoria": "tecnologia"
+            "idReservation": 12345,
+            "idRoom": 5,
+            "instructor": "Juan Pérez",
+            "discount": null
         }
         ```
-        
+
     - **¡Enviar!** Deberías recibir una respuesta `201 Created` con el JSON del `confirmation`, ahora incluyendo el idReservation "12345".
-        
+
 4. **Probar el `GET /reservations/{id}`:**
-    
+
     - **Método:** `GET`
-        
+
     - **URL:** `http://localhost:8080/api/v1/reservations/1` (o el ID que quieras probar).
-        
+
     - **¡Enviar!** Deberías recibir una respuesta `200 OK` con el JSON del `confirmation` de prueba.
