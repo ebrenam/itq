@@ -1,6 +1,6 @@
-# README
+# WSDL y XSD
 
-Construcción de Servicios Web tipo SOAP.
+A continuación se presentan los artefactos utilizados en la construcción del Servicio SOAP.
 
 ## wsdl
 
