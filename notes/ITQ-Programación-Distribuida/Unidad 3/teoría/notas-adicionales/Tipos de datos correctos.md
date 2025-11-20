@@ -1,3 +1,5 @@
+# Tipos de datos correctos
+
 Analicemos los tipos de datos más apropiados:
 
 ## 📊 **Análisis del Problema**

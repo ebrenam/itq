@@ -1,3 +1,4 @@
+# Nombrado de campos en BD
 
 No existe un estándar único y universal para nombrar campos en una base de datos, pero sí hay convenciones muy extendidas y mejores prácticas que te ayudarán a mantener tu esquema limpio, legible y fácil de mantener.
 

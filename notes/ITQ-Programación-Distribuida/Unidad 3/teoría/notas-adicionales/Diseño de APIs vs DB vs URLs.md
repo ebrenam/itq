@@ -1,3 +1,5 @@
+# Diseño de APIs vc DB vs URLs
+
 Cuando se genera un contrato con OpenAPI Specification (OAS) y se quiere mantener una relación clara entre el esquema de OAS y la entidad (tabla) de la base de datos, es fundamental elegir la **nomenclatura** adecuada.
 
 Este es un punto crucial en el diseño de APIs y una fuente común de debate, hablamos del desacoplamiento entre la capa de persistencia (base de datos) y la capa de presentación (la API).
