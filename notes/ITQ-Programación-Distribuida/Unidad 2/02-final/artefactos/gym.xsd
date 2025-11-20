@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:tns="http://com.gym" targetNamespace="http://com.gym">
+
+	<!--Tipo complejo, conformado de muchos elementos, declarado a nivel raíz del esquema y que puede ser reutilizado en otros elementos.-->
+	<xs:complexType name="reservationType">
+		<!--Elementos pueden ser simples o complejos-->
+		<xs:sequence>
+			<!--El identificador del cliente se define por medio de un patrón basado en una expresión regular: está formado por dos caracteres que indican si se trata de un cliente básico (BC) o de un cliente premium (PC), seguido de un guión y tres dígitos que indican un consecutivo. Por ejemplo: BC-001,
+			PC-238-->
+			<xs:element name="idClient">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(BC|PC)-[0-9]{3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			
+			<!--La actividad que será reservada. Es un string de mínimo 5 caracteres y máximo 255 caracteres sin otra restricción-->
+			<xs:element name="activity">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+
+			<!--El día en que la actividad será reservada. Solamente dbe aceptar uno de los 7 valores indicados en la enumeración-->
+			<xs:element name="dayOfWeek">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Lun"></xs:enumeration>
+						<xs:enumeration value="Mar"></xs:enumeration>
+						<xs:enumeration value="Mie"></xs:enumeration>
+						<xs:enumeration value="Jue"></xs:enumeration>
+						<xs:enumeration value="Vie"></xs:enumeration>
+						<xs:enumeration value="Sab"></xs:enumeration>
+						<xs:enumeration value="Dom"></xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			
+			<!--La hora de la actividad reservada no está sujeta a restricciones y se representa como una cadena de caracteres.-->
+			<xs:element name="time" type="xs:string"></xs:element>
+			
+		</xs:sequence>		
+	</xs:complexType>
+	
+	
+	<xs:complexType name="confirmationType">
+			<xs:sequence>
+				<xs:element name="idReservation" type="xs:int"> </xs:element>
+				
+				<xs:element name="idRoom"> 
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"></xs:minInclusive>
+							<xs:maxExclusive value="21"></xs:maxExclusive>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+
+				<xs:element name="instructor" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="255"></xs:maxLength>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				
+				<xs:element name="discount" minOccurs="0"> 
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="4"></xs:totalDigits>
+							<xs:fractionDigits value="2"></xs:fractionDigits>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				
+			</xs:sequence>
+		</xs:complexType>
+	
+		
+	<xs:element name="reservation">  
+		<xs:annotation>
+			<xs:documentation>Este elemento contiene la estructura de la información relacionada con una reservación.</xs:documentation>
+		</xs:annotation>
+		
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="reservation" type="tns:reservationType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="searchCriteria">  
+		<xs:annotation>
+			<xs:documentation>Este elemento contiene la estructura de la información relacionada con una reservación.</xs:documentation>
+		</xs:annotation>
+		
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="searchCriteria" type="tns:reservationType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<xs:element name="confirmation">
+		<xs:annotation>
+			<xs:documentation>Este elemento contiene la estructura de la información relacionada con la confirmación de una reservación.</xs:documentation>
+		</xs:annotation>
+	
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="confirmation" type="tns:confirmationType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+		
+	<xs:element name="confirmations">
+		<xs:annotation>
+			<xs:documentation>Este elemento contiene un arreglo de la estructuras de una reservación, puesto que funciona como respuesta de una consulta de reservaciones.</xs:documentation>
+		</xs:annotation>
+		
+		<xs:complexType>
+			<xs:sequence>
+				 <xs:element name="confirmation" type="tns:confirmationType" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="cancelReservation">
+		<xs:annotation>
+			<xs:documentation>Este elemento contiene la estructura de la información relacionada con la solicitud de cancelación de una reserva.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="idReservation" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="cancelConfirmation">
+		<xs:annotation>
+			<xs:documentation>Este elemento contiene la estructura de la información relacionada con la confirmación dela cancelación de una reservación.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="idReservation" type="xs:int"> </xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
