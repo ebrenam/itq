@@ -1,4 +1,4 @@
-# Práctica SOAP Services
+# Creación de proyecto SOAP - Spring Boot
 
 ## Construcción de un servicio Web SOAP a partir de un contrato dado
 
