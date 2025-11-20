@@ -1,0 +1,872 @@
+# Creación de OpenAPI Specification
+
+## 🎯 Objetivo
+
+Aprender a crear un contrato `OpenAPI Specification` (OAS) desde cero, entendiendo cada elemento y construyendo progresivamente las operaciones de una API REST.
+
+---
+
+## 📖 ¿Qué es OpenAPI Specification (OAS)?
+
+**OpenAPI Specification** es un estándar para describir APIs REST de manera clara y comprensible, permitiendo:
+
+- **Documentación automática** (Swagger UI)
+- **Generación de código** (cliente y servidor)
+- **Validación** de requests/responses
+- **Testing automatizado**
+
+---
+
+## 🏗️ Paso 1: Estructura Básica del Documento
+
+Comenzamos con el esqueleto mínimo:
+
+```yaml
+openapi: 3.0.4 # Versión de OpenAPI que usaremos
+```
+
+### ¿Por qué empezar aquí?
+
+- `openapi: 3.0.4` es la versión más reciente y estable
+- **Obligatorio**: Todo documento OAS debe empezar con esto
+
+---
+
+## 📋 Paso 2: Información General (info)
+
+Agregamos metadatos del proyecto:
+
+```yaml
+openapi: 3.0.4 # Versión de OpenAPI que usaremos
+info:
+  title: Gym Reservation API           # Nombre de tu API
+  description: API REST para gestión de reservas de gimnasio
+  version: 1.0.0                      # Versión de tu API
+  contact:
+    name: ITQ distributed and cloud systems
+    email: ivonne.al@queretaro.tecnm.mx
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+```
+
+### Elementos explicados:
+
+- **`title`**: Nombre que aparecerá en la documentación
+- **`description`**: Explicación breve de qué hace la API
+- **`version`**: Versión semántica (1.0.0, 1.2.3, etc.)
+- **`contact`**: Información de contacto del equipo
+- **`license`**: Licencia bajo la cual se distribuye
+
+---
+
+## 🌐 Paso 3: Servidores (servers)
+
+Definimos dónde está disponible la API:
+
+```yaml
+openapi: 3.0.4
+info:
+  # ... información anterior ...
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Servidor de desarrollo
+  - url: https://api.gym.com/api/v1
+    description: Servidor de producción
+```
+
+### ¿Para qué sirve?
+
+- **Múltiples ambientes**: desarrollo, pruebas, producción
+- **URL base**: Todas las rutas se construyen desde aquí
+- **Flexibilidad**: Cambiar fácilmente entre ambientes
+
+---
+
+## 🏷️ Paso 4: Etiquetas (tags)
+
+Organizamos las operaciones por categorías:
+
+```yaml
+openapi: 3.0.4
+info:
+  # ... información anterior ...
+servers:
+  # ... servidores anteriores ...
+
+tags:
+  - name: reservations
+    description: Operaciones relacionadas con reservas del gimnasio
+```
+
+### Beneficio:
+
+- **Organización**: Agrupa operaciones similares
+- **Documentación clara**: Secciones en Swagger UI
+- **Navegación fácil**: Encuentra rápido lo que buscas
+
+---
+
+## 🛣️ Paso 5: Primera Operación - Crear Reserva (POST)
+
+Construimos nuestra primera operación paso a paso:
+
+```yaml
+paths:
+  /reservations:    # Ruta del endpoint
+    post:           # Método HTTP
+      summary: Crear nueva reserva
+      description: Crea una nueva reserva en el gimnasio
+      operationId: createReservation    # ID único para generación de código
+      tags:
+        - reservations                  # Asociamos con el tag creado
+```
+
+### Elementos explicados:
+
+- **`paths`**: Contenedor de todas las rutas
+- **`/reservations`**: La ruta específica (se une con servers)
+- **`post`**: Método HTTP para crear recursos
+- **`operationId`**: Nombre único, útil para generar código
+
+---
+
+## 📤 Paso 6: Request Body - Datos de Entrada
+
+> Revisar el documento `02 - Esquemas reutilizables.md` para una explicación detallada del manejo de `Request Body` utilizando `schemas`.
+
+Definimos los esquemas de entrada:
+
+```yaml
+# ✅ SOLUCIÓN: Schema reutilizable
+paths:
+  /reservations:
+    post:
+      # ... elementos anteriores ...
+      requestBody:
+        required: true                  # Es obligatorio enviar datos
+        content:
+          application/json:             # Formato de los datos
+            schema:
+              $ref: '#/components/schemas/Reservation'  # Referencia al esquema
+```
+
+---
+
+## 📥 Paso 7: Responses - Respuestas Posibles
+
+Definimos todas las respuestas posibles:
+
+```yaml
+paths:
+  /reservations:
+    post:
+      # ... elementos anteriores ...
+      responses:
+        '201':                          # Código HTTP de éxito
+          description: Reserva creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Confirmation'
+              example:
+                idReservation: 12345
+                idRoom: 5
+                instructor: "María García"
+                discount: 10.50
+        '400':                          # Error del cliente
+          description: Datos de entrada inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':                          # Conflicto
+          description: Conflicto - horario no disponible
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':                          # Error del servidor
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+```
+
+### Códigos HTTP explicados:
+
+- **`201`**: Created (recurso creado exitosamente)
+- **`400`**: Bad Request (datos inválidos)
+- **`409`**: Conflict (recurso ya existe o conflicto)
+- **`500`**: Internal Server Error (error del servidor)
+
+---
+
+## 🔍 Paso 8: Segunda Operación - Buscar Reservas (GET)
+
+Agregamos operación de búsqueda en la misma ruta:
+
+```yaml
+paths:
+  /reservations:
+    post:
+      # ... operación POST anterior ...
+    
+    get:                                # Nueva operación en la misma ruta
+      summary: Buscar reservas
+      description: Busca reservas existentes basado en criterios
+      operationId: getReservations
+      tags:
+        - reservations
+      parameters:                       # Parámetros de consulta
+        - name: idClient
+          in: query                     # Tipo de parámetro
+          description: ID del cliente (formato BC-XXX o PC-XXX)
+          required: false               # Opcional
+          schema:
+            type: string
+            pattern: '^[BP]C-[0-9]{3}$'    # Validación con regex
+          example: "BC-123"
+        - name: activity
+          in: query
+          description: Nombre de la actividad
+          required: false
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 255
+          example: "Yoga"
+        - name: dayOfWeek
+          in: query
+          description: Día de la semana
+          required: false
+          schema:
+            type: string
+            enum: [Lun, Mar, Mie, Jue, Vie, Sab, Dom]
+          example: "Lun"
+        - name: time
+          in: query
+          description: Hora de la actividad (formato HH:MM)
+          required: false
+          schema:
+            type: string
+            format: time
+          example: "09:00"
+```
+
+### Tipos de parámetros:
+
+- **`query`**: ?param=value (filtros de búsqueda)
+- **`path`**: /users/{id} (parte de la URL)
+- **`header`**: En headers HTTP
+- **`cookie`**: En cookies
+
+---
+
+## 📋 Paso 9: Responses de la Operación GET
+
+```yaml
+      responses:
+        '200':
+          description: Lista de reservas encontradas (puede estar vacía)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmationList'
+              example:
+                confirmations:
+                  - idReservation: 12345
+                    idRoom: 5
+                    instructor: "María García"
+                    discount: 10.50
+                  - idReservation: 12346
+                    idRoom: 3
+                    instructor: "Juan Pérez"
+                    discount: 0
+        '400':
+          description: Parámetros de búsqueda inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: No se encontraron reservas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+```
+
+---
+
+## 🎯 Paso 10: Ruta con Parámetros - Operaciones por ID
+
+Creamos operaciones que afectan a una reserva específica:
+
+Búsqueda.
+
+```yaml
+paths:
+  /reservations:
+    # ... operaciones anteriores ...
+  
+  /reservations/{reservationId}:        # Parámetro en la ruta
+ 
+    get:                                # Búsqueda particukar
+      summary: Obtener reserva específica
+      description: Recupera los detalles de una reserva específica por ID
+      operationId: getReservationById
+      tags:
+        - reservations
+      parameters:
+        - name: reservationId
+          in: path
+          description: ID único de la reserva
+          required: true
+          schema:
+            type: integer                    # ← CORREGIDO: Sin format
+            minimum: 1
+            maximum: 999999
+          example: 12345
+      responses:
+        '200':
+          description: Reserva encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Confirmation'
+              example:
+                idReservation: 12345
+                idRoom: 8
+                instructor: "Ana López"
+                discount: 15.00
+        '404':
+          description: Reserva no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+```
+
+Actualización.
+
+```yaml
+    put:                                # Actualización completa
+      summary: Actualizar reserva completa
+      description: Actualiza todos los datos de una reserva existente
+      operationId: updateReservation
+      tags:
+        - reservations
+      parameters:
+        - name: reservationId           # Parámetro de la ruta
+          in: path                      # Ubicación: en la URL
+          description: ID de la reserva a actualizar
+          required: true                # Los parámetros path son siempre obligatorios
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 999999
+          example: 12345
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+            example:
+              idClient: "BC-123"
+              activity: "Pilates"
+              dayOfWeek: "Mar"
+              time: "10:30"
+      responses:
+        '200':
+          description: Reserva actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Confirmation'
+              example:
+                idReservation: 12345
+                idRoom: 8
+                instructor: "Ana López"
+                discount: 15.00
+        '400':
+          description: Datos de entrada inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Reserva no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Conflicto - nuevo horario no disponible
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+```
+
+### ¿Por qué rutas separadas?
+
+- **RESTful**: Seguimos convenciones REST
+- **Claridad**: Operaciones sobre colección vs elemento específico
+- **Organización**: Fácil de entender y mantener
+
+---
+
+## 🔧 Paso 11: Diferentes Tipos de Actualización
+
+Agregamos PATCH para actualización parcial:
+
+```yaml
+    /reservations/{reservationId}:
+    put:
+        # ... operación PUT anterior ...
+    
+    patch:                                # Actualización parcial
+      summary: Actualizar reserva parcialmente
+      description: Actualiza solo los campos especificados de una reserva existente
+      operationId: patchReservation
+      tags:
+        - reservations
+      parameters:
+        - name: reservationId
+          in: path
+          description: ID de la reserva a actualizar
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 999999
+          example: 12345
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationPatch'
+            example:
+              activity: "Zumba"
+              time: "11:00"
+      responses:
+        '200':
+          description: Reserva actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Confirmation'
+              example:
+                idReservation: 12345
+                idRoom: 5
+                instructor: "María García"
+                discount: 10.50
+        '400':
+          description: Datos de entrada inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Reserva no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Conflicto - nuevo horario no disponible
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+```
+
+### PUT vs PATCH:
+
+- **PUT**: Reemplaza **todo** el recurso (requiere todos los campos)
+- **PATCH**: Actualiza **solo** los campos enviados (campos opcionales)
+
+---
+
+## 🗑️ Paso 12: Operación de Eliminación
+
+Completamos CRUD con DELETE:
+
+```yaml
+    /reservations/{reservationId}:
+    put:
+        # ... operación PUT ...
+    patch:
+        # ... operación PATCH ...
+    delete:
+      summary: Cancelar reserva
+      description: Cancela una reserva existente
+      operationId: cancelReservation
+      tags:
+        - reservations
+      parameters:
+        - name: reservationId
+          in: path
+          description: ID de la reserva a cancelar
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 999999
+          example: 12345
+      responses:
+        '200':
+          description: Reserva cancelada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelConfirmation'
+              example:
+                idReservation: 12345
+                status: "cancelled"
+                message: "Reserva cancelada exitosamente"
+        '404':
+          description: Reserva no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: No se puede cancelar la reserva
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+```
+
+---
+
+## 📦 Paso 13: Esquemas de Datos (components/schemas)
+
+Definimos la estructura de nuestros datos:
+
+```yaml
+components:
+  schemas:
+    Reservation:                        # Esquema para crear/actualizar
+      type: object
+      description: Datos para crear una nueva reserva
+      required:                         # Campos obligatorios
+        - idClient
+        - activity
+        - dayOfWeek
+        - time
+      properties:                       # Definición de cada campo
+        idClient:
+          type: string
+          description: Identificador del cliente
+          pattern: '^[BP]C-[0-9]{3}$'   # Validación con regex
+          example: "BC-123"
+        activity:
+          type: string
+          description: Nombre de la actividad
+          minLength: 3                   # Validación de longitud
+          maxLength: 255
+          example: "Yoga"
+        dayOfWeek:
+          type: string
+          description: Día de la semana
+          enum: [Lun, Mar, Mie, Jue, Vie, Sab, Dom]  # Valores permitidos
+          example: "Lun"
+        time:
+          type: string
+          description: Hora de la actividad (formato HH:MM)
+          format: time                   # Formato específico
+          example: "09:00"
+```
+
+### Tipos de validaciones:
+
+- **`pattern`**: Expresiones regulares
+- **`minLength/maxLength`**: Longitud de strings
+- **`minimum/maximum`**: Valores numéricos
+- **`enum`**: Lista de valores permitidos
+- **`format`**: Formatos estándar (date, time, email, etc.)
+
+---
+
+## 🔄 Paso 14: Esquemas Relacionados
+
+Creamos esquemas para diferentes propósitos:
+
+```yaml
+components:
+  schemas:
+    Reservation:
+      # ... esquema anterior ...
+    
+    ReservationPatch:                   # Para PATCH (campos opcionales)
+      type: object
+      description: Datos para actualización parcial de una reserva (todos los campos opcionales)
+      properties:
+        # ... mismos campos que Reservation pero SIN required
+        idClient:
+          type: string
+          description: Identificador del cliente
+          pattern: '^[BP]C-[0-9]{3}$'
+          example: "BC-123"
+        activity:
+          type: string
+          description: Nombre de la actividad
+          minLength: 3
+          maxLength: 255
+          example: "Yoga"
+        dayOfWeek:
+          type: string
+          description: Día de la semana
+          enum: [Lun, Mar, Mie, Jue, Vie, Sab, Dom]
+          example: "Lun"
+        time:
+          type: string
+          description: Hora de la actividad (formato HH:MM)
+          format: time
+          example: "09:00"
+      additionalProperties: false        # No permite campos extra
+```
+
+---
+
+## 📊 Paso 15: Esquemas de Respuesta
+
+```yaml
+    Confirmation:                       # Respuesta al crear/actualizar
+      type: object
+      description: Confirmación de reserva
+      required:
+        - idReservation
+        - idRoom
+      properties:
+        idReservation:
+          type: integer                    # ← Cambiado: sin format
+          description: ID único de la reserva
+          minimum: 1
+          maximum: 999999                  # ← Agregado: límite realista
+          example: 12345
+        idRoom:
+          type: integer                    # ← Cambiado: sin format
+          description: ID de la sala asignada
+          minimum: 1
+          maximum: 20
+          example: 5
+        instructor:
+          type: string
+          description: Nombre del instructor asignado
+          maxLength: 255
+          nullable: true                 # Puede ser null
+          example: "María García"
+        discount:
+          type: number
+          format: double
+          description: Descuento aplicado a la reserva
+          minimum: 0.0
+          maximum: 999.99
+          example: 127.50
+```
+
+---
+
+## 📋 Paso 16: Esquemas para Listas y Respuestas Especiales
+
+```yaml
+    ConfirmationList:                   # Para respuestas de búsqueda
+      type: object
+      description: Lista de confirmaciones de reservas
+      properties:
+        confirmations:
+          type: array                   # Array de objetos
+          items:
+            $ref: '#/components/schemas/Confirmation'
+          description: Array de confirmaciones
+        total:
+          type: integer
+          description: Total de reservas encontradas
+          example: 2
+    
+    CancelConfirmation:                 # Para cancelaciones
+      type: object
+      description: Confirmación de cancelación
+      required:
+        - idReservation
+        - status
+      properties:
+        idReservation:
+          type: integer                    # ← Sin format
+          description: ID de la reserva cancelada
+          minimum: 1                       # ← Agregado
+          maximum: 999999                  # ← Agregado
+          example: 12345
+        status:
+          type: string
+          description: Estado de la cancelación
+          enum: [cancelled, failed]     # Estados posibles
+          example: "cancelled"
+        message:
+          type: string
+          description: Mensaje descriptivo
+          maxLength: 500                   # ← Agregado límite
+          example: "Reserva cancelada exitosamente"
+        cancelledAt:
+          type: string
+          format: date-time             # Formato ISO 8601
+          description: Fecha y hora de cancelación
+          example: "2024-01-15T10:30:00Z"
+```
+
+---
+
+## ⚠️ Paso 17: Manejo de Errores
+
+```yaml
+    ApiError:                              # Manejo consistente de errores
+      type: object
+      description: Respuesta de error estándar
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: Código de error
+          example: "INVALID_CLIENT_ID"
+        message:
+          type: string
+          description: Mensaje de error legible
+          example: "El ID del cliente debe seguir el formato BC-XXX o PC-XXX"
+        details:
+          type: string
+          description: Detalles adicionales del error
+          example: "El ID proporcionado 'BX-123' no cumple con el patrón requerido."
+```
+
+---
+
+## 🎯 Paso 18: Verificación y Validación
+
+### Checklist de completitud:
+
+#### ✅ **Operaciones CRUD completas:**
+
+- **C**reate: `POST /reservations`
+- **R**ead: `GET /reservations` (lista)
+- **U**pdate: `PUT /reservations/{id}` (completa), `PATCH /reservations/{id}` (parcial)
+- **D**elete: `DELETE /reservations/{id}`
+
+#### ✅ **Códigos HTTP apropiados:**
+
+- `200`: OK (lectura, actualización, eliminación)
+- `201`: Created (creación)
+- `400`: Bad Request (datos inválidos)
+- `404`: Not Found (recurso no existe)
+- `409`: Conflict (conflicto de estado)
+- `500`: Internal Server Error
+
+#### ✅ **Validaciones completas:**
+
+- Formatos de datos (pattern, format)
+- Rangos de valores (min/max)
+- Longitudes de strings
+- Campos obligatorios vs opcionales
+
+#### ✅ **Documentación clara:**
+
+- Descripciones en todos los elementos
+- Ejemplos en requests y responses
+- Información de contacto y licencia
+
+---
+
+## 🧪 Paso 19: Herramientas para Probar
+
+### Swagger UI:
+
+1. Copia tu archivo YAML
+2. Ve a [https://editor.swagger.io/](vscode-file://vscode-app/Applications/Visual%20Studio%20Code.app/Contents/Resources/app/out/vs/code/electron-browser/workbench/workbench.html)
+3. Pega el contenido
+4. Interactúa con la documentación
+
+---
+
+## 💡 Conceptos Clave Aprendidos
+
+| Concepto                 | Propósito                   | Ejemplo                                 |
+| ------------------------ | --------------------------- | --------------------------------------- |
+| **`openapi`**            | Versión del estándar        | `3.0.4`                                 |
+| **`info`**               | Metadatos de la API         | título, versión, contacto               |
+| **`servers`**            | URLs donde está la API      | desarrollo, producción                  |
+| **`tags`**               | Organización de operaciones | `Reservations`                          |
+| **`paths`**              | Endpoints disponibles       | `/reservations`, `/reservations/{id}`   |
+| **Métodos HTTP**         | Operaciones CRUD            | `GET`, `POST`, `PUT`, `PATCH`, `DELETE` |
+| **`parameters`**         | Datos de entrada            | query, path, header                     |
+| **`requestBody`**        | Datos en el cuerpo          | JSON para POST/PUT/PATCH                |
+| **`responses`**          | Respuestas posibles         | códigos HTTP + schemas                  |
+| **`components/schemas`** | Estructuras de datos        | objetos reutilizables                   |
+| **Validaciones**         | Reglas de datos             | pattern, min/max, enum                  |
+
+---
+
+## 📈 Resumen del Flujo Construido
+
+```mermaid
+graph TD
+    A[openapi: 3.0.4] --> B[info: Metadatos]
+    B --> C[servers: URLs]
+    C --> D[tags: Organización]
+    D --> E[paths: /reservations]
+    
+    E --> F1[POST: Crear]
+    E --> F2[GET: Buscar]
+    
+    E --> G["/reservations/{id}"]
+    G --> H1[GET: Buscar]
+    G --> H2[PUT: Actualizar Completo]
+    G --> H3[PATCH: Actualizar Parcial] 
+    G --> H4[DELETE: Cancelar]
+    
+    F1 --> I[components/schemas]
+    F2 --> I
+    H1 --> I
+    H2 --> I
+    H3 --> I
+    H4 --> I
+    
+    I --> J1[Reservation]
+    I --> J2[ReservationPatch]
+    I --> J3[Confirmation]
+    I --> J4[ConfirmationList]
+    I --> J5[CancelConfirmation]
+    I --> J6[ApiError]
+
+    style F1 fill:#70ca95,color:#000000
+    style F2 fill:#71a8f1,color:#000000
+    style H1 fill:#71a8f1,color:#000000
+    style H2 fill:#eca34a,color:#000000
+    style H3 fill:#7bdec4,color:#000000
+    style H4 fill:#e64f47,color:#000000
+```
+
+---
+
+## 🚀 Próximos Pasos
+
+1. **Generar código**: Usar herramientas como OpenAPI Generator
+2. **Implementar**: Crear el servidor basado en el contrato
+3. **Testing**: Usar el contrato para pruebas automatizadas
+4. **Documentación viva**: Integrar Swagger UI en tu aplicación
+
+**¡Has completado tu primer contrato OpenAPI profesional!** 🎉
