@@ -87,14 +87,38 @@ WARNING: The requested image's platform (linux/amd64) does not match the detecte
 http://localhost/
 ```
 
-- Detener servicio.
+## Detener y eliminar el contenedor
+
+> Si en contenedor fue creado con la bandera `name`, se indica el nombre del contenedor asignado.
+
+- Detener contenedor.
 
 ```bash
 docker container stop swaggger
 ```
 
-- Eliminar servicio.
+- Eliminar contenedor.
 
 ```bash
 docker container rm swaggger
+```
+
+> Si en contenedor no fue generado con la bandera `name`, se debe buscar e identificar el nombre dinámico que fue asignado.
+
+- Buscar contenedor.
+
+```bash
+docker container ls
+```
+
+- Detener contenedor.
+
+```bash
+docker container stop goofy_yonath
+```
+
+- Eliminar contenedor.
+
+```bash
+docker container rm goofy_yonath
 ```
