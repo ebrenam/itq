@@ -1,4 +1,3 @@
-[[Conceptos Java]]
 # ¿Qué es un servlet?
 
 Un **servlet** es una clase Java que se ejecuta en un servidor web (como Tomcat) y permite manejar solicitudes y respuestas HTTP de manera dinámica en aplicaciones web Java.
@@ -35,5 +34,3 @@ public class HolaServlet extends HttpServlet {
 
 **Resumen:**  
 Un servlet es un componente Java que permite crear aplicaciones web dinámicas procesando solicitudes y respuestas HTTP en el servidor.
-
-[[Conceptos Java]]

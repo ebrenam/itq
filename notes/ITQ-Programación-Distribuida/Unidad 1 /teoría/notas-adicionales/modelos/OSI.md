@@ -1,4 +1,4 @@
-[[Modelos]]
+# OSI
 
 **El Modelo OSI** (Open Systems Interconnection) es un modelo conceptual de referencia que describe cómo los datos se transmiten a través de una red de comunicaciones en 7 capas.
 
@@ -208,5 +208,3 @@ OSI                 TCP/IP
 - Telnet, curl
 - Proxies, WAFs
 - Application monitors
-
-[[Modelos]]

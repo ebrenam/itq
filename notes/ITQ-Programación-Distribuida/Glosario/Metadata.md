@@ -1,4 +1,4 @@
-[[Spring Starter Project]]
+# Metadata
 
 **Metadata** (o metadatos) es información que describe otros datos. Es decir, son datos sobre los datos. En este caso son los datos que van a identificar a nuestro proyecto.
 
@@ -17,5 +17,3 @@
 
 **Resumen:**  
 La metadata es información adicional que ayuda a identificar, clasificar o describir otros datos.
-
-[[Spring Starter Project]]

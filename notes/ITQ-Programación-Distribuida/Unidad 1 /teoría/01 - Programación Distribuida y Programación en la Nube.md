@@ -1,4 +1,4 @@
-[[Definición]]
+# Programación Distribuida y Programación en la Nube
 
 ## Programación Distribuida
 
@@ -278,5 +278,3 @@ spec:
 - **Nube**: Más agilidad, menor control
 - **Tendencia**: Sistemas híbridos que combinan ambos enfoques
 - **Decisión**: Depende de requisitos específicos, recursos y expertise
-
-[[Definición]]

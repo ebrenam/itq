@@ -1,4 +1,4 @@
-[[Modelos]]
+# Edge Computing
 
 **Edge Computing** es un paradigma de computación distribuida que acerca el procesamiento de datos y los servicios computacionales al lugar donde se generan o consumen los datos, es decir, al "borde" de la red.
 
@@ -229,5 +229,3 @@ Costo:          Bajo        Medio       Variable
 - **Crecimiento**: 38%+ CAGR hasta 2028
 - **Valor**: $250+ billones proyectados para 2028
 - **Drivers**: 5G, IoT, AI, autonomous vehicles
-
-[[Modelos]]

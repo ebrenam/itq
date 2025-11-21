@@ -1,4 +1,4 @@
-[[Definición]]
+# Qué es Programación Distribuida en la Nube
 
 **Programación Distribuida en la Nube** es la combinación de ambos paradigmas: desarrollar sistemas distribuidos que aprovechan los servicios y la infraestructura de cloud computing.
 
@@ -231,5 +231,3 @@ async def get_user(user_id: str):
 - **Testing**: Chaos engineering, Load testing
 
 La programación distribuida en la nube representa la evolución natural de ambos paradigmas, ofreciendo lo mejor de ambos mundos: la robustez de sistemas distribuidos con la simplicidad y escalabilidad del cloud computing.
-
-[[Definición]]

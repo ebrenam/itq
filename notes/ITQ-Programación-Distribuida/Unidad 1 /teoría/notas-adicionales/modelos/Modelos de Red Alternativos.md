@@ -1,4 +1,4 @@
-[[Modelos]]
+# Modelos de Red Alternativos
 ### **1. Modelo DoD (Department of Defense)**
 
 - **Origen**: Predecesor del TCP/IP, desarrollado por DARPA
@@ -193,5 +193,3 @@ Physical Layer (Layer 1)
 - **SDN/OpenFlow**: Redes programables
 - **Named Data Networking**: Internet del futuro
 - **QUIC**: Protocolo de transporte moderno
-
-[[Modelos]]

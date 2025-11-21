@@ -1,4 +1,4 @@
-[[Glosario]]
+# Cloud Provider
 
 Un "cloud provider" es una empresa que ofrece servicios de computación en la nube, como almacenamiento, procesamiento, redes, bases de datos y otros recursos informáticos, accesibles a través de internet.
 
@@ -14,4 +14,3 @@ Ejemplos de cloud providers:
 - Alibaba Cloud
 - DigitalOcean
 
-[[Glosario]]

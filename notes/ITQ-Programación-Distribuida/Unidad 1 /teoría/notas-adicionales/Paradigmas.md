@@ -1,3 +1,4 @@
+# Paradigmas
 
 - Programación orientada a objetos
 - Programación funcional

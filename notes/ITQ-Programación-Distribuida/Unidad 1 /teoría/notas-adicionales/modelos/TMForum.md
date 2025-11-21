@@ -1,4 +1,4 @@
-[[Modelos]]
+# TMForum
 
 **TM Forum** (TeleManagement Forum) es una asociación global sin fines de lucro que desarrolla estándares, mejores prácticas y marcos de trabajo para la industria de telecomunicaciones y servicios digitales.
 
@@ -120,5 +120,3 @@ Resource Provisioning → Billing → Revenue Assurance
 - Estándar de facto en telecomunicaciones
 - Base para muchas soluciones comerciales
 - Referencia en RFPs y licitaciones
-
-[[Modelos]]

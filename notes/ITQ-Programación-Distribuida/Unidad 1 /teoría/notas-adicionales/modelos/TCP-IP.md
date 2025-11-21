@@ -1,4 +1,4 @@
-[[Modelos]]
+# TCP/IP
 
 **El Modelo TCP/IP** (Transmission Control Protocol/Internet Protocol) es el modelo de referencia práctico que define la arquitectura de protocolos de Internet y la mayoría de redes modernas.
 
@@ -293,6 +293,3 @@ dig google.com
 curl -I http://ejemplo.com
 telnet ejemplo.com 80
 ```
-
-
-[[Modelos]]

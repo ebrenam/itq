@@ -1,4 +1,4 @@
-[[Glosario]]
+# CRUD
 
 **CRUD** es un acrónimo que representa las cuatro operaciones fundamentales en el manejo de datos:
 
@@ -92,5 +92,3 @@ public class UsuarioController {
 - Microservicios
 - Aplicaciones móviles
 - SPAs (Single Page Applications)
-
-[[Glosario]]

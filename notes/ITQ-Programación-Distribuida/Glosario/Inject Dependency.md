@@ -1,4 +1,4 @@
-[[Conceptos Java]]
+# Inject Dependency
 # ¿Qué es "inject dependency" (inyección de dependencias)?
 
 **Inject dependency** o **inyección de dependencias** es un patrón de diseño en el que los objetos que una clase necesita (sus dependencias) se proporcionan desde el exterior, en lugar de que la propia clase los cree.
@@ -63,4 +63,3 @@ public class Auto {
 
 La inyección de dependencias es una técnica para desacoplar componentes y delegar la creación de objetos a un framework o contenedor, mejorando la flexibilidad y testabilidad del software.
 
-[[Conceptos Java]]
