@@ -1,4 +1,3 @@
-
 # Creación de Proyecto OAS - Quarkus
 
 Enfoque "API-First" con OpenAPI (OAS) y Quarkus.
