@@ -493,11 +493,11 @@ graph LR
     DEV --> BUILD --> TEST --> PUSH --> DEPLOY
     DEPLOY -.->|feedback| DEV
     
-    style DEV fill:#e1f5fe
-    style BUILD fill:#f3e5f5
-    style TEST fill:#fff3e0
-    style PUSH fill:#e8f5e8
-    style DEPLOY fill:#fce4ec
+    style DEV fill:#e1f5fe, color:#000000;
+    style BUILD fill:#f3e5f5, color:#000000;
+    style TEST fill:#fff3e0, color:#000000;
+    style PUSH fill:#e8f5e8, color:#000000;
+    style DEPLOY fill:#fce4ec, color:#000000;
 ```
 
 ## Comandos Esenciales
