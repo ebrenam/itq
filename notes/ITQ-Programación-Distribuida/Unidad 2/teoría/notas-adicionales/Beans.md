@@ -1,4 +1,4 @@
-[[Conceptos Java]]
+# Beans
 
 Un bean en el contexto de la programación y los frameworks de Java (especialmente en Spring) es un objeto que es instanciado, ensamblado y gestionado por un contenedor. Es esencialmente un componente fundamental de una aplicación.
 
@@ -60,5 +60,3 @@ public class MiControlador {
 ## Resumen
 
 Un **bean** es cualquier objeto gestionado por el contenedor de Spring, facilitando la inyección de dependencias y la configuración automática de la aplicación.
-
-[[Conceptos Java]]

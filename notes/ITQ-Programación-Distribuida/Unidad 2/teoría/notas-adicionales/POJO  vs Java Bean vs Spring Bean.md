@@ -1,3 +1,4 @@
+# POJO vs Java Bean vs Spring Bean
 
 ## 🟢 POJO (Plain Old Java Object)
 

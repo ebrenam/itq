@@ -1,4 +1,3 @@
-[[Conceptos Java]]
 # ¿Qué es un Java Bean?
 
 Un **Java Bean** es una clase Java que cumple ciertas reglas y se utiliza principalmente para encapsular datos de manera estándar y facilitar su manipulación en frameworks, bibliotecas y herramientas Java.

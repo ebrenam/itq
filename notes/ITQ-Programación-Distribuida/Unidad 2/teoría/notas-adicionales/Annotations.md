@@ -1,3 +1,4 @@
+# Annotations
 
 Las anotaciones de Spring Boot son una forma de metadatos que se añaden al código Java para proporcionar instrucciones a Spring. Piensa en ellas como etiquetas o marcadores que le dicen al framework cómo debe comportarse un componente, sin necesidad de escribir código XML o configuraciones complejas. Su propósito principal es simplificar el desarrollo, reducir la configuración y permitir a Spring Boot automatizar la creación de aplicaciones.
 

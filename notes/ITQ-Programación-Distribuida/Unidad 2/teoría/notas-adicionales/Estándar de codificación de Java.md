@@ -1,4 +1,4 @@
-[[Spring Starter Project]]
+# Estándar de codificación de Java
 
 El estándar de codificación de Oracle para Java se enfoca en convenciones de nomenclatura (como camelCase para métodos y PascalCase para clases), formato (sangría de 4 espacios, 120 caracteres por línea) y seguridad (a través del estándar SEI CERT para Java), buscando un código eficiente, legible y mantenible. Es un documento oficial y de larga data que establece pautas para el desarrollo de aplicaciones Java.
 
@@ -81,9 +81,3 @@ El estándar de codificación de Oracle para Java se enfoca en convenciones de n
 
 - Promueven la consistencia:  
     Establecen un estilo uniforme en todo el código, lo que contribuye a un entorno de desarrollo más organizado.
-
-## Referencias
-
-[[Referencias de estándar de codificación de Java]]
-
-[[Spring Starter Project]]

@@ -1,3 +1,5 @@
+# SLF4J vs Java Util Logging
+
 Hay diferencias importantes entre estas dos formas de declarar el logger. Te explico las diferencias y cuál es la mejor práctica:
 
 ## 🔍 **Diferencias Principales**

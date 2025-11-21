@@ -1,4 +1,4 @@
-[[Spring Starter Project]]
+# Spring Initializr
 
 **Spring Initializr** es una herramienta web que te permite generar rápidamente la estructura básica de un proyecto Spring Boot listo para usar.
 
@@ -21,5 +21,3 @@
 - Ahorra tiempo en la configuración inicial.
 - Estructura estándar y lista para producción.
 - Fácil integración con herramientas modernas de desarrollo.
-
-[[Spring Starter Project]]

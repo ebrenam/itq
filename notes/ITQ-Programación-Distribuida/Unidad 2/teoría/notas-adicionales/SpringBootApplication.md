@@ -29,5 +29,3 @@ public class MiAplicacion {
 ## Resumen
 
 `@SpringBootApplication` simplifica la configuración y el arranque de aplicaciones Spring Boot, permitiendo que el framework detecte y configure automáticamente los componentes
-
-[[Conceptos Java]]
