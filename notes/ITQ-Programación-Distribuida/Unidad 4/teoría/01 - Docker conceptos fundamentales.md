@@ -208,31 +208,7 @@ Piensa en un auto en diferentes estados:
 2. **Graceful Shutdown**: `docker stop` permite terminación limpia (SIGTERM + SIGKILL)
 3. **Data Persistence**: Solo los volúmenes sobreviven al ciclo de vida del contenedor
 
-```mermaid
-stateDiagram-v2
-    [*] --> Created: docker create
-    Created --> Running: docker start
-    Running --> Paused: docker pause
-    Paused --> Running: docker unpause
-    Running --> Stopped: docker stop
-    Stopped --> Running: docker start
-    Running --> Killed: docker kill
-    Killed --> [*]
-    Stopped --> [*]: docker rm
-    Created --> [*]: docker rm
-    
-    note right of Running
-        Container is executing
-        Resources are allocated
-        Application is running
-    end note
-    
-    note right of Stopped
-        Container exists but not running
-        No CPU/Memory consumption
-        Filesystem state preserved
-    end note
-```
+![docker-lifecycle](docker-lifecycle.jpeg)
 
 ---
 
