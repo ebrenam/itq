@@ -703,19 +703,7 @@ Esta comparación explica **por qué Docker cambió completamente la industria 
 - **VMs**: Diferentes sistemas operativos, máximo aislamiento de seguridad, aplicaciones legacy
 - **Containers**: Mismo OS, microservicios, CI/CD, desarrollo ágil
 
-```mermaid
-graph TB
-    subgraph "🖥️ VMs"
-        A[Host] --> B[Hypervisor]
-        B --> C[Guest OS]
-        C --> D[App]
-    end
-    
-    subgraph "🐳 Containers"
-        E[Host] --> F[Docker]
-        F --> G[App]
-    end
-```
+![vm-containers](vm-containers.jpeg)
 
 ---
 
