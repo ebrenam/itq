@@ -1,3 +1,5 @@
+# Docker conceptos fundamentales
+
 ## 1. 🏗️ Arquitectura General de Docker
 
 Imagina Docker como una **fábrica moderna automatizada** donde cada componente tiene un rol específico y bien definido:
