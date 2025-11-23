@@ -83,9 +83,9 @@ graph TD
     IMAGE --> CONTAINER
     CONTAINER --> VOLUME
     
-    style IMAGE fill:#e1f5fe
-    style CONTAINER fill:#c8e6c9
-    style VOLUME fill:#fff3e0
+    style IMAGE fill:#e1f5fe, color:#000000
+    style CONTAINER fill:#c8e6c9, color:#000000
+    style VOLUME fill:#fff3e0, color:#000000
 ```
 
 ---
