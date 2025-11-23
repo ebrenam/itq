@@ -4,7 +4,7 @@ Este documento te guiará paso a paso para configurar una base de datos MySQL ut
 
 ---
 
-## 📋 Requisitos Previos
+## 📋 Requisitos previos
 
 - Tener Docker Desktop instalado en tu sistema
 - Conocimientos básicos de línea de comandos (terminal/bash)
@@ -12,7 +12,7 @@ Este documento te guiará paso a paso para configurar una base de datos MySQL ut
 
 ---
 
-## 🐳 Paso 1: Verificar la Instalación de Docker
+## 🐳 Paso 1: Verificar la instalación de Docker
 
 Antes de comenzar, verifica que Docker esté correctamente instalado y funcionando.
 
@@ -26,10 +26,10 @@ docker --version
 
 **Salida esperada:**
 ```bash
-Docker version 24.0.7, build afdd53b
+Docker version 29.0.1, build afdd53b
 ```
 
-### 1.2 Verificar Docker Compose (Opcional pero Recomendado)
+### 1.2 Verificar Docker Compose (Opcional pero recomendado)
 
 ```bash
 docker-compose --version
@@ -40,7 +40,7 @@ docker-compose --version
 Docker Compose version v2.21.0
 ```
 
-### 1.3 Verificar que Docker está Ejecutándose
+### 1.3 Verificar que Docker está ejecutándose
 
 ```bash
 docker info
@@ -50,7 +50,7 @@ Si ves información detallada del sistema Docker, está funcionando correctament
 
 ---
 
-## 🎯 Paso 2: Entender los Conceptos Básicos
+## 🎯 Paso 2: Entender los conceptos básicos
 
 ### 2.1 ¿Qué es una Imagen Docker?
 
@@ -64,7 +64,7 @@ Una **imagen Docker** es como una "plantilla" o "molde" que contiene:
 
 Un **contenedor** es una instancia en ejecución de una imagen. Es como crear una "caja virtual" a partir del molde.
 
-### 2.3 Diagrama Visual
+### 2.3 Diagrama
 
 ```mermaid
 graph TD
@@ -90,9 +90,9 @@ graph TD
 
 ---
 
-## 📥 Paso 3: Descargar la Imagen de MySQL
+## 📥 Paso 3: Descargar la imagen de MySQL
 
-### 3.1 Buscar la Imagen Oficial de MySQL
+### 3.1 Buscar la imagen oficial de MySQL
 
 ```bash
 docker search mysql
@@ -100,7 +100,7 @@ docker search mysql
 
 **💡 Explicación:** Este comando busca imágenes de MySQL disponibles en Docker Hub (repositorio público de imágenes Docker).
 
-### 3.2 Descargar la Imagen Oficial de MySQL
+### 3.2 Descargar la imagen oficial de MySQL
 
 ```bash
 docker pull mysql:8.0
@@ -121,7 +121,7 @@ docker pull mysql:8.0
 Status: Downloaded newer image for mysql:8.0
 ```
 
-### 3.3 Verificar que la Imagen se Descargó
+### 3.3 Verificar que la imagen se descargó
 
 ```bash
 docker images
@@ -135,16 +135,16 @@ mysql        8.0       3218b38490ce   2 weeks ago    516MB
 
 ---
 
-## 🗂️ Paso 4: Preparar el Entorno de Trabajo
+## 🗂️ Paso 4: Preparar el entorno de trabajo
 
-### 4.1 Crear un Directorio para el Proyecto
+### 4.1 Crear un directorio para el proyecto
 
 ```bash
 mkdir mysql-quarkus-project
 cd mysql-quarkus-project
 ```
 
-### 4.2 Crear Directorio para Datos Persistentes
+### 4.2 Crear directorio para datos persistentes
 
 ```bash
 mkdir mysql-data
@@ -154,9 +154,9 @@ mkdir mysql-data
 
 ---
 
-## 🚀 Paso 5: Ejecutar MySQL Container - Versión Básica
+## 🚀 Paso 5: Ejecutar MySQL Container - Versión básica
 
-### 5.1 Ejecutar el Contenedor con Configuración Básica
+### 5.1 Ejecutar el contenedor con configuración básica
 
 ```bash
 docker run --name mysql-quarkus \
@@ -180,7 +180,7 @@ docker run --name mysql-quarkus \
 - `-d`: Ejecuta el contenedor en segundo plano (detached mode)
 - `mysql:8.0`: La imagen que utilizaremos
 
-### 5.2 Verificar que el Contenedor está Ejecutándose
+### 5.2 Verificar que el contenedor está ejecutándose
 
 ```bash
 docker ps
@@ -194,9 +194,9 @@ abc123def456   mysql:8.0   "docker-entrypoint.s…"   2 minutes ago   Up 2 minut
 
 ---
 
-## 🔍 Paso 6: Verificar la Conectividad
+## 🔍 Paso 6: Verificar la conectividad
 
-### 6.1 Ver los Logs del Contenedor
+### 6.1 Ver los logs del contenedor
 
 ```bash
 docker logs mysql-quarkus
@@ -207,7 +207,7 @@ docker logs mysql-quarkus
 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections.
 ```
 
-### 6.2 Probar la Conexión desde Otro Contenedor
+### 6.2 Probar la conexión desde otro contenedor
 
 ```bash
 docker run -it --rm mysql:8.0 mysql -h host.docker.internal -P 3306 -u quarkus_user -p
@@ -220,19 +220,39 @@ docker run -it --rm mysql:8.0 mysql -h host.docker.internal -P 3306 -u quarkus_u
 
 **Cuando te pida la contraseña, escribe:** `quarkus_password`
 
----
+> En la terminal se muestra el prompt de MySQL, desde el cual pueden ejecutarse comandos para interatuar con el Engine.
 
-## 📊 Paso 7: Preparar la Base de Datos para Quarkus
+```bash
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.44 MySQL Community Server - GPL
 
-### 7.1 Conectar y Crear la Tabla
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
+```
+
+## 📊 Paso 7: Preparar la base de datos para Quarkus
+
+### 7.1 Conectar y crear la tabla
 
 Una vez conectado a MySQL, ejecuta estos comandos:
 
-```sql
--- Verificar que estamos en la base de datos correcta
-USE reservation_system;
+- Verificar que estamos en la base de datos correcta
 
--- Crear la tabla de reservaciones
+```sql
+USE reservation_system;
+```
+
+- Crear la tabla de reservaciones
+
+```sql
 CREATE TABLE reservations (
     id_reservation INT AUTO_INCREMENT PRIMARY KEY,
     id_client INT NOT NULL,
@@ -242,21 +262,26 @@ CREATE TABLE reservations (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+```
 
--- Insertar datos de ejemplo
+- Insertar datos de ejemplo
+
+```sql
 INSERT INTO reservations (id_client, id_room, instructor, discount) VALUES
 (1001, 5, 'Juan Pérez', 10.50),
 (1002, 3, 'Ana López', 15.00),
 (1003, 7, 'Carlos Ruiz', NULL);
-
--- Verificar los datos
-SELECT * FROM reservations;
-
--- Salir de MySQL
-EXIT;
 ```
 
-### 7.2 Verificar la Estructura de la Tabla
+- Verificar los datos
+
+```sql
+SELECT * FROM reservations;
+```
+
+### 7.2 Verificar la estructura de la tabla
+
+- Verificar estructura
 
 ```sql
 DESCRIBE reservations;
@@ -275,6 +300,194 @@ DESCRIBE reservations;
 | created_at     | timestamp     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
 | updated_at     | timestamp     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
 +----------------+---------------+------+-----+-------------------+-------------------+
+```
+
+- Salir de MySQL
+
+```sql
+EXIT;
+```
+
+## 7.3 Validación de persistencia de datos
+
+La **persistencia de datos** es uno de los conceptos más importantes en Docker. Aquí validaremos qué sucede con los datos en diferentes escenarios: detener, reiniciar y eliminar contenedores.
+
+**🎯 Conceptos Clave:**
+
+- **Datos en contenedor**: Se almacenan en el filesystem interno (temporal)
+- **Datos en volúmenes**: Se almacenan en el host (persistente)
+- **Ciclo de vida**: Contenedor vs Datos
+
+En este punto, podemos validar el tema de persistencia. Si detenemos el contenedor con nuestros datos de prueba, veremos diferentes comportamientos dependiendo de si usamos volúmenes o no.
+
+---
+
+### 🔍 **Prueba 1: Persistencia SIN Volúmenes (Contenedor Básico)**
+
+#### 7.3.1 Verificar datos actuales
+
+Primero, conectémonos y verifiquemos que tenemos datos (la contraseña es `quarkus_password`):
+
+```bash
+docker exec -it mysql-quarkus mysql -u quarkus_user -p
+```
+
+```bash
+USE reservation_system;
+SELECT * FROM reservations;
+```
+
+**Salida esperada:**
+
+```bash
++----------------+-----------+---------+------------+----------+---------------------+---------------------+
+| id_reservation | id_client | id_room | instructor | discount | created_at          | updated_at          |
++----------------+-----------+---------+------------+----------+---------------------+---------------------+
+|              1 |      1001 |       5 | Juan Pérez |    10.50 | 2024-01-15 10:30:45 | 2024-01-15 10:30:45 |
+|              2 |      1002 |       3 | Ana López  |    15.00 | 2024-01-15 10:30:45 | 2024-01-15 10:30:45 |
+|              3 |      1003 |       7 | Carlos Ruiz|     NULL | 2024-01-15 10:30:45 | 2024-01-15 10:30:45 |
++----------------+-----------+---------+------------+----------+---------------------+---------------------+
+```
+
+```bash
+EXIT;
+```
+
+#### 7.3.2 Detener el contenedor
+
+```bash
+docker stop mysql-quarkus
+```
+
+```bash
+docker container ls -a
+```
+
+**Salida esperada:**
+
+```bash
+CONTAINER ID   IMAGE       COMMAND                  STATUS                     NAMES
+abc123def456   mysql:8.0   "docker-entrypoint.s…"   Exited (0) 2 seconds ago   mysql-quarkus
+```
+
+#### 7.3.3 Reiniciar el contenedor
+
+```bash
+docker start mysql-quarkus
+```
+
+**Esperar unos segundos y verificar:**
+
+```bash
+docker logs mysql-quarkus | tail -5
+```
+
+#### 7.3.4 Verificar persistencia después del reinicio
+
+```bash
+docker exec -it mysql-quarkus mysql -u quarkus_user -p
+```
+
+```bash
+USE reservation_system;
+SELECT * FROM reservations;
+```
+
+**🎉 Resultado esperado:** ¡Los datos siguen ahí! Esto es porque **detener != eliminar**.
+
+```bash
+EXIT;
+```
+
+---
+
+### 🔥 **Prueba 2: ¿Qué pasa al ELIMINAR el contenedor?**
+
+#### 7.3.5 Agregar un nuevo registro para la prueba
+
+```bash
+docker exec -it mysql-quarkus mysql -u quarkus_user -p
+```
+
+```bash
+USE reservation_system;
+INSERT INTO reservations (id_client, id_room, instructor, discount) VALUES
+(1004, 2, 'Elena Morales', 25.00);
+
+SELECT * FROM reservations;
+```
+
+**Verificar que ahora tenemos 4 registros:**
+
+```bash
++----------------+-----------+---------+---------------+----------+---------------------+---------------------+
+| id_reservation | id_client | id_room | instructor    | discount | created_at          | updated_at          |
++----------------+-----------+---------+---------------+----------+---------------------+---------------------+
+|              1 |      1001 |       5 | Juan Pérez    |    10.50 | 2024-01-15 10:30:45 | 2024-01-15 10:30:45 |
+|              2 |      1002 |       3 | Ana López     |    15.00 | 2024-01-15 10:30:45 | 2024-01-15 10:30:45 |
+|              3 |      1003 |       7 | Carlos Ruiz   |     NULL | 2024-01-15 10:30:45 | 2024-01-15 10:30:45 |
+|              4 |      1004 |       2 | Elena Morales |    25.00 | 2024-01-15 11:15:22 | 2024-01-15 11:15:22 |
++----------------+-----------+---------+---------------+----------+---------------------+---------------------+
+```
+
+```bash
+EXIT;
+```
+
+#### 7.3.6 Eliminar completamente el contenedor
+
+```bash
+# Detener primero
+docker stop mysql-quarkus
+
+# Eliminar el contenedor (¡CUIDADO!)
+docker rm mysql-quarkus
+
+# Verificar que ya no existe
+docker container ls -a
+```
+
+#### 7.3.7 Crear un nuevo contenedor con la misma configuración
+
+```bash
+docker run --name mysql-quarkus \
+  -e MYSQL_ROOT_PASSWORD=root_password \
+  -e MYSQL_DATABASE=reservation_system \
+  -e MYSQL_USER=quarkus_user \
+  -e MYSQL_PASSWORD=quarkus_password \
+  -p 3306:3306 \
+  -d mysql:8.0
+```
+
+**Esperar a que MySQL esté listo:**
+
+```bash
+docker logs -f mysql-quarkus
+```
+
+_(Buscar el mensaje "ready for connections" y presionar Ctrl+C)_
+
+#### 7.3.8 Verificar los datos después de recrear
+
+```bash
+docker exec -it mysql-quarkus mysql -u quarkus_user -p
+```
+
+```bash
+USE reservation_system;
+SELECT * FROM reservations;
+```
+
+**💥 Resultado esperado:**
+
+```bash
+Empty set (0.00 sec)
+```
+
+**🔴 ¡LOS DATOS SE PERDIERON!** Esto demuestra que sin volúmenes, los datos solo existen mientras el contenedor existe.
+
+```bash
+EXIT;
 ```
 
 ---
