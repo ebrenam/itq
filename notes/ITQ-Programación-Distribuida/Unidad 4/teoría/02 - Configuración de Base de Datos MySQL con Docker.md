@@ -481,7 +481,7 @@ SELECT * FROM reservations;
 **💥 Resultado esperado:**
 
 ```bash
-Empty set (0.00 sec)
+ERROR 1146 (42S02): Table 'reservation_system.reservations' doesn't exist
 ```
 
 **🔴 ¡LOS DATOS SE PERDIERON!** Esto demuestra que sin volúmenes, los datos solo existen mientras el contenedor existe.
