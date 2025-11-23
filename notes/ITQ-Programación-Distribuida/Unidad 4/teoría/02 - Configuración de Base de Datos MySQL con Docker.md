@@ -496,7 +496,7 @@ EXIT;
 
 ### 8.1 Crear archivo docker-compose.yml
 
-Para mayor comodidad, crea un archivo `docker-compose.yml` en tu directorio de proyecto:
+Para mayor comodidad, crea un archivo `docker-compose.yml` en tu directorio de proyecto `mysql-quarkus-project`:
 
 ```yaml
 version: '3.8'
@@ -524,7 +524,7 @@ networks:
     driver: bridge
 ```
 
-### 8.2 Crear Script de Inicialización (Opcional)
+### 8.2 Crear script de inicialización
 
 Crea un directorio y archivo para inicializar automáticamente la base de datos:
 
@@ -532,7 +532,7 @@ Crea un directorio y archivo para inicializar automáticamente la base de datos:
 mkdir init-scripts
 ```
 
-Crea el archivo `init-scripts/01-create-table.sql`:
+Dentro de la carpeta `init-scripts`, crea el archivo `01-create-table.sql`:
 
 ```sql
 -- Este script se ejecuta automáticamente al iniciar el contenedor por primera vez
@@ -555,22 +555,297 @@ INSERT INTO reservations (id_client, id_room, instructor, discount) VALUES
 (1003, 7, 'Carlos Ruiz', NULL);
 ```
 
+Esta es la estructura de carpetas y archivos que debes tener.
+
+```txt
+.
+├── docker-compose.yml
+├── init-scripts
+│   └── 01-create-table.sql
+└── mysql-data
+```
+
 ### 8.3 Ejecutar con Docker Compose
 
+- Detener el contenedor anterior si está ejecutándose
+
 ```bash
-# Detener el contenedor anterior si está ejecutándose
 docker stop mysql-quarkus
 docker rm mysql-quarkus
+```
 
-# Ejecutar con Docker Compose
+- Validar si la carpeta `mysql-data` tiene información
+
+```bash
+ls mysql-data
+dir mysql-data (Windows)
+```
+
+- Ejecutar con Docker Compose
+
+```bash
 docker-compose up -d
 ```
 
+La salida esperada es:
+
+```bash
+[+] Running 2/2
+ ✔ Network mysql-quarkus-project_quarkus-network  Created           0.0s
+ ✔ Container mysql-quarkus                        Started           0.2s
+```
+
+- Validar la carpeta `mysql-data`, la respuesta esperada es:
+
+```bash
+$ ls mysql-data/
+#ib_16384_0.dblwr    binlog.000002       ib_buffer_pool     performance_schema    sys
+#ib_16384_1.dblwr    binlog.index        ibdata1            private_key.pem       undo_001
+#innodb_redo         ca-key.pem          ibtmp1             public_key.pem        undo_002
+#innodb_temp         ca.pem              mysql              reservation_system
+auto.cnf             client-cert.pem     mysql.ibd          server-cert.pem
+binlog.000001        client-key.pem      mysql.sock         server-key.pem
+```
+
 **💡 Ventajas de Docker Compose:**
+
 - Configuración más organizada
 - Fácil recreación del entorno
 - Manejo automático de redes
 - Persistencia de datos garantizada
+
+## 8.4 Configuración con Volúmenes Docker (Recomendado para Producción)
+
+Los **Named Volumes** son la forma recomendada de manejar persistencia en producción porque Docker los administra automáticamente, son portables entre diferentes sistemas y no dependen de la estructura de carpetas del host.
+
+**🎯 Ventajas de los Named Volumes:**
+
+- **Administrados por Docker**: No necesitas preocuparte por permisos o ubicaciones
+- **Portables**: Funcionan igual en Linux, Windows, macOS
+- **Respaldables**: Docker puede hacer backups automáticos
+- **Seguros**: Mejor aislamiento que los bind mounts
+
+### 8.4.1 Crear archivo docker-compose.yml con Named Volumes
+
+> Esta es una versión simplificada que es totalmente administrada por Docker.
+
+Crea un nuevo archivo `docker-compose-volumes.yml`:
+
+```bash
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-quarkus-volumes
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: reservation_system
+      MYSQL_USER: quarkus_user
+      MYSQL_PASSWORD: quarkus_password
+    ports:
+      - "3306:3306"
+    volumes:
+      # Named volume completamente administrado por Docker
+      - mysql-data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d:ro
+    networks:
+      - quarkus-network
+
+volumes:
+  # Docker decide dónde almacenar los datos
+  mysql-data:
+
+networks:
+  quarkus-network:
+    driver: bridge
+```
+
+**💡 Diferencias Clave:**
+
+- **Named Volume**: `mysql-data-volume:/var/lib/mysql` (Docker administra la ubicación)
+- **Bind Mount**: `./init-scripts:/docker-entrypoint-initdb.d:ro` (carpeta local, solo lectura)
+- **Sección volumes**: Define los volúmenes que usa el servicio
+- **Health Check**: Verifica automáticamente que MySQL esté funcionando
+
+### 8.4.2 Detener el contenedor anterior y limpiar
+
+Si tienes el contenedor anterior corriendo:
+
+```bash
+# Detener y eliminar contenedor anterior
+docker-compose down
+
+# Verificar que no hay contenedores corriendo
+docker container ls -a
+
+# Eliminar carpeta mysql-data
+rm -rf mysql-data
+rmdir /s mysql-data (Windows)
+```
+
+Esta es la estructura de carpetas y archivos que debes tener.
+
+```txt
+.
+├── docker-compose-volumes.yml
+├── docker-compose.yml
+└── init-scripts
+    └── 01-create-table.sql
+```
+
+### 8.4.3 Ejecutar con Named Volumes
+
+```bash
+docker-compose -f docker-compose-volumes.yml up -d
+```
+
+**Salida esperada:**
+
+```bash
+[+] Running 3/3
+ ✔ Network mysql-quarkus-project_quarkus-network  Created       0.0s
+ ✔ Volume mysql-quarkus-project_mysql-data        Created       0.0s
+ ✔ Container mysql-quarkus-volumes                Started       0.2s 
+```
+
+### 8.4.4 Verificar el Named Volume
+
+```bash
+# Ver todos los volúmenes de Docker
+docker volume ls
+```
+
+**Salida esperada:**
+
+```bash
+DRIVER    VOLUME NAME
+local     mysql-quarkus-project_mysql-data
+```
+
+```bash
+# Inspeccionar el volumen
+docker volume inspect mysql-quarkus-project_mysql-data
+```
+
+**Salida esperada:**
+
+```bash
+[
+    {
+        "CreatedAt": "2025-11-23T23:10:04Z",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.config-hash": "59f8066d55bde3d92364234302919870b7140b15f168a6952abc45a51d7ecf58",
+            "com.docker.compose.project": "mysql-quarkus-project",
+            "com.docker.compose.version": "2.40.3",
+            "com.docker.compose.volume": "mysql-data"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/mysql-quarkus-project_mysql-data/_data",
+        "Name": "mysql-quarkus-project_mysql-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+```
+
+### 8.4.5 Verificar la persistencia con Named Volumes
+
+#### Conectar y agregar datos de prueba
+
+```bash
+docker exec -it mysql-quarkus-volumes mysql -u quarkus_user -p
+```
+
+```bash
+USE reservation_system;
+SELECT * FROM reservations;
+
+-- Agregar un nuevo registro para la prueba
+INSERT INTO reservations (id_client, id_room, instructor, discount) VALUES
+(2001, 10, 'María Volumen', 30.00);
+
+SELECT * FROM reservations;
+EXIT;
+```
+
+#### Eliminar COMPLETAMENTE el contenedor
+
+```bash
+# Detener y eliminar todo (excepto volúmenes)
+docker-compose down
+
+# Verificar que el contenedor no existe
+docker container ls -a
+
+# Pero el volumen sigue existiendo
+docker volume ls | grep mysql
+```
+
+#### Recrear el contenedor y verificar datos
+
+```bash
+# Levantar nuevamente los servicios
+docker-compose -f docker-compose-volumes.yml up -d
+
+# Esperar a que MySQL esté listo
+docker-compose logs mysql
+```
+
+```bash
+# Verificar que los datos persisten
+docker exec -it mysql-quarkus-volumes mysql -u quarkus_user -p
+```
+
+```bash
+USE reservation_system;
+SELECT * FROM reservations;
+```
+
+**🎉 Resultado esperado:** ¡Todos los datos siguen ahí, incluyendo el registro que agregamos!
+
+```bash
+EXIT;
+```
+
+### 8.4.6 Comparación: Bind Mount vs Named Volume
+
+|Aspecto|Bind Mount (`./mysql-data`)|Named Volume (`mysql-data`)|
+|---|---|---|
+|**Administración**|Manual (tú manejas permisos)|Automática (Docker maneja todo)|
+|**Ubicación**|`./mysql-data` (visible)|`/var/lib/docker/volumes/` (oculto)|
+|**Portabilidad**|Dependiente del SO|Portable entre sistemas|
+|**Desarrollo**|✅ Excelente (acceso directo)|⚠️ Menos directo|
+|**Producción**|⚠️ Problemas de permisos|✅ Recomendado|
+|**Backups**|Manual|Automático con Docker|
+
+### 8.4.7 Comandos de gestión de volúmenes
+
+```bash
+# Ver todos los volúmenes
+docker volume ls
+
+# Ver detalles de un volumen específico
+docker volume inspect mysql-quarkus-project_mysql-data-volume
+
+# Hacer backup de un volumen
+docker run --rm -v mysql-quarkus-project_mysql-data-volume:/data -v $(pwd):/backup alpine tar czf /backup/mysql-backup.tar.gz -C /data .
+
+# Restaurar backup
+docker run --rm -v mysql-quarkus-project_mysql-data-volume:/data -v $(pwd):/backup alpine tar xzf /backup/mysql-backup.tar.gz -C /data
+
+# Limpiar volúmenes no utilizados (¡CUIDADO!)
+docker volume prune
+```
+
+**💡 Ventajas Adicionales de Docker Compose con Named Volumes:**
+
+1. **Configuración declarativa**: Todo está definido en un archivo
+2. **Fácil replicación**: Copia el archivo y funciona en cualquier lugar
+3. **Gestión de dependencias**: Docker maneja automáticamente la creación de volúmenes
+4. **Escalabilidad**: Fácil agregar más servicios (Redis, phpMyAdmin, etc.)
+5. **Ambientes múltiples**: Diferentes archivos para desarrollo, staging, producción
 
 ---
 
