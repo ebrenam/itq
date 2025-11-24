@@ -289,18 +289,19 @@ DESCRIBE reservations;
 ```
 
 **Salida esperada:**
+
 ```bash
-+----------------+---------------+------+-----+-------------------+-------------------+
-| Field          | Type          | Null | Key | Default           | Extra             |
-+----------------+---------------+------+-----+-------------------+-------------------+
-| id_reservation | int           | NO   | PRI | NULL              | auto_increment    |
-| id_client      | int           | NO   |     | NULL              |                   |
-| id_room        | int           | NO   |     | NULL              |                   |
-| instructor     | varchar(100)  | YES  |     | NULL              |                   |
-| discount       | decimal(5,2)  | YES  |     | NULL              |                   |
-| created_at     | timestamp     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
-| updated_at     | timestamp     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
-+----------------+---------------+------+-----+-------------------+-------------------+
++----------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| Field          | Type         | Null | Key | Default           | Extra                                         |
++----------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| id_reservation | int          | NO   | PRI | NULL              | auto_increment                                |
+| id_client      | int          | NO   |     | NULL              |                                               |
+| id_room        | int          | NO   |     | NULL              |                                               |
+| instructor     | varchar(100) | YES  |     | NULL              |                                               |
+| discount       | decimal(5,2) | YES  |     | NULL              |                                               |
+| created_at     | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updated_at     | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++----------------+--------------+------+-----+-------------------+-----------------------------------------------+
 ```
 
 - Salir de MySQL
