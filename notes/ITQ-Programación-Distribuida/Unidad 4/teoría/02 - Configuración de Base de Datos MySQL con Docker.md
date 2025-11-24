@@ -205,7 +205,7 @@ DRIVER    VOLUME NAME
 local     4eb1cb26a1af5ca676bbf3b30eb6caac1dcd430e73555d4e2367eae29988a35d
 ```
 
-> Si en este momento se decide eliminar el contenedor (`docker container rm`), Docker no elimina el volumen asociado (Anonymous Volume), este es el **comportamiento natural de Docker**.
+> Si en este momento se decide eliminar el contenedor (`docker container rm`), Docker no elimina el volumen asociado (**`Anonymous Volume`**), este es el **comportamiento natural de Docker**.
 >
 > Los volúmenes tienen un ciclo de vida **independiente** de los contenedores por razones de seguridad y persistencia de datos.
 >
