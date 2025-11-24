@@ -856,13 +856,13 @@ EXIT;
 docker volume ls
 
 # Ver detalles de un volumen específico
-docker volume inspect mysql-quarkus-project_mysql-data-volume
+docker volume inspect mysql-quarkus-project_mysql-data
 
 # Hacer backup de un volumen
-docker run --rm -v mysql-quarkus-project_mysql-data-volume:/data -v $(pwd):/backup alpine tar czf /backup/mysql-backup.tar.gz -C /data .
+docker run --rm -v mysql-quarkus-project_mysql-data:/data -v $(pwd):/backup alpine tar czf /backup/mysql-backup.tar.gz -C /data .
 
 # Restaurar backup
-docker run --rm -v mysql-quarkus-project_mysql-data-volume:/data -v $(pwd):/backup alpine tar xzf /backup/mysql-backup.tar.gz -C /data
+docker run --rm -v mysql-quarkus-project_mysql-data:/data -v $(pwd):/backup alpine tar xzf /backup/mysql-backup.tar.gz -C /data
 
 # Limpiar volúmenes no utilizados (¡CUIDADO!)
 docker volume prune
