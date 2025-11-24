@@ -596,7 +596,7 @@ docker rm mysql-quarkus
 - Eliminar los volúmenes anónimos existentes.
 
 ```bash
-docker volume prune$ 
+docker volume prune
 ```
 
 - Validar si la carpeta `mysql-data` tiene información
@@ -631,6 +631,10 @@ $ ls mysql-data/
 auto.cnf             client-cert.pem     mysql.ibd          server-cert.pem
 binlog.000001        client-key.pem      mysql.sock         server-key.pem
 ```
+
+> Docker generó un volumen vinculado a una ruta del host (**`Bind Mount`**), este tipo de volúmenes es visible en el equipo y es ideal para desarrollo. 
+>
+> Es importante indicar que este tipo de volumen es dependiente del Sistema Operativo y requiere una administración manual.
 
 **💡 Ventajas de Docker Compose:**
 
