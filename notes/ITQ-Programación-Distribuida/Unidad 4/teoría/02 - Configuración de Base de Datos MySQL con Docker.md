@@ -693,7 +693,7 @@ networks:
 
 **💡 Diferencias Clave:**
 
-- **Named Volume**: `mysql-data-volume:/var/lib/mysql` (Docker administra la ubicación)
+- **Named Volume**: `mysql-data:/var/lib/mysql` (Docker administra la ubicación)
 - **Bind Mount**: `./init-scripts:/docker-entrypoint-initdb.d:ro` (carpeta local, solo lectura)
 - **Sección volumes**: Define los volúmenes que usa el servicio
 - **Health Check**: Verifica automáticamente que MySQL esté funcionando
@@ -803,7 +803,7 @@ EXIT;
 
 ```bash
 # Detener y eliminar todo (excepto volúmenes)
-docker-compose down
+docker-compose -f docker-compose-volumes.yml down
 
 # Verificar que el contenedor no existe
 docker container ls -a
