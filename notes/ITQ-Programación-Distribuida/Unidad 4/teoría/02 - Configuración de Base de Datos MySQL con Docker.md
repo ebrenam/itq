@@ -193,6 +193,23 @@ CONTAINER ID   IMAGE       COMMAND                  CREATED         STATUS      
 abc123def456   mysql:8.0   "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   0.0.0.0:3306->3306/tcp   mysql-quarkus
 ```
 
+### 5.3 Verificar volumen
+
+```bash
+docker volume ls
+```
+
+**Salida esperada:**
+```bash
+DRIVER    VOLUME NAME
+local     4eb1cb26a1af5ca676bbf3b30eb6caac1dcd430e73555d4e2367eae29988a35d
+```
+
+> Si en este momento se decide eliminar el contenedor (`docker container rm`), Docker no elimina el volumen asociado, este es el **comportamiento natural de Docker**.
+>
+> Los volúmenes tienen un ciclo de vida **independiente** de los contenedores por razones de seguridad y persistencia de datos.
+>
+> Para eliminar todos los volúmenes no utilizados es necesario ejecutar la instrucción `docker volume prune`.
 ---
 
 ## 🔍 Paso 6: Verificar la conectividad
