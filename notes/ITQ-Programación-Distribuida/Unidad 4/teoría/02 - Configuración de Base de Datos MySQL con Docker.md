@@ -509,6 +509,18 @@ ERROR 1146 (42S02): Table 'reservation_system.reservations' doesn't exist
 EXIT;
 ```
 
+#### 7.3.9 Eliminar objetos utilizados
+
+Antes de proceder a la siguiente sección, por favor, eliminar todos los objetos creados en esta práctica.
+
+```bash
+# Forzar la eliminación todos los contenedores existentes
+docker container rm --force $(docker container ls -aq)
+
+# Eliminar todos los volúmenes anónimos
+docker volume prune
+```
+
 ---
 
 ## 🔧 Paso 8: Versión Avanzada con Docker Compose (Recomendado)
