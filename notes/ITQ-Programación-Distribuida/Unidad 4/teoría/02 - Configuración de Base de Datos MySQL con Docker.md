@@ -184,6 +184,7 @@ docker run --name mysql-quarkus \
 
 ```bash
 docker ps
+docker container ls
 ```
 
 **Salida esperada:**
@@ -898,9 +899,11 @@ mysql -h 127.0.0.1 -P 3306 -u quarkus_user -p reservation_system
 ```bash
 # Ver contenedores en ejecución
 docker ps
+docker container ls
 
 # Ver todos los contenedores (incluidos los detenidos)
 docker ps -a
+docker container ls -a
 
 # Detener el contenedor
 docker stop mysql-quarkus
