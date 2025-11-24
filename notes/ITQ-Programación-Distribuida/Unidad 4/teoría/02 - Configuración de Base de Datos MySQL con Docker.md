@@ -1071,7 +1071,7 @@ docker exec -i mysql-quarkus mysql -u quarkus_user -p reservation_system < backu
 
 ¡Perfecto! Ahora tienes MySQL ejecutándose en Docker y listo para usar con Quarkus. 
 
-**Continúa con el documento:** [**"Integración de Base de Datos MySQL con Quarkus"**](Integración%20de%20Base%20de%20Datos.md)
+**Continúa con el documento:** [**"Integración de Base de Datos MySQL con Quarkus"**](03%20-%20Integración%20de%20Base%20de%20Datos%20MySQL%20con%20Quarkus.md)
 
 **En el siguiente tutorial aprenderás:**
 - Configurar Quarkus para conectarse a tu base de datos Docker
