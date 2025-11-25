@@ -8,17 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "58537249cde6cc95",
+            "id": "5bdab3fe828e3e08",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Web Services/REST/Creación de Proyecto OAS - Spring Boot.md",
+                "file": "ITQ-Programación-Distribuida/Unidad 3/teoría/07 - Dockerización de Proyecto Spring Boot.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Creación de Proyecto OAS - Spring Boot"
+              "title": "07 - Dockerización de Proyecto Spring Boot"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 363.5
+    "width": 450.5
   },
   "right": {
     "id": "d0ac91ed5bfa2523",
@@ -169,44 +169,47 @@
       "bases:Create new base": false
     }
   },
-  "active": "58537249cde6cc95",
+  "active": "5bdab3fe828e3e08",
   "lastOpenFiles": [
-    "Web Services/REST/tempo-quarkus.md",
-    "Web Services/tempo-spring.md",
-    "Web Services/REST/Creación de Proyecto OAS - Quarkus.md",
-    "Web Services/SOAP/Servicio Web SOAP con Spring Boot.md",
-    "Web Services/REST/Creación de Proyecto OAS - Spring Boot.md",
-    "Web Services/REST/Ejemplo OAS Gym Reservation.md",
-    "Web Services/REST/Creación de Contrato OpenAPI Specification (OAS).md",
-    "Web Services/REST/Diseño de APIs vs DB vs URLs.md",
-    "Web Services/REST/TEMPORAL/Creación de Proyecto OAS - Quarkus.md",
-    "Web Services/REST/Tipos de datos necesarios.md",
-    "Web Services/REST/REST Services.md",
-    "Web Services/REST/OpenAPI Generator.md",
-    "Docker/Swagger.md",
-    "Web Services/SOAP/POJO  vs Java Bean vs Spring Bean.md",
-    "Web Services/REST/TEMPORAL/Proyecto REST - Gemini.md",
-    "Web Services/REST/Fases del Proceso de Desarrollo.md",
-    "Web Services/REST/Nombrado de campos en BD.md",
-    "Web Services/REST/TEMPORAL/Esquemas.md",
-    "Web Services/REST/TEMPORAL/Swagger Codegen.md",
-    "Web Services/REST/TEMPORAL",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/main/java/com/ejemplo/api/service/ReservationService.java",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/main/java/com/ejemplo/api/model/ReservationPatch.java",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/main/java/com/ejemplo/api/model/Reservation.java",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/main/java/com/ejemplo/api/model/ConfirmationList.java",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/main/java/com/ejemplo/api/model/Confirmation.java",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/main/java/com/ejemplo/api/model/CancelConfirmation.java",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/main/java/com/ejemplo/api/model/ApiError.java",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/main/java/com/ejemplo/api/controller/ReservationController.java",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/test/java/com/ejemplo/api/OasApiRestApplicationTests.java",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/main/java/com/ejemplo/api/service",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/src/main/java/com/ejemplo/api/model",
+    "ITQ-Programación-Distribuida/Unidad 3/proyecto/spring-boot/03-docker/oas-api-rest-docker/HELP.md",
+    "ITQ-Programación-Distribuida/Unidad 4/teoría/02 - Configuración de Base de Datos MySQL con Docker.md",
+    "ITQ-Programación-Distribuida/Unidad 3/teoría/07 - Dockerización de Proyecto Spring Boot.md",
+    "ITQ-Programación-Distribuida/Unidad 3/teoría/06 - Dockerización de Proyecto Spring Boot.md",
+    "ITQ-Programación-Distribuida/Unidad 4/teoría/03 - Integración de Base de Datos MySQL con Quarkus.md",
+    "ITQ-Programación-Distribuida/Unidad 4/teoría/01 - Docker conceptos fundamentales.md",
+    "ITQ-Programación-Distribuida/Unidad 4/teoría/docker-lifecycle.jpeg",
+    "ITQ-Programación-Distribuida/Unidad 4/teoría/vm-containers.jpeg",
+    "ITQ-Programación-Distribuida/Unidad 4/teoría/notas-adicionales/Docker Vulnerabilities.md",
+    "ITQ-Programación-Distribuida/Unidad 4/teoría/notas-adicionales/Docker Sign in.md",
+    "ITQ-Programación-Distribuida/Unidad 4/teoría/01 - Docker conceptos fundamentales copy.md",
+    "ITQ-Programación-Distribuida/Unidad 4/teoría/01 - Docker conceptos fundamentales-old.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/WSDL y XSD.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/SpringBootApplication.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/Spring Initializr.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/SLF4J vs Java Util Logging.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/Referencias de estándar de codificación de Java.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/Qué es un Java Bean.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/POJO  vs Java Bean vs Spring Bean.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/Estándar de codificación de Java.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/Convención de Nombres de Dominio.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/Beans.md",
+    "ITQ-Programación-Distribuida/Unidad 2/teoría/notas-adicionales/Annotations.md",
     "Spring Boot/Spring Starter Project.md",
-    "Spring Boot/SpringBootApplication.md",
-    "Spring Boot/Spring Initializr.md",
     "Spring Boot/Name.md",
-    "Spring Boot/Java Bean.md",
-    "Spring Boot/Group.md",
-    "Spring Boot/Estándar de codificación de Java.md",
-    "Docker/reservation.yaml",
-    "Docker",
-    "Revisión modelo.pdf",
-    "Web Services/REST/demo.yaml",
-    "Web Services/REST/gyn-reservation-openapi-v-3-1.yaml",
-    "Web Services/SOAP/exercise-02/classes",
-    "Web Services/SOAP/exercise-02/artifacts",
-    "Web Services/SOAP/exercise-02",
-    "Web Services/SOAP/exercise-01/artifacts",
+    "Home.md",
+    "Java version.md",
+    "ITQ-Programación-Distribuida/logo-itq.png",
     "Untitled.canvas",
     "Untitled 1.canvas"
   ]
