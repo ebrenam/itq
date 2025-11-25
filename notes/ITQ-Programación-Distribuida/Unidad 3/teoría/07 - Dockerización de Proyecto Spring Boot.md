@@ -10,7 +10,7 @@ Aprenderás a crear los artefactos necesarios, generar la imagen Docker y desple
 
 Antes de comenzar, asegúrate de tener:
 
-1. **Proyecto Spring Boot funcional** (siguiendo el documento "05 - Creación de Proyecto OAS - Spring Boot"). Puedes tomar como base el proyecto que está en la siguiente **[ruta de github](../proyecto/spring-boot/02-final/oas-api-rest-final.zip)**.
+1. **Proyecto Spring Boot funcional** (siguiendo el documento "05 - Creación de Proyecto OAS - Spring Boot"). Puedes tomar como base el proyecto que está en la siguiente **[ruta de github](../proyecto/spring-boot/02-final)**.
 2. **Docker instalado** en tu sistema:
    - Linux: Verifica con `docker --version`
    - Windows/Mac: Docker Desktop instalado y ejecutándose
