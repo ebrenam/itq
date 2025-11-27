@@ -280,7 +280,7 @@ public class ReservationResource {
         // Simulamos buscar la reserva en la base de datos
         // En un caso real, aquí harías: reservationService.findById(reservationId)
 
-       // Simulamos que encontramos la reserva
+        // Simulamos que encontramos la reserva
         Confirmation confirmationResponse = new Confirmation();
         confirmationResponse.setIdReservation(reservationId);
         confirmationResponse.setIdRoom(8); // Sala asignada simulada
@@ -313,7 +313,8 @@ import jakarta.enterprise.context.ApplicationScoped; // <-- Importante
 @ApplicationScoped // Le dice a Quarkus que gestione esta clase como un servicio
 public class ReservationService {
 
-    public Confirmation createReservation(Reservation reservation) {
+    public Confirmation createReservation(Reservation reservation)
+    {
         System.out.println("Service - Reservation recibida: " + reservation.getIdClient());
 
         // Aquí iría la lógica para guardar en la base de datos
@@ -328,7 +329,8 @@ public class ReservationService {
         return confirmationResponse;
     }
 
-    public Confirmation getReservationById(Integer reservationId) {
+    public Confirmation getReservationById(Integer reservationId)
+    {
         System.out.println("Service - Buscando Reservation con ID: " + reservationId);
 
         // Aquí iría la lógica para buscar la reserva en la base de datos
@@ -380,7 +382,8 @@ public class ReservationResource {
 
     @POST
     @Path("/reservations")
-    public Response crearReservation(@Valid Reservation reservationRequest) {
+    public Response createReservation(@Valid Reservation reservationRequest)
+    {
         // Por ahora, solo simularemos que lo guardamos
         System.out.println("Resource - Reservation recibido: " + reservationRequest.getIdClient());
 
@@ -390,10 +393,10 @@ public class ReservationResource {
         // Devolvemos la respuesta de confirmación con código 201 (CREATED)
         return Response.status(Response.Status.CREATED).entity(confirmationResponse).build();
     }
-
+    
     @GET
     @Path("/reservations/{reservationId}")
-    public Response obtenerReservationPorId(@PathParam("reservationId") Integer reservationId) // <-- Nota el @PathParam
+    public Response getReservationById(@PathParam("reservationId") Integer reservationId) // <-- Nota el @PathParam
     {
         System.out.println("Resource - Buscando Reservation con ID: " + reservationId);
 
@@ -407,9 +410,10 @@ public class ReservationResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
         }
 
+        // Simulamos que encontramos la reserva
         // El controller delega la lógica al servicio
         Confirmation confirmationResponse = reservationService.getReservationById(reservationId);
-
+    
         // Devolvemos el reservation con código 200 (OK)
         return Response.ok(confirmationResponse).build();
     }
