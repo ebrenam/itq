@@ -102,7 +102,7 @@ Abre tu archivo `pom.xml`.
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest-jackson</artifactId>
-        </dependency>  
+        </dependency>
 ```
 
 3. **Añadir el Plugin Generador:** En la sección `<plugins>` dentro de `<build>`, después del plugin `maven-compiler-plugin`, agrega:
@@ -210,30 +210,30 @@ Supongamos que tu OAS define `POST /reservations` y `GET /reservations/{id}`.
 
     - Importa `jakarta.ws.rs.*` para estas anotaciones.
 
-    ```java
-    package com.ejemplo.api.resource;
+```java
+package com.ejemplo.api.resource;
 
-    import com.ejemplo.api.model.Confirmation; // <-- Importa el modelo generado
-    import com.ejemplo.api.model.Reservation; // <-- Importa el modelo generado
+import com.ejemplo.api.model.Confirmation; // <-- Importa el modelo generado
+import com.ejemplo.api.model.Reservation; // <-- Importa el modelo generado
 
-    import jakarta.validation.Valid;
-    import jakarta.ws.rs.Consumes;
-    import jakarta.ws.rs.GET;
-    import jakarta.ws.rs.POST;
-    import jakarta.ws.rs.Path;
-    import jakarta.ws.rs.PathParam;
-    import jakarta.ws.rs.Produces;
-    import jakarta.ws.rs.core.MediaType;
-    import jakarta.ws.rs.core.Response;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
-    @Path("/api/v1") // Prefijo base de la API
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public class ReservationResource {
-    
-        // ... aquí irán los métodos
-    }
-    ```
+@Path("/api/v1") // Prefijo base de la API
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class ReservationResource {
+
+    // ... aquí irán los métodos
+}
+```
 
 3. **Implementar los Endpoints (Métodos):**
 
@@ -249,12 +249,12 @@ Supongamos que tu OAS define `POST /reservations` y `GET /reservations/{id}`.
 
     - **Retorno:** El estándar de JAX-RS usa `Response` para tener control total del código HTTP.
 
-    ```java
+```java
     // ... dentro de la clase ReservationResource ...
     
     @POST
     @Path("/reservations")
-    public Response crearReservation(@Valid Reservation reservationRequest)
+    public Response createReservation(@Valid Reservation reservationRequest)
     {
         // Por ahora, solo simularemos que lo guardamos
         System.out.println("Resource - Reservation recibido: " + reservationRequest.getIdClient());
@@ -273,7 +273,7 @@ Supongamos que tu OAS define `POST /reservations` y `GET /reservations/{id}`.
     
     @GET
     @Path("/reservations/{reservationId}")
-    public Response obtenerReservationPorId(@PathParam("reservationId") Integer reservationId) // <-- Nota el @PathParam
+    public Response getReservationById(@PathParam("reservationId") Integer reservationId) // <-- Nota el @PathParam
     {
         System.out.println("Resource - Buscando Reservation con ID: " + reservationId);
 
@@ -290,7 +290,7 @@ Supongamos que tu OAS define `POST /reservations` y `GET /reservations/{id}`.
         // Devolvemos el reservation con código 200 (OK)
         return Response.ok(confirmationResponse).build();
     }
-    ```
+```
 
 ---
 
@@ -302,119 +302,119 @@ La lógica de negocio debe estar separada. En Quarkus, esto se hace con CDI (Con
 
 2. **Anotar con `@ApplicationScoped`:** Esta es la anotación estándar de CDI (equivalente a `@Service` en Spring) para crear un "bean" que vive durante toda la aplicación.
 
-    ```java
-    package com.ejemplo.api.service;
+```java
+package com.ejemplo.api.service;
 
-    import com.ejemplo.api.model.Confirmation;
-    import com.ejemplo.api.model.Reservation;
+import com.ejemplo.api.model.Confirmation;
+import com.ejemplo.api.model.Reservation;
 
-    import jakarta.enterprise.context.ApplicationScoped; // <-- Importante
+import jakarta.enterprise.context.ApplicationScoped; // <-- Importante
 
-    @ApplicationScoped // Le dice a Quarkus que gestione esta clase como un servicio
-    public class ReservationService {
+@ApplicationScoped // Le dice a Quarkus que gestione esta clase como un servicio
+public class ReservationService {
 
-        public Confirmation createReservation(Reservation reservation) {
-            System.out.println("Service - Reservation recibida: " + reservation.getIdClient());
+    public Confirmation createReservation(Reservation reservation) {
+        System.out.println("Service - Reservation recibida: " + reservation.getIdClient());
 
-            // Aquí iría la lógica para guardar en la base de datos
+        // Aquí iría la lógica para guardar en la base de datos
 
-            // Simulamos que la DB le asigna un ID
-            Confirmation confirmationResponse = new Confirmation();
-            confirmationResponse.setIdReservation(12345); // ID simulado
-            confirmationResponse.setIdRoom(5); // Sala asignada simulada
-            confirmationResponse.setInstructor("Juan Pérez"); // Instructor asignado simulado
-            confirmationResponse.setDiscount(null); // Sin descuento por defecto
+        // Simulamos que la DB le asigna un ID
+        Confirmation confirmationResponse = new Confirmation();
+        confirmationResponse.setIdReservation(12345); // ID simulado
+        confirmationResponse.setIdRoom(5); // Sala asignada simulada
+        confirmationResponse.setInstructor("Juan Pérez"); // Instructor asignado simulado
+        confirmationResponse.setDiscount(null); // Sin descuento por defecto
 
-            return confirmationResponse;
-        }
-
-        public Confirmation getReservationById(Integer reservationId) {
-            System.out.println("Service - Buscando Reservation con ID: " + reservationId);
-
-            // Aquí iría la lógica para buscar la reserva en la base de datos
-
-            // Simulamos que encontramos la reserva
-            Confirmation confirmationResponse = new Confirmation();
-            confirmationResponse.setIdReservation(reservationId);
-            confirmationResponse.setIdRoom(8); // Sala asignada simulada
-            confirmationResponse.setInstructor("Ana López"); // Instructor asignado simulado
-            confirmationResponse.setDiscount(15.00); // Descuento simulado
-
-            return confirmationResponse;
-        }
+        return confirmationResponse;
     }
-    ```
+
+    public Confirmation getReservationById(Integer reservationId) {
+        System.out.println("Service - Buscando Reservation con ID: " + reservationId);
+
+        // Aquí iría la lógica para buscar la reserva en la base de datos
+
+        // Simulamos que encontramos la reserva
+        Confirmation confirmationResponse = new Confirmation();
+        confirmationResponse.setIdReservation(reservationId);
+        confirmationResponse.setIdRoom(8); // Sala asignada simulada
+        confirmationResponse.setInstructor("Ana López"); // Instructor asignado simulado
+        confirmationResponse.setDiscount(15.00); // Descuento simulado
+
+        return confirmationResponse;
+    }
+}
+```
 
 3. **Usar el Servicio en el Resource:** Modifica tu `ReservationResource` para "inyectar" el servicio.
 
     - En CDI (Quarkus), usamos `@Inject` (de `jakarta.inject.Inject`) en lugar de `@Autowired`.
 
-    ```java
-    // ... en ReservationResource.java ...
-    package com.ejemplo.api.resource;
+```java
+// ... en ReservationResource.java ...
+package com.ejemplo.api.resource;
 
-    import com.ejemplo.api.model.ApiError;
-    import com.ejemplo.api.model.Confirmation; // <-- Importa el modelo generado
-    import com.ejemplo.api.model.Reservation; // <-- Importa el modelo generado
-    import com.ejemplo.api.service.ReservationService; // <-- Importa el servicio
+import com.ejemplo.api.model.ApiError;
+import com.ejemplo.api.model.Confirmation; // <-- Importa el modelo generado
+import com.ejemplo.api.model.Reservation; // <-- Importa el modelo generado
+import com.ejemplo.api.service.ReservationService; // <-- Importa el servicio
 
-    import jakarta.inject.Inject; // <-- Importante para inyección de dependencias
-    import jakarta.validation.Valid;
-    import jakarta.ws.rs.Consumes;
-    import jakarta.ws.rs.GET;
-    import jakarta.ws.rs.POST;
-    import jakarta.ws.rs.Path;
-    import jakarta.ws.rs.PathParam;
-    import jakarta.ws.rs.Produces;
-    import jakarta.ws.rs.core.MediaType;
-    import jakarta.ws.rs.core.Response;
+import jakarta.inject.Inject; // <-- Importante para inyección de dependencias
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
-    @Path("/api/v1") // Prefijo base de la API
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public class ReservationResource {
+@Path("/api/v1") // Prefijo base de la API
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class ReservationResource {
 
-        // Inyección de dependencias con CDI
-        @Inject
-        ReservationService reservationService; // <-- Inyecta el servicio
+    // Inyección de dependencias con CDI
+    @Inject
+    ReservationService reservationService; // <-- Inyecta el servicio
 
-        @POST
-        @Path("/reservations")
-        public Response crearReservation(@Valid Reservation reservationRequest) {
-            // Por ahora, solo simularemos que lo guardamos
-            System.out.println("Resource - Reservation recibido: " + reservationRequest.getIdClient());
+    @POST
+    @Path("/reservations")
+    public Response crearReservation(@Valid Reservation reservationRequest) {
+        // Por ahora, solo simularemos que lo guardamos
+        System.out.println("Resource - Reservation recibido: " + reservationRequest.getIdClient());
 
-            // Simulamos que la DB le asigna un ID
-            Confirmation confirmationResponse = reservationService.createReservation(reservationRequest);
+        // Simulamos que la DB le asigna un ID
+        Confirmation confirmationResponse = reservationService.createReservation(reservationRequest);
 
-            // Devolvemos la respuesta de confirmación con código 201 (CREATED)
-            return Response.status(Response.Status.CREATED).entity(confirmationResponse).build();
-        }
-
-        @GET
-        @Path("/reservations/{reservationId}")
-        public Response obtenerReservationPorId(@PathParam("reservationId") Integer reservationId) // <-- Nota el @PathParam
-        {
-            System.out.println("Resource - Buscando Reservation con ID: " + reservationId);
-
-            // Validación básica del ID
-            if (reservationId == null || reservationId < 1 || reservationId > 999999) {
-                ApiError errorResponse = new ApiError();
-                errorResponse.setCode("400");
-                errorResponse.setMessage("El ID de la reserva es inválido. Debe estar entre 1 y 999999.");
-                errorResponse.setDetails("ID proporcionado: " + reservationId);
-
-                return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
-            }
-
-            // El controller delega la lógica al servicio
-            Confirmation confirmationResponse = reservationService.getReservationById(reservationId);
-
-            // Devolvemos el reservation con código 200 (OK)
-            return Response.ok(confirmationResponse).build();
-        }
+        // Devolvemos la respuesta de confirmación con código 201 (CREATED)
+        return Response.status(Response.Status.CREATED).entity(confirmationResponse).build();
     }
-    ```
+
+    @GET
+    @Path("/reservations/{reservationId}")
+    public Response obtenerReservationPorId(@PathParam("reservationId") Integer reservationId) // <-- Nota el @PathParam
+    {
+        System.out.println("Resource - Buscando Reservation con ID: " + reservationId);
+
+        // Validación básica del ID
+        if (reservationId == null || reservationId < 1 || reservationId > 999999) {
+            ApiError errorResponse = new ApiError();
+            errorResponse.setCode("400");
+            errorResponse.setMessage("El ID de la reserva es inválido. Debe estar entre 1 y 999999.");
+            errorResponse.setDetails("ID proporcionado: " + reservationId);
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
+        }
+
+        // El controller delega la lógica al servicio
+        Confirmation confirmationResponse = reservationService.getReservationById(reservationId);
+
+        // Devolvemos el reservation con código 200 (OK)
+        return Response.ok(confirmationResponse).build();
+    }
+}
+```
 
 ---
 
