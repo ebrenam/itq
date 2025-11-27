@@ -444,14 +444,14 @@ Quarkus brilla por su _live reload_.
 
     - **Pestaña "Body"**: `raw` y `JSON`.
 
-        ```json
-        {
-            "idReservation": 12345,
-            "idRoom": 5,
-            "instructor": "Juan Pérez",
-            "discount": null
-        }
-        ```
+    ```json
+    {
+        "idClient": "BC-123",
+        "activity": "Yoga",
+        "dayOfWeek": "Lun",
+        "time": "18:16:02.562Z"
+    }
+    ```
 
     - **¡Enviar!** Deberías recibir una respuesta `201 Created` con el JSON y el ID "1".
 
