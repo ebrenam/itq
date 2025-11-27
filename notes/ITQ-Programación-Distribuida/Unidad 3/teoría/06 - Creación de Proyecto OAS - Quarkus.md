@@ -79,13 +79,13 @@ Abre tu archivo `pom.xml`.
 
 ```xml  
         <openapi-generator-maven-plugin.version>7.1.0</openapi-generator-maven-plugin.version>
-        <javax.validation-api.version>2.0.1.Final</javax.validation-api.version>  
+        <javax.validation-api.version>2.0.1.Final</javax.validation-api.version>
 ```
 
 
 2. **Añadir Dependencias que faltaron:** Asegúrate de tener estas dependencias dentro de la etiqueta `<dependencies>`:
 
-    ```xml  
+```xml  
         <!-- OpenAPI Generator dependencies para modelos -->
         <dependency>
             <groupId>javax.validation</groupId>
@@ -100,14 +100,14 @@ Abre tu archivo `pom.xml`.
         </dependency>
         
         <dependency>
-	        <groupId>io.quarkus</groupId>
-	        <artifactId>quarkus-rest-jackson</artifactId>
-		</dependency>
-    ```
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-jackson</artifactId>
+        </dependency>  
+```
 
 3. **Añadir el Plugin Generador:** En la sección `<plugins>` dentro de `<build>`, después del plugin `maven-compiler-plugin`, agrega:
 
-    ```xml
+```xml
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
@@ -164,7 +164,7 @@ Abre tu archivo `pom.xml`.
                     </execution>
                 </executions>
             </plugin>
-    ```
+```
 
 ## ☕ Paso 4: Generar y Mover los Modelos
 
