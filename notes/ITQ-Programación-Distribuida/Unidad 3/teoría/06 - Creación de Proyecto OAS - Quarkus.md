@@ -77,10 +77,10 @@ Abre tu archivo `pom.xml`.
 
 1. **Agregar propiedades para OpenAPI Generator:** En la sección `<properties>`, después de la línea `<surefire-plugin.version>3.5.4</surefire-plugin.version>`, agrega.
 
-    ```xml  
+```xml  
         <openapi-generator-maven-plugin.version>7.1.0</openapi-generator-maven-plugin.version>
-        <javax.validation-api.version>2.0.1.Final</javax.validation-api.version>
-    ```
+        <javax.validation-api.version>2.0.1.Final</javax.validation-api.version>  
+```
 
 
 2. **Añadir Dependencias que faltaron:** Asegúrate de tener estas dependencias dentro de la etiqueta `<dependencies>`:
