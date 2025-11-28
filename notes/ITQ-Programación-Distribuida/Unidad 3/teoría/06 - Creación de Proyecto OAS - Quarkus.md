@@ -764,7 +764,8 @@ public class ReservationResource {
         
         return Response.ok(cancelConfirmation).build();
     }
-}```
+}
+```
 
 ---
 
