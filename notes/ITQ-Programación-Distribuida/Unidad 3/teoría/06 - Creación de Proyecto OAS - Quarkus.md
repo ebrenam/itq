@@ -462,3 +462,310 @@ Quarkus brilla por su _live reload_.
     - **URL:** `http://localhost:8080/api/v1/reservations/1`
 
     - **¡Enviar!** Deberías recibir una respuesta `200 OK` con el reservation simulado desde el servicio.
+
+---
+
+## 🔄 Paso 8: Completar Operaciones Restantes del API
+
+### 📝 **Explicación del Profesor:**
+
+Para tener un API REST completo y funcional, necesitamos implementar las operaciones CRUD restantes. Por cuestiones de tiempo y para mantener el enfoque en los conceptos fundamentales, proporcionamos las clases completas con todas las operaciones implementadas.
+
+---
+
+### **8.1 Implementación Completa del Service**
+
+El `ReservationService` debe manejar todas las operaciones CRUD. Aquí está la versión completa con manejo de errores, validaciones adicionales y lógica de negocio más robusta:
+
+```bash
+package com.ejemplo.api.service;
+
+import com.ejemplo.api.model.CancelConfirmation;
+import com.ejemplo.api.model.Confirmation;
+import com.ejemplo.api.model.ConfirmationList;
+import com.ejemplo.api.model.Reservation;
+import com.ejemplo.api.model.ReservationPatch;
+
+import jakarta.enterprise.context.ApplicationScoped; // <-- Importante
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@ApplicationScoped // Le dice a Quarkus que gestione esta clase como un servicio
+public class ReservationService {
+
+    public Confirmation createReservation(Reservation reservation)
+    {
+        System.out.println("Service - Reservation recibida: " + reservation.getIdClient());
+
+        // Aquí iría la lógica para guardar en la base de datos
+
+        // Simulamos que la DB le asigna un ID
+        Confirmation confirmationResponse = new Confirmation();
+        confirmationResponse.setIdReservation(12345); // ID simulado
+        confirmationResponse.setIdRoom(5); // Sala asignada simulada
+        confirmationResponse.setInstructor("Juan Pérez"); // Instructor asignado simulado
+        confirmationResponse.setDiscount(null); // Sin descuento por defecto
+
+        return confirmationResponse;
+    }
+
+    public ConfirmationList getReservations(String idClient, String activity, String dayOfWeek, String time) {
+        System.out.println("Service - Buscando reservas con criterios");
+        
+        // Aquí iría la lógica para buscar reservas en la base de datos según los criterios
+        
+        // Simulamos que encontramos algunas reservas
+        List<Confirmation> confirmations = new ArrayList<>();
+        
+        // Simulamos 2 reservas de ejemplo
+        Confirmation conf1 = new Confirmation();
+        conf1.setIdReservation(12345);
+        conf1.setIdRoom(5);
+        conf1.setInstructor("María García");
+        conf1.setDiscount(10.50);
+        confirmations.add(conf1);
+        
+        Confirmation conf2 = new Confirmation();
+        conf2.setIdReservation(12346);
+        conf2.setIdRoom(3);
+        conf2.setInstructor("Juan Pérez");
+        conf2.setDiscount(0.0);
+        confirmations.add(conf2);
+        
+        ConfirmationList confirmationList = new ConfirmationList();
+        confirmationList.setConfirmations(confirmations);
+        confirmationList.setTotal(confirmations.size());
+        
+        return confirmationList;
+    }
+
+    public Confirmation getReservationById(Integer reservationId)
+    {
+        System.out.println("Service - Buscando Reservation con ID: " + reservationId);
+
+        // Aquí iría la lógica para buscar la reserva en la base de datos
+
+        // Simulamos que encontramos la reserva
+        Confirmation confirmationResponse = new Confirmation();
+        confirmationResponse.setIdReservation(reservationId);
+        confirmationResponse.setIdRoom(8); // Sala asignada simulada
+        confirmationResponse.setInstructor("Ana López"); // Instructor asignado simulado
+        confirmationResponse.setDiscount(15.00); // Descuento simulado
+
+        return confirmationResponse;
+    }
+    
+    public Confirmation updateReservation(Integer reservationId, Reservation reservation) {
+        System.out.println("Service - Actualizando Reservation con ID: " + reservationId);
+        
+        // Aquí iría la lógica para actualizar completamente la reserva en la base de datos
+        
+        // Simulamos que actualizamos la reserva
+        Confirmation confirmationResponse = new Confirmation();
+        confirmationResponse.setIdReservation(reservationId);
+        confirmationResponse.setIdRoom(8); // Nueva sala asignada simulada
+        confirmationResponse.setInstructor("Ana López"); // Instructor actualizado simulado
+        confirmationResponse.setDiscount(15.00); // Descuento actualizado simulado
+        
+        return confirmationResponse;
+    }
+    
+    public Confirmation patchReservation(Integer reservationId, ReservationPatch reservationPatch) {
+        System.out.println("Service - Actualizando parcialmente Reservation con ID: " + reservationId);
+        
+        // Aquí iría la lógica para actualizar parcialmente la reserva en la base de datos
+        // Solo se actualizarían los campos no nulos del ReservationPatch
+        
+        // Simulamos que actualizamos parcialmente la reserva
+        Confirmation confirmationResponse = new Confirmation();
+        confirmationResponse.setIdReservation(reservationId);
+        confirmationResponse.setIdRoom(5); // Sala mantenida o actualizada
+        confirmationResponse.setInstructor("María García"); // Instructor mantenido o actualizado
+        confirmationResponse.setDiscount(10.50); // Descuento mantenido o actualizado
+        
+        return confirmationResponse;
+    }
+    
+    public CancelConfirmation cancelReservation(Integer reservationId) {
+        System.out.println("Service - Cancelando Reservation con ID: " + reservationId);
+        
+        // Aquí iría la lógica para cancelar la reserva en la base de datos
+        
+        // Simulamos que cancelamos la reserva exitosamente
+        CancelConfirmation cancelConfirmation = new CancelConfirmation();
+        cancelConfirmation.setIdReservation(reservationId);
+        cancelConfirmation.setStatus(CancelConfirmation.StatusEnum.CANCELLED);
+        cancelConfirmation.setMessage("Reserva cancelada exitosamente");
+        cancelConfirmation.setCancelledAt(OffsetDateTime.now());
+        
+        return cancelConfirmation;
+    }
+}
+```
+
+---
+
+### **8.2 Implementación Completa del Resource**
+
+El `ReservationResource` debe exponer todos los endpoints definidos en el OpenAPI specification, con manejo adecuado de códigos HTTP, validaciones y respuestas de error:
+
+```bash
+package com.ejemplo.api.resource;
+
+import com.ejemplo.api.model.ApiError;
+import com.ejemplo.api.model.CancelConfirmation;
+import com.ejemplo.api.model.Confirmation; // <-- Importa el modelo generado
+import com.ejemplo.api.model.ConfirmationList;
+import com.ejemplo.api.model.Reservation; // <-- Importa el modelo generado
+import com.ejemplo.api.model.ReservationPatch;
+import com.ejemplo.api.service.ReservationService; // <-- Importa el servicio
+
+import jakarta.inject.Inject; // <-- Importante para inyección de dependencias
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+@Path("/api/v1") // Prefijo base de la API
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class ReservationResource {
+
+    // Inyección de dependencias con CDI
+    @Inject
+    ReservationService reservationService; // <-- Inyecta el servicio
+
+    @POST
+    @Path("/reservations")
+    public Response createReservation(@Valid Reservation reservationRequest)
+    {
+        // Por ahora, solo simularemos que lo guardamos
+        System.out.println("Resource - Reservation recibido: " + reservationRequest.getIdClient());
+
+        // Simulamos que la DB le asigna un ID
+        Confirmation confirmationResponse = reservationService.createReservation(reservationRequest);
+
+        // Devolvemos la respuesta de confirmación con código 201 (CREATED)
+        return Response.status(Response.Status.CREATED).entity(confirmationResponse).build();
+    }
+    
+    @GET
+    @Path("/reservations")
+    public Response getReservations(
+            @QueryParam("idClient") String idClient,
+            @QueryParam("activity") String activity,
+            @QueryParam("dayOfWeek") String dayOfWeek,
+            @QueryParam("time") String time) {
+        
+        System.out.println("Resource - Buscando reservas con criterios");
+        
+        ConfirmationList confirmationList = reservationService.getReservations(idClient, activity, dayOfWeek, time);
+        
+        return Response.ok(confirmationList).build();
+    }
+    
+    @GET
+    @Path("/reservations/{reservationId}")
+    public Response getReservationById(@PathParam("reservationId") Integer reservationId) // <-- Nota el @PathParam
+    {
+        System.out.println("Resource - Buscando Reservation con ID: " + reservationId);
+
+        // Validación básica del ID
+        if (reservationId == null || reservationId < 1 || reservationId > 999999) {
+            ApiError errorResponse = new ApiError();
+            errorResponse.setCode("400");
+            errorResponse.setMessage("El ID de la reserva es inválido. Debe estar entre 1 y 999999.");
+            errorResponse.setDetails("ID proporcionado: " + reservationId);
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
+        }
+
+        // Simulamos que encontramos la reserva
+        // El controller delega la lógica al servicio
+        Confirmation confirmationResponse = reservationService.getReservationById(reservationId);
+    
+        // Devolvemos el reservation con código 200 (OK)
+        return Response.ok(confirmationResponse).build();
+    }
+    
+    @PUT
+    @Path("/reservations/{reservationId}")
+    public Response updateReservation(
+            @PathParam("reservationId") Integer reservationId,
+            @Valid Reservation reservationRequest) {
+        
+        System.out.println("Resource - Actualizando Reservation con ID: " + reservationId);
+        
+        // Validación básica del ID
+        if (reservationId == null || reservationId < 1 || reservationId > 999999) {
+            ApiError errorResponse = new ApiError();
+            errorResponse.setCode("400");
+            errorResponse.setMessage("El ID de la reserva es inválido. Debe estar entre 1 y 999999.");
+            errorResponse.setDetails("ID proporcionado: " + reservationId);
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
+        }
+        
+        Confirmation confirmationResponse = reservationService.updateReservation(reservationId, reservationRequest);
+        
+        return Response.ok(confirmationResponse).build();
+    }
+    
+    @PATCH
+    @Path("/reservations/{reservationId}")
+    public Response patchReservation(
+            @PathParam("reservationId") Integer reservationId,
+            @Valid ReservationPatch reservationPatch) {
+        
+        System.out.println("Resource - Actualizando parcialmente Reservation con ID: " + reservationId);
+        
+        // Validación básica del ID
+        if (reservationId == null || reservationId < 1 || reservationId > 999999) {
+            ApiError errorResponse = new ApiError();
+            errorResponse.setCode("400");
+            errorResponse.setMessage("El ID de la reserva es inválido. Debe estar entre 1 y 999999.");
+            errorResponse.setDetails("ID proporcionado: " + reservationId);
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
+        }
+        
+        Confirmation confirmationResponse = reservationService.patchReservation(reservationId, reservationPatch);
+        
+        return Response.ok(confirmationResponse).build();
+    }
+    
+    @DELETE
+    @Path("/reservations/{reservationId}")
+    public Response cancelReservation(@PathParam("reservationId") Integer reservationId) {
+        
+        System.out.println("Resource - Cancelando Reservation con ID: " + reservationId);
+        
+        // Validación básica del ID
+        if (reservationId == null || reservationId < 1 || reservationId > 999999) {
+            ApiError errorResponse = new ApiError();
+            errorResponse.setCode("400");
+            errorResponse.setMessage("El ID de la reserva es inválido. Debe estar entre 1 y 999999.");
+            errorResponse.setDetails("ID proporcionado: " + reservationId);
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
+        }
+        
+        CancelConfirmation cancelConfirmation = reservationService.cancelReservation(reservationId);
+        
+        return Response.ok(cancelConfirmation).build();
+    }
+}```
+
+---
+
+**🎯 Resultado Esperado:** Al final de este paso tendrás un API REST completamente funcional que sigue las mejores prácticas de la industria, listo para ser integrado con persistencia de datos y deployado en contenedores Docker.
