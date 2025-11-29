@@ -118,7 +118,7 @@ graph TD
 
 ---
 
-## 3. 🔨 Dockerfile - La Receta de construcción
+## 3. 🔨 Dockerfile - La receta de construcción
 
 El Dockerfile es tu **"receta"** para crear imágenes Docker. Cada línea es una instrucción que se ejecuta secuencialmente, y cada instrucción crea una nueva capa en la imagen.
 

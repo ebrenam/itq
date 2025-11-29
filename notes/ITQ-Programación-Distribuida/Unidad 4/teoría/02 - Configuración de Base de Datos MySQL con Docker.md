@@ -901,15 +901,7 @@ quarkus.datasource.jdbc.min-size=2
 quarkus.datasource.jdbc.max-size=10
 ```
 
-### 9.2 Probar Conexión con un Cliente MySQL
-
-Si tienes un cliente MySQL instalado localmente:
-
-```bash
-mysql -h 127.0.0.1 -P 3306 -u quarkus_user -p reservation_system
-```
-
-### 9.3 Usar MySQL Workbench o phpMyAdmin
+### 9.2 Usar MySQL Workbench
 
 **Configuración de conexión:**
 - **Host:** `localhost` o `127.0.0.1`
