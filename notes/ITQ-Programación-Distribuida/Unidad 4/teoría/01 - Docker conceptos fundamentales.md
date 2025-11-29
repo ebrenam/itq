@@ -1,10 +1,10 @@
 # Docker conceptos fundamentales
 
-## 1. 🏗️ Arquitectura General de Docker
+## 1. 🏗️ Arquitectura general de Docker
 
 Imagina Docker como una **fábrica moderna automatizada** donde cada componente tiene un rol específico y bien definido:
 
-**🎯 Conceptos Fundamentales:**
+**🎯 Conceptos fundamentales:**
 
 - **Docker Engine**: Es el "corazón" del sistema - un motor que gestiona todo el ciclo de vida de los contenedores
 - **Docker Daemon (dockerd)**: El "trabajador silencioso" que ejecuta en segundo plano y hace todo el trabajo pesado
@@ -21,7 +21,7 @@ Docker es como dirigir una orquesta sinfónica:
 - **Daemon** = Concertino que coordina
 - **Objects** = Diferentes secciones (violines=containers, piano=images, etc.)
 
-**🔑 Punto Clave:** Todo comienza con el kernel de Linux que proporciona las tecnologías fundamentales (cgroups y namespaces) que hacen posible el aislamiento de contenedores.
+**🔑 Punto clave:** Todo comienza con el kernel de Linux que proporciona las tecnologías fundamentales (cgroups y namespaces) que hacen posible el aislamiento de contenedores.
 
 ```mermaid
 graph TD
@@ -56,16 +56,16 @@ graph TD
 
 ---
 
-## 2. 📦 Image vs Container - La Diferencia Fundamental
+## 2. 📦 Image vs Container - La diferencia fundamental
 
-**🎯 Conceptos Esenciales:**
+**🎯 Conceptos esenciales:**
 
 - **Image = Receta de cocina** 📜 (instrucciones para hacer un platillo)
 - **Container = Platillo preparado** 🍽️ (el resultado de seguir la receta)
 - **Layers = Pasos de la receta** (cada instrucción del Dockerfile crea una capa)
 - **Writable Layer = Personalización individual** (cada comensal puede agregar sal o salsa)
 
-**💡 Analogía de la Construcción:**  
+**💡 Analogía de la construcción:**  
 Piensa en construir casas:
 
 - **Image** = Planos arquitectónicos (blueprint)
@@ -73,7 +73,7 @@ Piensa en construir casas:
 - **Container** = Casa construida y habitada
 - **Writable Layer** = Decoración personal del inquilino
 
-**🔑 Puntos Críticos:**
+**🔑 Puntos críticos:**
 
 1. **Una imagen** puede crear **infinitos contenedores**
 2. **Las imágenes NUNCA cambian** (son inmutables)
@@ -118,11 +118,11 @@ graph TD
 
 ---
 
-## 3. 🔨 Dockerfile - La Receta de Construcción
+## 3. 🔨 Dockerfile - La Receta de construcción
 
 El Dockerfile es tu **"receta"** para crear imágenes Docker. Cada línea es una instrucción que se ejecuta secuencialmente, y cada instrucción crea una nueva capa en la imagen.
 
-**🎯 Instrucciones Fundamentales:**
+**🎯 Instrucciones fundamentales:**
 
 - **FROM**: "Comenzar con este ingrediente base" - define la imagen padre
 - **RUN**: "Ejecutar este comando ahora durante la construcción" - instala paquetes, compila código
@@ -130,14 +130,14 @@ El Dockerfile es tu **"receta"** para crear imágenes Docker. Cada línea es u
 - **EXPOSE**: "Esta aplicación usará este puerto" - documentación, no abre el puerto
 - **CMD**: "Cuando alguien ejecute un contenedor de esta imagen, ejecuta esto por defecto"
 
-**💡 Principios de Optimización:**
+**💡 Principios de optimización:**
 
 1. **Orden importa**: Instrucciones que cambian frecuentemente van al final
 2. **Capas mínimas**: Combina comandos RUN relacionados con &&
 3. **Cache de capas**: Docker reutiliza capas si no han cambiado
 4. **Multi-stage builds**: Usa múltiples FROM para optimizar tamaño final
 
-**🔑 Analogía del Chef:**  
+**🔑 Analogía del chef:**  
 Imagínate escribiendo una receta de cocina profesional:
 
 - FROM = "Empezar con una olla limpia"
@@ -181,11 +181,11 @@ graph LR
 
 ---
 
-## 4. 🔄 Container Lifecycle - Estados de Vida del Contenedor
+## 4. 🔄 Container Lifecycle - Estados de vida del contenedor
 
 Un contenedor Docker pasa por diferentes **estados de vida**, similar a cómo un proceso en tu sistema operativo puede estar ejecutándose, pausado, o detenido.
 
-**🎯 Estados Críticos del Contenedor:**
+**🎯 Estados críticos del contenedor:**
 
 - **Created**: "Existe en papel pero no está activo" - configurado pero no ejecutándose
 - **Running**: "Activo y trabajando" - consumiendo CPU, memoria, ejecutando procesos
@@ -193,7 +193,7 @@ Un contenedor Docker pasa por diferentes **estados de vida**, similar a cómo u
 - **Stopped**: "Detenido limpiamente" - procesos terminados, estado del filesystem preservado
 - **Killed**: "Terminación forzada" - como usar Ctrl+C o kill -9 en Linux
 
-**💡 Analogía del Semáforo:**  
+**💡 Analogía del semáforo:**  
 Piensa en un auto en diferentes estados:
 
 - **Created** = Auto estacionado con motor apagado
@@ -202,7 +202,7 @@ Piensa en un auto en diferentes estados:
 - **Stopped** = Auto estacionado, motor apagado ordenadamente
 - **Killed** = Auto con motor fundido (terminación abrupta)
 
-**🔑 Transiciones Importantes:**
+**🔑 Transiciones importantes:**
 
 1. **Restart Policy**: Define qué hacer si el contenedor falla
 2. **Graceful Shutdown**: `docker stop` permite terminación limpia (SIGTERM + SIGKILL)
@@ -212,11 +212,11 @@ Piensa en un auto en diferentes estados:
 
 ---
 
-## 5. 💾 Volumes - El Sistema de Almacenamiento Inteligente
+## 5. 💾 Volumes - El sistema de almacenamiento inteligente
 
 Los volúmenes resuelven **el problema fundamental de persistencia de datos** en contenedores. Sin volúmenes, todos los datos se pierden cuando eliminas un contenedor.
 
-**🎯 Los Tres Tipos de Almacenamiento en Docker:**
+**🎯 Los tres tipos de almacenamiento en Docker:**
 
 **1. Named Volumes** (🏆 Recomendado para Producción):
 
@@ -281,11 +281,11 @@ graph TD
 
 ---
 
-## 6. 🌐 Networks - El Sistema Nervioso de los Contenedores
+## 6. 🌐 Networks - El sistema nervioso de los contenedores
 
 Las redes en Docker son como **diferentes tipos de vecindarios** donde pueden vivir tus contenedores, cada uno con sus propias reglas de comunicación y seguridad.
 
-**🎯 Los Cuatro Tipos de Redes:**
+**🎯 Los cuatro tipos de redes:**
 
 **1. bridge (default)** - "Vecindario básico":
 
@@ -310,7 +310,7 @@ Las redes en Docker son como **diferentes tipos de vecindarios** donde pueden 
 - **Analogía**: Cabaña aislada sin teléfono ni internet
 - **Uso**: Procesamiento batch, trabajos que no necesitan red
 
-**🔑 Principio Fundamental:**  
+**🔑 Principio fundamental:**  
 Los contenedores en la **misma red personalizada** pueden comunicarse usando nombres de contenedor como si fueran nombres de dominio.
 
 ```mermaid
@@ -345,18 +345,18 @@ graph TD
 
 ---
 
-## 7. 🎼 Docker Compose - El Director de Orquesta
+## 7. 🎼 Docker Compose - El director de orquesta
 
 Docker Compose es tu **"director de orquesta digital"** que coordina múltiples contenedores para crear una aplicación completa y armoniosa.
 
-**🎯 Conceptos Fundamentales:**
+**🎯 Conceptos fundamentales:**
 
 - **Services**: Los "músicos" de tu orquesta (web server, database, cache, API)
 - **Networks**: Los "cables y conexiones" que permiten a los músicos comunicarse
 - **Volumes**: Los "atriles" donde cada músico guarda su partitura (datos persistentes)
 - **docker-compose.yml**: La "partitura principal" que todos siguen
 
-**💡 Analogía de la Banda Musical:**  
+**💡 Analogía de la banda musical:**  
 Imagina dirigir una banda con:
 
 - **Guitarrista** (web server) - produce la melodía principal
@@ -364,14 +364,14 @@ Imagina dirigir una banda con:
 - **Baterista** (cache) - mantiene el ritmo rápido
 - **Vocalista** (API) - interactúa con la audiencia
 
-**🔑 Ventajas Clave:**
+**🔑 Ventajas clave:**
 
 1. **Un comando para todo**: `docker-compose up` levanta toda la aplicación
 2. **Definición declarativa**: Describes QUÉ quieres, no CÓMO hacerlo
 3. **Entornos consistentes**: Mismo comportamiento en desarrollo y pruebas
 4. **Escalabilidad simple**: `docker-compose up --scale api=3`
 
-**🎯 Patrones Comunes:**
+**🎯 Patrones comunes:**
 
 - **LAMP Stack**: Linux + Apache + MySQL + PHP
 - **MEAN Stack**: MongoDB + Express + Angular + Node.js
@@ -421,11 +421,11 @@ graph TD
 
 ---
 
-## 8. 🏭 Docker Stack - La Fábrica Multinacional
+## 8. 🏭 Docker Stack - La fábrica multinacional
 
 Docker Stack es como administrar una **corporación multinacional** con múltiples plantas de producción (nodos) que fabrican el mismo producto (servicio) con alta disponibilidad y tolerancia a fallos.
 
-**🎯 Escalamiento Conceptual:**
+**🎯 Escalamiento conceptual:**
 
 - **Docker Compose**: "Taller artesanal" (una sola máquina, desarrollo local)
 - **Docker Stack**: "Fábrica industrial" (múltiples máquinas, producción global)
@@ -437,18 +437,18 @@ Docker Stack es como administrar una **corporación multinacional** con múlti
 - **Services**: Los "productos" que se fabrican en múltiples líneas de producción
 - **Tasks/Replicas**: Las "unidades individuales" de cada producto en cada planta
 
-**💡 Analogía Industrial:**  
+**💡 Analogía industrial:**  
 Imagina una empresa como Boing:
 
-- **Sede Central** (Manager nodes) decide QUÉ producir y DÓNDE
-- **Plantas Regionales** (Worker nodes) ejecutan la producción
+- **Sede central** (Manager nodes) decide QUÉ producir y DÓNDE
+- **Plantas regionales** (Worker nodes) ejecutan la producción
 - **Producto** (Service) = Boing, pero se produce en múltiples plantas
 - **Lotes** (Tasks) = Cada botella individual producida
 
-**🔑 Beneficios de Producción:**
+**🔑 Beneficios de producción:**
 
-1. **Alta Disponibilidad**: Si una planta falla, las otras siguen funcionando
-2. **Balanceo de Carga**: Las órdenes se distribuyen automáticamente
+1. **Alta disponibilidad**: Si una planta falla, las otras siguen funcionando
+2. **Balanceo de carga**: Las órdenes se distribuyen automáticamente
 3. **Auto-recovery**: Si una máquina falla, se reemplaza automáticamente
 4. **Rolling Updates**: Actualizar sin detener la producción
 
@@ -496,7 +496,7 @@ graph TD
 
 ---
 
-## 9. 🎯 Service Discovery y Load Balancing - El Sistema de Distribución Inteligente
+## 9. 🎯 Service Discovery y Load Balancing - El sistema de distribución inteligente
 
 Este concepto representa el **"cerebro logístico"** de Docker Swarm que resuelve dos problemas fundamentales: "¿Cómo encuentro los servicios?" y "¿Cómo distribuyo el trabajo equitativamente?"
 
@@ -521,7 +521,7 @@ Imagina un call center de soporte técnico:
 2. **Least Connections**: Al agente con menos llamadas activas
 3. **Health-based**: Solo a agentes que pasaron el examen médico
 
-**💪 Beneficio Principal:** Los clientes nunca necesitan saber cuántos servidores hay o cuáles están disponibles - el sistema maneja toda la complejidad internamente.
+**💪 Beneficio principal:** Los clientes nunca necesitan saber cuántos servidores hay o cuáles están disponibles - el sistema maneja toda la complejidad internamente.
 
 ```mermaid
 graph TB
@@ -552,11 +552,11 @@ graph TB
 
 ---
 
-## 10. 🏢 Stack de Producción Completo - La Arquitectura Empresarial
+## 10. 🏢 Stack de producción completo - La arquitectura empresarial
 
 Este diagrama representa una **arquitectura de producción real** como las que usan empresas como Netflix, Uber o cualquier aplicación web moderna. Es la culminación de todos los conceptos anteriores trabajando juntos.
 
-**🎯 Arquitectura por Capas (Principio de Separación de Responsabilidades):**
+**🎯 Arquitectura por capas (Principio de separación de responsabilidades):**
 
 **🌐 Frontend Tier** - "La Cara de la Empresa":
 
@@ -578,14 +578,14 @@ Este diagrama representa una **arquitectura de producción real** como las que
 - **Metrics**: Los "indicadores del tablero" (CPU, memoria, requests/segundo)
 - **Logs**: El "archivo histórico" de todo lo que ha pasado
 
-**🔑 Principios de Diseño:**
+**🔑 Principios de diseño:**
 
-1. **Escalabilidad Horizontal**: Cada capa puede crecer independientemente
-2. **Fault Tolerance**: Si falla un componente, los demás siguen funcionando
-3. **Separation of Concerns**: Cada capa tiene una responsabilidad específica
+1. **Escalabilidad horizontal**: Cada capa puede crecer independientemente
+2. **Fault tolerance**: Si falla un componente, los demás siguen funcionando
+3. **Separation of concerns**: Cada capa tiene una responsabilidad específica
 4. **Observability**: Monitoreo completo para detectar y resolver problemas
 
-**💡 Analogía Empresarial:**  
+**💡 Analogía empresarial:**  
 Es como organizar una empresa multinacional:
 
 - **Frontend** = Sucursales y atención al cliente
@@ -653,28 +653,28 @@ graph TD
 
 ---
 
-## 11. 🥊 Container vs VM - La Revolución del Paradigma
+## 11. 🥊 Container vs VM - La revolución del paradigma
 
 Esta comparación explica **por qué Docker cambió completamente la industria del software**. Es la diferencia entre la arquitectura tradicional y la moderna.
 
-**🎯 Virtual Machines** - "El Modelo Tradicional":  
-**Analogía del Hotel:** Cada huésped (aplicación) renta una habitación completa con baño privado, cocina, y servicios individuales
+**🎯 Virtual Machines** - "El modelo tradicional":  
+**Analogía del hotel:** Cada huésped (aplicación) renta una habitación completa con baño privado, cocina, y servicios individuales
 
 - **Ventajas**: Aislamiento total, diferentes sistemas operativos
 - **Desventajas**: Costoso en recursos, lento para iniciar, desperdicio de espacio
 
-**🎯 Containers** - "La Revolución Moderna":  
-**Analogía del Hostel:** Múltiples viajeros comparten cocina y servicios comunes, pero cada uno tiene su cama privada
+**🎯 Containers** - "La revolución moderna":  
+**Analogía del hostel:** Múltiples viajeros comparten cocina y servicios comunes, pero cada uno tiene su cama privada
 
 - **Ventajas**: Eficiente en recursos, arranque instantáneo, mayor densidad
 - **Desventajas**: Mismo kernel, menor aislamiento que VMs
 
-**🔑 Números que Importan:**
+**🔑 Números que importan:**
 
 - **VM**: Gigabytes de RAM, minutos para arrancar, ~10 VMs por servidor
 - **Container**: Megabytes de RAM, segundos para arrancar, ~100+ contenedores por servidor
 
-**💡 Cuándo Usar Cada Uno:**
+**💡 Cuándo usar cada uno:**
 
 - **VMs**: Diferentes sistemas operativos, máximo aislamiento de seguridad, aplicaciones legacy
 - **Containers**: Mismo OS, microservicios, CI/CD, desarrollo ágil
@@ -683,43 +683,43 @@ Esta comparación explica **por qué Docker cambió completamente la industria 
 
 ---
 
-## 12. 🔄 Development Workflow - El Ciclo de Vida del Software Moderno
+## 12. 🔄 Development Workflow - El ciclo de vida del software moderno
 
 Este diagrama muestra el **"pipeline de software moderno"** - el viaje que hace tu código desde tu computadora hasta que los usuarios finales lo usan en producción.
 
-**🎯 Las 5 Estaciones del Pipeline:**
+**🎯 Las 5 estaciones del pipeline:**
 
-**1. 👨‍💻 Write Code** - "El Laboratorio del Científico":
+**1. 👨‍💻 Write Code** - "El laboratorio del científico":
 
 - Donde nace la innovación
 - Tu entorno de desarrollo local
 - Experimentos, pruebas, creatividad
 
-**2. 🔧 Build Image** - "La Fábrica de Empaquetado":
+**2. 🔧 Build Image** - "La fábrica de empaquetado":
 
 - Tu código se convierte en un "producto terminado"
 - Dockerfile define el proceso de manufactura
 - Resultado: Una imagen lista para distribuir
 
-**3. 🧪 Test Local** - "Control de Calidad":
+**3. 🧪 Test Local** - "Control de calidad":
 
 - Verificación antes del lanzamiento
 - Pruebas unitarias, integración, performance
 - "Medir dos veces, cortar una vez"
 
-**4. 📤 Push Registry** - "El Almacén Central":
+**4. 📤 Push Registry** - "El almacén central":
 
 - Tu "producto" se almacena en un lugar accesible globalmente
 - Docker Hub, AWS ECR, Google Container Registry
 - Como un "GitHub para imágenes"
 
-**5. 🚀 Deploy Production** - "Lanzamiento al Mercado":
+**5. 🚀 Deploy Production** - "Lanzamiento al mercado":
 
 - Tu aplicación se ejecuta en servidores de producción
 - Los usuarios reales pueden acceder
 - Monitoreo y feedback continuo
 
-**🔄 El Ciclo Continuo:**  
+**🔄 El ciclo continuo:**  
 El feedback de producción (bugs, nuevas funcionalidades, performance) alimenta nuevas iteraciones de desarrollo, creando un ciclo de mejora continua.
 
 **💡 Principio DevOps:**  
@@ -743,7 +743,7 @@ graph LR
     style DEPLOY fill:#fce4ec, color:#000000;
 ```
 
-## Comandos Esenciales
+## Comandos esenciales
 
 ```bash
 # Imágenes
@@ -779,7 +779,7 @@ docker stack ls                       # Listar stacks
 docker service ls                     # Listar servicios
 ```
 
-## Conceptos Clave a Recordar
+## Conceptos clave a recordar
 
 1. **Images**: Plantillas inmutables para crear contenedores
 2. **Containers**: Instancias ejecutables de las imágenes
