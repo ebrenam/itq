@@ -1,6 +1,6 @@
 # Integración de Base de Datos MySQL con Quarkus
 
-Este documento continúa desde donde dejamos en la **"Creación de Proyecto OAS - Quarkus"** y te guiará paso a paso para agregar persistencia con MySQL y completar las operaciones CRUD.
+Este documento continúa desde donde dejamos en la **"Creación de Proyecto OAS - Quarkus"** de la Unidad 3 y te guiará paso a paso para agregar persistencia con MySQL y completar las operaciones CRUD.
 
 ---
 
@@ -12,60 +12,25 @@ Este documento continúa desde donde dejamos en la **"Creación de Proyecto OAS
 
 ---
 
-## 🗄️ Paso 1: Configurar MySQL y Crear la Base de Datos
+## 🗄️ Paso 1: Validación de ls configurar MySQL y Base de Datos
 
 Primero, necesitamos preparar nuestra base de datos.
 
 ### 1.1 Conectar a MySQL
 
-Abre una terminal o cliente MySQL y conecta:
+Se puede realizar la conexión de diferentes formas, en este punto se recomienda utilizar un cliente como `MySQL Workbench` o `DBeaver` que presentan una interfaz gráfica.
 
-```bash
-mysql -u root -p
-``` 
+Abre el cliente de tu elección y conecta con los siguientes datos:
 
-### 1.2 Crear la Base de Datos y Tabla
+| Dato     | Valor              |
+| -------- | ------------------ |
+| Server   | localhost          |
+| Port     | 3306               |
+| Database | reservation_system |
+| Username | quarkus_user       |
+| Password | quarkus_password   |
 
-```bash
--- Crear la base de datos
-CREATE DATABASE reservation_system;
-
--- Usar la base de datos
-USE reservation_system;
-
--- Crear la tabla de reservaciones
-CREATE TABLE reservations (
-    id_reservation INT AUTO_INCREMENT PRIMARY KEY,
-    id_client INT NOT NULL,
-    id_room INT NOT NULL,
-    instructor VARCHAR(100),
-    discount DECIMAL(5,2),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Insertar algunos datos de ejemplo
-INSERT INTO reservations (id_client, id_room, instructor, discount) VALUES
-(1001, 5, 'Juan Pérez', 10.50),
-(1002, 3, 'Ana López', 15.00),
-(1003, 7, 'Carlos Ruiz', NULL);
-
--- Verificar los datos
-SELECT * FROM reservations;
-``` 
-
-### 1.3 Crear Usuario para la Aplicación (Opcional pero Recomendado)
-
-```bash
--- Crear usuario específico para la aplicación
-CREATE USER 'quarkus_user'@'localhost' IDENTIFIED BY 'quarkus_password';
-
--- Otorgar permisos sobre la base de datos
-GRANT ALL PRIVILEGES ON reservation_system.* TO 'quarkus_user'@'localhost';
-
--- Aplicar cambios
-FLUSH PRIVILEGES;
-``` 
+> Si no cuentas con una Base de Datos ya creada, necesitas realizar los pasos del punto `8.4 Configuración con Volúmenes Docker (Recomendado para producción)` del documento **Configuración de Base de Datos MySQL con Docker**.
 
 ---
 
