@@ -1,6 +1,6 @@
 # Integración de Base de Datos MySQL con Quarkus
 
-Este documento continúa desde donde dejamos en la **"Creación de Proyecto OAS - Quarkus"** de la Unidad 3 y te guiará paso a paso para agregar persistencia con MySQL y completar las operaciones CRUD.
+Este documento continúa desde donde dejamos en la **"Creación de Proyecto OAS - Quarkus"** de la **Unidad 3** y te guiará paso a paso para agregar persistencia con MySQL y completar las operaciones CRUD.
 
 ---
 
@@ -39,23 +39,23 @@ Abre el cliente de tu elección y conecta con los siguientes datos:
 Abre tu archivo `pom.xml` y agrega las siguientes dependencias dentro de la sección `<dependencies>`:
 
 ```bash
-<!-- Dependencias para MySQL y Hibernate ORM -->
-<dependency>
-    <groupId>io.quarkus</groupId>
-    <artifactId>quarkus-hibernate-orm</artifactId>
-</dependency>
+        <!-- Dependencias para MySQL y Hibernate ORM -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-orm</artifactId>
+        </dependency>
 
-<dependency>
-    <groupId>io.quarkus</groupId>
-    <artifactId>quarkus-jdbc-mysql</artifactId>
-</dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-jdbc-mysql</artifactId>
+        </dependency>
 
-<!-- Dependencia para Hibernate ORM con Panache (simplifica JPA) -->
-<dependency>
-    <groupId>io.quarkus</groupId>
-    <artifactId>quarkus-hibernate-orm-panache</artifactId>
-</dependency>
-``` 
+        <!-- Dependencia para Hibernate ORM con Panache (simplifica JPA) -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-orm-panache</artifactId>
+        </dependency>
+```
 
 **💡 Explicación:**
 
