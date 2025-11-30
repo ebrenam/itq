@@ -697,16 +697,16 @@ Dentro de la carpeta `init-scripts`, actualiza el contenido del archivo `01-crea
 -- Crear base de datos
 USE reservation_system;
 
--- Crear la tabla de reservas sin foreign keys problemáticas
+-- Crear la tabla de reservas compatible con Panache
 CREATE TABLE reservations (
-    id_reservation INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     id_client VARCHAR(6) NOT NULL,
     activity VARCHAR(255) NOT NULL,
     day_of_week VARCHAR(3) NOT NULL,
-    time TIME NOT NULL,
+    time VARCHAR(10) NOT NULL,
     id_room INT,
     instructor VARCHAR(255),
-    discount DOUBLE DEFAULT 0.0,
+    discount DECIMAL(5,2) DEFAULT 0.0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -717,13 +717,19 @@ CREATE INDEX idx_activity ON reservations(activity);
 CREATE INDEX idx_day_time ON reservations(day_of_week, time);
 CREATE INDEX idx_room ON reservations(id_room);
 
--- Insertar algunos datos de ejemplo para pruebas
+-- Tabla de secuencias requerida por Hibernate para generación de IDs
+CREATE TABLE reservations_SEQ (
+    next_val BIGINT
+) ENGINE=InnoDB;
+
+INSERT INTO reservations_SEQ (next_val) VALUES (4);
+
+-- Datos de ejemplo
 INSERT INTO reservations (id_client, activity, day_of_week, time, id_room, instructor, discount) VALUES
-('BC-001', 'Yoga', 'Lun', '09:00:00', 1, 'María García', 5.0),
-('PC-002', 'Pilates', 'Mar', '10:00:00', 2, 'Ana López', 10.0),
-('BC-003', 'Zumba', 'Mie', '18:00:00', 3, 'Carlos Ruiz', 0.0),
-('PC-004', 'Yoga', 'Jue', '07:00:00', 1, 'María García', 5.0),
-('BC-005', 'CrossFit', 'Vie', '19:00:00', 4, 'Juan Pérez', 0.0);
+('BC-001', 'Yoga', 'Lun', '09:00', 1, 'María García', 5.0),
+('PC-002', 'Pilates', 'Mar', '10:00', 2, 'Ana López', 10.0),
+('BC-003', 'Zumba', 'Mie', '18:00', 3, 'Carlos Ruiz', 0.0);
+
 ```
 
 **💡 Diferencias Clave:**
@@ -927,13 +933,7 @@ quarkus.datasource.password=quarkus_password
 quarkus.datasource.jdbc.url=jdbc:mysql://localhost:3306/reservation_system
 
 # Configuración de Hibernate
-quarkus.hibernate-orm.database.generation=none
 quarkus.hibernate-orm.log.sql=true
-quarkus.hibernate-orm.sql-load-script=no-file
-
-# Configuración del pool de conexiones
-quarkus.datasource.jdbc.min-size=2
-quarkus.datasource.jdbc.max-size=10
 ```
 
 ### 9.2 Usar MySQL Workbench
