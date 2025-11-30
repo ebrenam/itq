@@ -599,7 +599,7 @@ docker rm mysql-quarkus
 docker volume prune
 ```
 
-- Validar si la carpeta `mysql-data` tiene información
+- Validar la carpeta `mysql-data` (no debe contener información)
 
 ```bash
 ls mysql-data
@@ -654,7 +654,7 @@ Los **Named Volumes** son la forma recomendada de manejar persistencia en prod
 - **Respaldables**: Docker puede hacer backups automáticos
 - **Seguros**: Mejor aislamiento que los bind mounts
 
-### 8.4.1 Crear archivo docker-compose.yml con Named Volumes
+### 8.4.1 Crear archivo docker-compose con Named Volumes
 
 > Esta es una versión simplificada que es totalmente administrada por Docker.
 
