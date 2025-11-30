@@ -643,7 +643,7 @@ binlog.000001        client-key.pem      mysql.sock         server-key.pem
 - Manejo automático de redes
 - Persistencia de datos garantizada
 
-## 8.4 Configuración con Volúmenes Docker (Recomendado para Producción)
+## 8.4 Configuración con Volúmenes Docker (Recomendado para producción)
 
 Los **Named Volumes** son la forma recomendada de manejar persistencia en producción porque Docker los administra automáticamente, son portables entre diferentes sistemas y no dependen de la estructura de carpetas del host.
 
@@ -792,30 +792,6 @@ INSERT INTO reservations (id_client, id_activity, id_room, id_instructor, day_of
 (4, 3, 1, 1, 'Jue', '10:30', 10.50),   -- PC-001 - Pilates - Descuento Premium
 (1, 1, 1, 1, 'Vie', '09:00', 5.00),    -- BC-123 - Yoga otra vez
 (2, 2, 2, 3, 'Sab', '11:00', 12.75);   -- PC-456 - Zumba Premium
-```
-
-```bash
--- ================================================================
--- 7. CONSULTA PARA VERIFICAR RELACIONES
--- ================================================================
-
--- Consulta que muestra todas las relaciones (para que los estudiantes entiendan los JOINs)
-SELECT 
-    r.id_reservation,
-    c.client_code,
-    c.full_name as cliente,
-    c.membership_type,
-    a.name as actividad,
-    rm.room_name as sala,
-    i.full_name as instructor,
-    r.day_of_week,
-    r.time_slot,
-    r.discount
-FROM reservations r
-JOIN clients c ON r.id_client = c.id_client
-JOIN activities a ON r.id_activity = a.id_activity
-JOIN rooms rm ON r.id_room = rm.id_room
-LEFT JOIN instructors i ON r.id_instructor = i.id_instructor;
 ```
 
 **💡 Diferencias Clave:**
@@ -1005,9 +981,9 @@ docker volume prune
 
 ---
 
-## 🧪 Paso 9: Probar la Conexión desde una Aplicación Externa
+## 🧪 Paso 9: Probar la Conexión desde una aplicación externa
 
-### 9.1 Información de Conexión para Quarkus
+### 9.1 Información de conexión para Quarkus
 
 Para tu archivo `application.properties` en Quarkus:
 
@@ -1039,9 +1015,9 @@ quarkus.datasource.jdbc.max-size=10
 
 ---
 
-## 🔄 Paso 10: Comandos de Gestión del Contenedor
+## 🔄 Paso 10: Comandos de gestión del Cctenedor
 
-### 10.1 Comandos Básicos de Gestión
+### 10.1 Comandos básicos de gestión
 
 ```bash
 # Ver contenedores en ejecución
@@ -1086,7 +1062,7 @@ docker-compose down && docker-compose up -d
 
 ---
 
-## 🛠️ Paso 11: Solución de Problemas Comunes
+## 🛠️ Paso 11: Solución de problemas comunes
 
 ### 11.1 El contenedor no inicia
 
@@ -1131,9 +1107,9 @@ FLUSH PRIVILEGES;
 
 ---
 
-## 🧹 Paso 12: Limpieza y Mantenimiento
+## 🧹 Paso 12: Limpieza y mantenimiento
 
-### 12.1 Eliminar Contenedor y Datos
+### 12.1 Eliminar contenedor y datos
 
 ```bash
 # Detener y eliminar contenedor
@@ -1159,9 +1135,9 @@ docker exec -i mysql-quarkus mysql -u quarkus_user -p reservation_system < backu
 
 ---
 
-## 📋 Resumen de Comandos Esenciales
+## 📋 Resumen de comandos esenciales
 
-### Flujo Completo Paso a Paso:
+### Flujo completo paso a paso:
 
 1. **Preparar entorno:**
    ```bash
