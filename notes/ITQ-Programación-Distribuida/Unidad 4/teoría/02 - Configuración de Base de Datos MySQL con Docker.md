@@ -691,6 +691,133 @@ networks:
     driver: bridge
 ```
 
+Dentro de la carpeta `init-scripts`, actualiza el contenido del archivo `01-create-table.sql`:
+
+```sql
+-- Crear base de datos
+USE reservation_system;
+
+-- ================================================================
+-- 1. TABLA DE CLIENTES
+-- ================================================================
+CREATE TABLE clients (
+    id_client INT AUTO_INCREMENT PRIMARY KEY,
+    client_code VARCHAR(10) NOT NULL UNIQUE,
+    full_name VARCHAR(100) NOT NULL,
+    membership_type ENUM('Basic', 'Premium') NOT NULL
+);
+
+-- ================================================================
+-- 2. TABLA DE ACTIVIDADES
+-- ================================================================
+CREATE TABLE activities (
+    id_activity INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    duration_minutes INT NOT NULL
+);
+
+-- ================================================================
+-- 3. TABLA DE SALAS
+-- ================================================================
+CREATE TABLE rooms (
+    id_room INT AUTO_INCREMENT PRIMARY KEY,
+    room_name VARCHAR(50) NOT NULL,
+    capacity INT NOT NULL
+);
+
+-- ================================================================
+-- 4. TABLA DE INSTRUCTORES
+-- ================================================================
+CREATE TABLE instructors (
+    id_instructor INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL
+);
+
+-- ================================================================
+-- 5. TABLA PRINCIPAL DE RESERVACIONES
+-- ================================================================
+CREATE TABLE reservations (
+    id_reservation INT AUTO_INCREMENT PRIMARY KEY,
+    id_client INT NOT NULL,
+    id_activity INT NOT NULL,
+    id_room INT NOT NULL,
+    id_instructor INT,
+    day_of_week ENUM('Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom') NOT NULL,
+    time_slot TIME NOT NULL,
+    discount DECIMAL(5,2) DEFAULT 0.00,
+    
+    FOREIGN KEY (id_client) REFERENCES clients(id_client),
+    FOREIGN KEY (id_activity) REFERENCES activities(id_activity),
+    FOREIGN KEY (id_room) REFERENCES rooms(id_room),
+    FOREIGN KEY (id_instructor) REFERENCES instructors(id_instructor)
+);
+
+-- ================================================================
+-- 6. DATOS MÍNIMOS PARA FUNCIONALIDAD
+-- ================================================================
+
+-- 4 clientes básicos con códigos del API
+INSERT INTO clients (client_code, full_name, membership_type) VALUES
+('BC-123', 'Laura Rodríguez', 'Basic'),
+('PC-456', 'Miguel Torres', 'Premium'),
+('BC-789', 'Carmen Vega', 'Basic'),
+('PC-001', 'Fernando Castillo', 'Premium');
+
+-- 4 actividades principales
+INSERT INTO activities (name, duration_minutes) VALUES
+('Yoga', 60),
+('Zumba', 60),
+('Pilates', 45),
+('CrossFit', 60);
+
+-- 4 salas básicas
+INSERT INTO rooms (room_name, capacity) VALUES
+('Sala Yoga', 15),
+('Sala Cardio', 25),
+('Sala Funcional', 12),
+('Sala Polivalente', 20);
+
+-- 4 instructores
+INSERT INTO instructors (full_name) VALUES
+('María García'),
+('Juan Pérez'),
+('Ana López'),
+('Carlos Ruiz');
+
+-- 6 reservaciones de ejemplo (alineadas con el API)
+INSERT INTO reservations (id_client, id_activity, id_room, id_instructor, day_of_week, time_slot, discount) VALUES
+(1, 1, 1, 1, 'Lun', '09:00', 5.00),    -- BC-123 - Yoga - Descuento Basic
+(2, 4, 3, 2, 'Mar', '06:00', 15.00),   -- PC-456 - CrossFit - Descuento Premium  
+(3, 2, 2, 3, 'Mie', '19:00', 0.00),    -- BC-789 - Zumba - Sin descuento
+(4, 3, 1, 1, 'Jue', '10:30', 10.50),   -- PC-001 - Pilates - Descuento Premium
+(1, 1, 1, 1, 'Vie', '09:00', 5.00),    -- BC-123 - Yoga otra vez
+(2, 2, 2, 3, 'Sab', '11:00', 12.75);   -- PC-456 - Zumba Premium
+```
+
+```bash
+-- ================================================================
+-- 7. CONSULTA PARA VERIFICAR RELACIONES
+-- ================================================================
+
+-- Consulta que muestra todas las relaciones (para que los estudiantes entiendan los JOINs)
+SELECT 
+    r.id_reservation,
+    c.client_code,
+    c.full_name as cliente,
+    c.membership_type,
+    a.name as actividad,
+    rm.room_name as sala,
+    i.full_name as instructor,
+    r.day_of_week,
+    r.time_slot,
+    r.discount
+FROM reservations r
+JOIN clients c ON r.id_client = c.id_client
+JOIN activities a ON r.id_activity = a.id_activity
+JOIN rooms rm ON r.id_room = rm.id_room
+LEFT JOIN instructors i ON r.id_instructor = i.id_instructor;
+```
+
 **💡 Diferencias Clave:**
 
 - **Named Volume**: `mysql-data:/var/lib/mysql` (Docker administra la ubicación)
