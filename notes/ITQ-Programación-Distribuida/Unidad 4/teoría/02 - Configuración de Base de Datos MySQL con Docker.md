@@ -919,8 +919,8 @@ USE reservation_system;
 SELECT * FROM reservations;
 
 -- Agregar un nuevo registro para la prueba
-INSERT INTO reservations (id_client, id_room, instructor, discount) VALUES
-(2001, 10, 'María Volumen', 30.00);
+INSERT INTO reservations (id_client, id_activity, id_room, id_instructor, day_of_week, time_slot, discount) VALUES
+(3, 2, 2, 3, 'Mie', '19:00', 5.00);
 
 SELECT * FROM reservations;
 EXIT;
