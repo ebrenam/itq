@@ -697,101 +697,33 @@ Dentro de la carpeta `init-scripts`, actualiza el contenido del archivo `01-crea
 -- Crear base de datos
 USE reservation_system;
 
--- ================================================================
--- 1. TABLA DE CLIENTES
--- ================================================================
-CREATE TABLE clients (
-    id_client INT AUTO_INCREMENT PRIMARY KEY,
-    client_code VARCHAR(10) NOT NULL UNIQUE,
-    full_name VARCHAR(100) NOT NULL,
-    membership_type ENUM('Basic', 'Premium') NOT NULL
-);
-
--- ================================================================
--- 2. TABLA DE ACTIVIDADES
--- ================================================================
-CREATE TABLE activities (
-    id_activity INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE,
-    duration_minutes INT NOT NULL
-);
-
--- ================================================================
--- 3. TABLA DE SALAS
--- ================================================================
-CREATE TABLE rooms (
-    id_room INT AUTO_INCREMENT PRIMARY KEY,
-    room_name VARCHAR(50) NOT NULL,
-    capacity INT NOT NULL
-);
-
--- ================================================================
--- 4. TABLA DE INSTRUCTORES
--- ================================================================
-CREATE TABLE instructors (
-    id_instructor INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL
-);
-
--- ================================================================
--- 5. TABLA PRINCIPAL DE RESERVACIONES
--- ================================================================
+-- Crear la tabla de reservas sin foreign keys problemáticas
 CREATE TABLE reservations (
     id_reservation INT AUTO_INCREMENT PRIMARY KEY,
-    id_client INT NOT NULL,
-    id_activity INT NOT NULL,
-    id_room INT NOT NULL,
-    id_instructor INT,
-    day_of_week ENUM('Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom') NOT NULL,
-    time_slot TIME NOT NULL,
-    discount DECIMAL(5,2) DEFAULT 0.00,
-    
-    FOREIGN KEY (id_client) REFERENCES clients(id_client),
-    FOREIGN KEY (id_activity) REFERENCES activities(id_activity),
-    FOREIGN KEY (id_room) REFERENCES rooms(id_room),
-    FOREIGN KEY (id_instructor) REFERENCES instructors(id_instructor)
+    id_client VARCHAR(6) NOT NULL,
+    activity VARCHAR(255) NOT NULL,
+    day_of_week VARCHAR(3) NOT NULL,
+    time TIME NOT NULL,
+    id_room INT,
+    instructor VARCHAR(255),
+    discount DOUBLE DEFAULT 0.0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- ================================================================
--- 6. DATOS MÍNIMOS PARA FUNCIONALIDAD
--- ================================================================
+-- Índices para mejorar el rendimiento de las búsquedas
+CREATE INDEX idx_client ON reservations(id_client);
+CREATE INDEX idx_activity ON reservations(activity);
+CREATE INDEX idx_day_time ON reservations(day_of_week, time);
+CREATE INDEX idx_room ON reservations(id_room);
 
--- 4 clientes básicos con códigos del API
-INSERT INTO clients (client_code, full_name, membership_type) VALUES
-('BC-123', 'Laura Rodríguez', 'Basic'),
-('PC-456', 'Miguel Torres', 'Premium'),
-('BC-789', 'Carmen Vega', 'Basic'),
-('PC-001', 'Fernando Castillo', 'Premium');
-
--- 4 actividades principales
-INSERT INTO activities (name, duration_minutes) VALUES
-('Yoga', 60),
-('Zumba', 60),
-('Pilates', 45),
-('CrossFit', 60);
-
--- 4 salas básicas
-INSERT INTO rooms (room_name, capacity) VALUES
-('Sala Yoga', 15),
-('Sala Cardio', 25),
-('Sala Funcional', 12),
-('Sala Polivalente', 20);
-
--- 4 instructores
-INSERT INTO instructors (full_name) VALUES
-('María García'),
-('Juan Pérez'),
-('Ana López'),
-('Carlos Ruiz');
-
--- 6 reservaciones de ejemplo (alineadas con el API)
-INSERT INTO reservations (id_client, id_activity, id_room, id_instructor, day_of_week, time_slot, discount) VALUES
-(1, 1, 1, 1, 'Lun', '09:00', 5.00),    -- BC-123 - Yoga - Descuento Basic
-(2, 4, 3, 2, 'Mar', '06:00', 15.00),   -- PC-456 - CrossFit - Descuento Premium  
-(3, 2, 2, 3, 'Mie', '19:00', 0.00),    -- BC-789 - Zumba - Sin descuento
-(4, 3, 1, 1, 'Jue', '10:30', 10.50),   -- PC-001 - Pilates - Descuento Premium
-(1, 1, 1, 1, 'Vie', '09:00', 5.00),    -- BC-123 - Yoga otra vez
-(2, 2, 2, 3, 'Sab', '11:00', 12.75);   -- PC-456 - Zumba Premium
+-- Insertar algunos datos de ejemplo para pruebas
+INSERT INTO reservations (id_client, activity, day_of_week, time, id_room, instructor, discount) VALUES
+('BC-001', 'Yoga', 'Lun', '09:00:00', 1, 'María García', 5.0),
+('PC-002', 'Pilates', 'Mar', '10:00:00', 2, 'Ana López', 10.0),
+('BC-003', 'Zumba', 'Mie', '18:00:00', 3, 'Carlos Ruiz', 0.0),
+('PC-004', 'Yoga', 'Jue', '07:00:00', 1, 'María García', 5.0),
+('BC-005', 'CrossFit', 'Vie', '19:00:00', 4, 'Juan Pérez', 0.0);
 ```
 
 **💡 Diferencias Clave:**
