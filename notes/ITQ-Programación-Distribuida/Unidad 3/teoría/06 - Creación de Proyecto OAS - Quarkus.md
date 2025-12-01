@@ -510,7 +510,8 @@ public class ReservationService {
         return confirmationResponse;
     }
 
-    public ConfirmationList getReservations(String idClient, String activity, String dayOfWeek, String time) {
+    public ConfirmationList getReservations(String idClient, String activity, String dayOfWeek, String time)
+    {
         System.out.println("Service - Buscando reservas con criterios");
         
         // Aquí iría la lógica para buscar reservas en la base de datos según los criterios
@@ -556,7 +557,8 @@ public class ReservationService {
         return confirmationResponse;
     }
     
-    public Confirmation updateReservation(Integer reservationId, Reservation reservation) {
+    public Confirmation updateReservation(Integer reservationId, Reservation reservation)
+    {
         System.out.println("Service - Actualizando Reservation con ID: " + reservationId);
         
         // Aquí iría la lógica para actualizar completamente la reserva en la base de datos
@@ -571,7 +573,8 @@ public class ReservationService {
         return confirmationResponse;
     }
     
-    public Confirmation patchReservation(Integer reservationId, ReservationPatch reservationPatch) {
+    public Confirmation patchReservation(Integer reservationId, ReservationPatch reservationPatch)
+    {
         System.out.println("Service - Actualizando parcialmente Reservation con ID: " + reservationId);
         
         // Aquí iría la lógica para actualizar parcialmente la reserva en la base de datos
@@ -587,7 +590,8 @@ public class ReservationService {
         return confirmationResponse;
     }
     
-    public CancelConfirmation cancelReservation(Integer reservationId) {
+    public CancelConfirmation cancelReservation(Integer reservationId)
+    {
         System.out.println("Service - Cancelando Reservation con ID: " + reservationId);
         
         // Aquí iría la lógica para cancelar la reserva en la base de datos
@@ -661,7 +665,8 @@ public class ReservationResource {
     
     @GET
     @Path("/reservations")
-    public Response getReservations(
+    public Response getReservations
+    (
             @QueryParam("idClient") String idClient,
             @QueryParam("activity") String activity,
             @QueryParam("dayOfWeek") String dayOfWeek,
@@ -700,7 +705,8 @@ public class ReservationResource {
     
     @PUT
     @Path("/reservations/{reservationId}")
-    public Response updateReservation(
+    public Response updateReservation
+    (
             @PathParam("reservationId") Integer reservationId,
             @Valid Reservation reservationRequest) {
         
@@ -723,7 +729,8 @@ public class ReservationResource {
     
     @PATCH
     @Path("/reservations/{reservationId}")
-    public Response patchReservation(
+    public Response patchReservation
+    (
             @PathParam("reservationId") Integer reservationId,
             @Valid ReservationPatch reservationPatch) {
         
@@ -746,8 +753,8 @@ public class ReservationResource {
     
     @DELETE
     @Path("/reservations/{reservationId}")
-    public Response cancelReservation(@PathParam("reservationId") Integer reservationId) {
-        
+    public Response cancelReservation(@PathParam("reservationId") Integer reservationId)
+    {
         System.out.println("Resource - Cancelando Reservation con ID: " + reservationId);
         
         // Validación básica del ID

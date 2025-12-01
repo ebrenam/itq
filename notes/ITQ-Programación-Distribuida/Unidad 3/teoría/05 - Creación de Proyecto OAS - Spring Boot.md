@@ -299,7 +299,8 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
     @Service
     public class ReservationService {
 
-        public Confirmation createReservation(Reservation reservation) {
+        public Confirmation createReservation(Reservation reservation)
+        {
             System.out.println("Service - Reservation recibida: " + reservation.getIdClient());
 
             // Aquí iría la lógica para guardar en la base de datos
@@ -314,7 +315,8 @@ Los controladores no deben tener lógica de negocio (cálculos, acceso a base de
             return confirmationResponse;
         }
 
-        public Confirmation getReservationById(Integer reservationId) {
+        public Confirmation getReservationById(Integer reservationId)
+        {
             System.out.println("Service - Buscando Reservation con ID: " + reservationId);
 
             // Aquí iría la lógica para buscar la reserva en la base de datos
