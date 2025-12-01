@@ -79,11 +79,11 @@ quarkus.hibernate-orm.log.sql=true
 ```
 
 💡 **Explicación de las propiedades:**
-• `db-kind`: Tipo de base de datos
-• `username/password`: Credenciales de acceso
-• `jdbc.url`: URL de conexión a MySQL
-• `database.generation=validate`: Validar que la estructura de la BD coincida con las entidades
-• `log.sql=true`: Mostrar las consultas SQL en los logs (útil para desarrollo)
+- `db-kind`: Tipo de base de datos
+- `username/password`: Credenciales de acceso
+- `jdbc.url`: URL de conexión a MySQL
+- `database.generation=validate`: Validar que la estructura de la BD coincida con las entidades
+- `log.sql=true`: Mostrar las consultas SQL en los logs (útil para desarrollo)
 
 ## 🏗️ Paso 4: Crear la Entidad JPA
 
@@ -168,9 +168,9 @@ public class ReservationEntity extends PanacheEntity {
 ```
 
 💡 **Explicación:**
-• Extendemos `PanacheEntity` que nos da un campo `id` automático y métodos CRUD básicos
-• `@PrePersist` y `@PreUpdate` manejan automáticamente las fechas de creación y actualización
-• Los campos son públicos (patrón de Panache) para simplificar el acceso
+- Extendemos `PanacheEntity` que nos da un campo `id` automático y métodos CRUD básicos
+- `@PrePersist` y `@PreUpdate` manejan automáticamente las fechas de creación y actualización
+- Los campos son públicos (patrón de Panache) para simplificar el acceso
 
 ## 🔄 Paso 5: Crear el Mapper para Conversión de Datos
 
@@ -435,9 +435,9 @@ public class ReservationService {
 ```
 
 💡 **Explicación:**
-• `@Transactional` es necesario para operaciones que modifican la base de datos
-• Usamos el mapper para convertir entre modelos OpenAPI y entidades JPA
-• Manejamos casos donde la reservación no existe retornando `null` o `false`
+- `@Transactional` es necesario para operaciones que modifican la base de datos
+- Usamos el mapper para convertir entre modelos OpenAPI y entidades JPA
+- Manejamos casos donde la reservación no existe retornando `null` o `false`
 
 ## 🎮 Paso 6.1: Actualizar el ReservationResource con PATCH
 
@@ -498,10 +498,10 @@ public class ReservationResource {
 ```
 
 💡 **Puntos clave del método PATCH:**
-• Usa `@PATCH` en lugar de `@PUT`
-• Recibe `ReservationPatch` en lugar de `Reservation`
-• La validación de ID es idéntica a otros métodos
-• Delega la lógica al servicio como los demás endpoints
+- Usa `@PATCH` en lugar de `@PUT`
+- Recibe `ReservationPatch` en lugar de `Reservation`
+- La validación de ID es idéntica a otros métodos
+- Delega la lógica al servicio como los demás endpoints
 
 ## 🧪 Paso 7: Compilar y Probar la Aplicación
 
@@ -532,9 +532,9 @@ En los logs, deberías ver algo como:
 
 ### 8.1 CREATE - Crear Reservación
 
-• Método: `POST`
-• URL: `http://localhost:8080/api/v1/reservations`
-• Body (JSON):
+- Método: `POST`
+- URL: `http://localhost:8080/api/v1/reservations`
+- Body (JSON):
 
 ```json
 {
@@ -558,15 +558,15 @@ Respuesta esperada: `201 Created`
 
 ### 8.2 READ - Obtener Todas las Reservaciones
 
-• Método: `GET`
-• URL: `http://localhost:8080/api/v1/reservations`
+- Método: `GET`
+- URL: `http://localhost:8080/api/v1/reservations`
 
 Respuesta esperada: `200 OK` con lista de todas las reservaciones
 
 ### 8.3 READ - Obtener Reservación por ID
 
-• Método: `GET`
-• URL: `http://localhost:8080/api/v1/reservations/1`
+- Método: `GET`
+- URL: `http://localhost:8080/api/v1/reservations/1`
 
 Respuesta esperada: `200 OK` con los datos de la reservación:
 
@@ -581,9 +581,9 @@ Respuesta esperada: `200 OK` con los datos de la reservación:
 
 ### 8.4 UPDATE - Actualizar Reservación (PUT)
 
-• Método: `PUT`
-• URL: `http://localhost:8080/api/v1/reservations/1`
-• Body (JSON):
+- Método: `PUT`
+- URL: `http://localhost:8080/api/v1/reservations/1`
+- Body (JSON):
 
 ```json
 {
@@ -609,9 +609,9 @@ Respuesta esperada: `200 OK` con los datos actualizados:
 
 ### 8.5 PATCH - Actualizar Parcialmente Reservación
 
-• Método: `PATCH`
-• URL: `http://localhost:8080/api/v1/reservations/1`
-• Body (JSON) - Solo los campos que quieres cambiar:
+- Método: `PATCH`
+- URL: `http://localhost:8080/api/v1/reservations/1`
+- Body (JSON) - Solo los campos que quieres cambiar:
 
 ```json
 {
@@ -651,8 +651,8 @@ Respuesta esperada: `200 OK` con los datos actualizados:
 
 ### 8.6 DELETE - Eliminar Reservación
 
-• Método: `DELETE`
-• URL: `http://localhost:8080/api/v1/reservations/1`
+- Método: `DELETE`
+- URL: `http://localhost:8080/api/v1/reservations/1`
 
 Respuesta esperada: `200 OK` con confirmación de cancelación:
 
@@ -711,10 +711,10 @@ DESCRIBE reservations_SEQ;
 
 ## 🚀 Próximos Pasos
 
-• Agregar validaciones de negocio más complejas
-• Implementar manejo de excepciones personalizado
-• Agregar logging estructurado
-• Configurar profiles para diferentes ambientes (dev, test, prod)
-• Implementar tests unitarios e integración
+- Agregar validaciones de negocio más complejas
+- Implementar manejo de excepciones personalizado
+- Agregar logging estructurado
+- Configurar profiles para diferentes ambientes (dev, test, prod)
+- Implementar tests unitarios e integración
 
 ¡Has completado exitosamente la integración de Quarkus con MySQL y tienes un API REST completamente funcional con operaciones CRUD!
