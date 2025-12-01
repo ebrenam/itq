@@ -4,7 +4,7 @@ Este documento continúa desde donde dejamos en la **"Creación de Proyecto OAS
 
 ---
 
-## 📋 Requisitos Previos
+## 📋 Requisitos previos
 
 - Tener completado el proyecto del documento anterior
 - MySQL Server instalado y ejecutándose
@@ -32,7 +32,7 @@ Abre el cliente de tu elección y conecta con los siguientes datos:
 
 > Si no cuentas con una Base de Datos ya creada, necesitas realizar los pasos del punto `8.4 Configuración con Volúmenes Docker (Recomendado para producción)` del documento **Configuración de Base de Datos MySQL con Docker**.
 
-## 📦 Paso 2: Agregar Dependencias de Base de Datos al `pom.xml`
+## 📦 Paso 2: Agregar dependencias de Base de Datos al `pom.xml`
 
 Abre tu archivo `pom.xml` y agrega las siguientes dependencias dentro de la sección `<dependencies>`:
 
@@ -63,7 +63,7 @@ Abre tu archivo `pom.xml` y agrega las siguientes dependencias dentro de la secc
 
 ---
 
-## ⚙️ Paso 3: Configurar la Conexión a la Base de Datos
+## ⚙️ Paso 3: Configurar la conexión a la Base de Datos
 
 Abre el archivo `src/main/resources/application.properties` y agrega la configuración de la base de datos:
 
@@ -85,15 +85,15 @@ quarkus.hibernate-orm.log.sql=true
 - `database.generation=validate`: Validar que la estructura de la BD coincida con las entidades
 - `log.sql=true`: Mostrar las consultas SQL en los logs (útil para desarrollo)
 
-## 🏗️ Paso 4: Crear la Entidad JPA
+## 🏗️ Paso 4: Crear la entidad JPA
 
 En lugar de usar solo el modelo generado por OpenAPI, crearemos una entidad JPA que mapee directamente a nuestra tabla de base de datos.
 
-### 4.1 Crear el Paquete Entity
+### 4.1 Crear el paquete Entity
 
 Crea un nuevo paquete: `src/main/java/com/ejemplo/api/entity`
 
-### 4.2 Crear la Entidad ReservationEntity
+### 4.2 Crear la entidad ReservationEntity
 
 Crea el archivo `ReservationEntity.java` en el paquete `entity`:
 
@@ -172,11 +172,11 @@ public class ReservationEntity extends PanacheEntity {
 - `@PrePersist` y `@PreUpdate` manejan automáticamente las fechas de creación y actualización
 - Los campos son públicos (patrón de Panache) para simplificar el acceso
 
-## 🔄 Paso 5: Crear el Mapper para Conversión de Datos
+## 🔄 Paso 5: Crear el mapper para conversión de datos
 
 Necesitamos convertir entre nuestros modelos OpenAPI y las entidades JPA.
 
-### 5.1 Crear el Paquete Mapper
+### 5.1 Crear el paquete Mapper
 
 Crea el paquete: `src/main/java/com/ejemplo/api/mapper`
 
@@ -268,7 +268,7 @@ public class ReservationMapper {
 }
 ```
 
-## 💼 Paso 6: Actualizar el Service con Operaciones CRUD Completas
+## 💼 Paso 6: Actualizar el service con operaciones CRUD completas
 
 Ahora actualizaremos nuestro `ReservationService` para usar la base de datos real.
 
@@ -448,21 +448,21 @@ public class ReservationService {
 - Usamos el mapper para convertir entre modelos OpenAPI y entidades JPA
 - Manejamos casos donde la reservación no existe retornando `null` o `false`
 
-## 🧪 Paso 7: Compilar y Probar la Aplicación
+## 🧪 Paso 7: Compilar y probar la aplicación
 
-### 7.1 Compilar el Proyecto
+### 7.1 Compilar el proyecto
 
 ```bash
 mvn clean compile
 ```
 
-### 7.2 Ejecutar en Modo Desarrollo
+### 7.2 Ejecutar en modo desarrollo
 
 ```bash
 ./mvnw quarkus:dev
 ```
 
-### 7.3 Verificar la Conexión a la Base de Datos
+### 7.3 Verificar la conexión a la Base de Datos
 
 En los logs, deberías ver algo como:
 
@@ -473,9 +473,9 @@ En los logs, deberías ver algo como:
 
 **Nota:** Si ves advertencias sobre `reservations_SEQ`, es normal - Hibernate la crea automáticamente para el manejo de IDs.
 
-## 🔧 Paso 8: Probar con Postman - CRUD Completo
+## 🔧 Paso 8: Probar con Postman - CRUD completo
 
-### 8.1 CREATE - Crear Reservación
+### 8.1 CREATE - Crear reservación
 
 - Método: `POST`
 - URL: `http://localhost:8080/api/v1/reservations`
@@ -501,14 +501,14 @@ Respuesta esperada: `201 Created`
 }
 ```
 
-### 8.2 READ - Obtener Todas las Reservaciones
+### 8.2 READ - Obtener todas las reservaciones
 
 - Método: `GET`
 - URL: `http://localhost:8080/api/v1/reservations`
 
 Respuesta esperada: `200 OK` con lista de todas las reservaciones
 
-### 8.3 READ - Obtener Reservación por ID
+### 8.3 READ - Obtener reservación por ID
 
 - Método: `GET`
 - URL: `http://localhost:8080/api/v1/reservations/1`
@@ -552,7 +552,7 @@ Respuesta esperada: `200 OK` con los datos actualizados:
 
 💡 **Diferencia PUT vs PATCH:** PUT reemplaza completamente el recurso (requiere todos los campos), mientras que PATCH actualiza solo los campos enviados.
 
-### 8.5 PATCH - Actualizar Parcialmente Reservación
+### 8.5 PATCH - Actualizar parcialmente reservación
 
 - Método: `PATCH`
 - URL: `http://localhost:8080/api/v1/reservations/1`
@@ -594,7 +594,7 @@ Respuesta esperada: `200 OK` con los datos actualizados:
 | **Campos omitidos** | Se pierden/null | Se mantienen igual |
 | **Uso típico** | Actualización completa | Cambios pequeños |
 
-### 8.6 DELETE - Eliminar Reservación
+### 8.6 DELETE - Eliminar reservación
 
 - Método: `DELETE`
 - URL: `http://localhost:8080/api/v1/reservations/1`
@@ -641,7 +641,7 @@ DESCRIBE reservations_SEQ;
 
 **Nota:** La tabla `reservations_SEQ` es creada automáticamente por Hibernate para manejar la generación de IDs con la estrategia de secuencias.
 
-## 🎯 Resumen de lo Aprendido
+## 🎯 Resumen de lo aprendido
 
 1. Configuración de MySQL con Quarkus usando `application.properties`
 2. Entidades JPA con Panache para mapeo objeto-relacional
@@ -654,7 +654,7 @@ DESCRIBE reservations_SEQ;
    - **PATCH**: Actualiza solo los campos enviados (actualización parcial)
 8. Validación condicional en PATCH (solo actualizar campos no nulos)
 
-## 🚀 Próximos Pasos
+## 🚀 Próximos pasos
 
 - Agregar validaciones de negocio más complejas
 - Implementar manejo de excepciones personalizado
