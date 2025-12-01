@@ -174,6 +174,18 @@ public class ReservationEntity extends PanacheEntity {
 
 ## 🔄 Paso 5: Crear el mapper para conversión de datos
 
+En una aplicación con arquitectura en capas, necesitamos **separar los modelos de datos**. Tenemos dos tipos principales:
+
+1. **Modelos OpenAPI**: Representan la estructura de datos que intercambiamos con el cliente (JSON)
+2. **Entidades JPA**: Representan la estructura de datos en la base de datos
+
+El **Mapper** es el responsable de convertir entre estos dos modelos. Esto nos permite:
+
+- **Mantener independencia** entre la API y la base de datos
+- **Evolucionar cada capa** sin afectar las otras
+- **Aplicar transformaciones** específicas de cada contexto
+- **Manejar diferentes formatos** (ej: String vs Enum, BigDecimal vs Double)
+
 Necesitamos convertir entre nuestros modelos OpenAPI y las entidades JPA.
 
 ### 5.1 Crear el paquete Mapper
@@ -268,6 +280,33 @@ public class ReservationMapper {
 }
 ```
 
+### **🎯 Resumen del Mapper:**
+
+**Función Principal:**
+
+- Convierte entre modelos OpenAPI (JSON) y entidades JPA (Base de datos)
+- Actúa como adaptador entre capas para mantener independencia
+
+**Métodos Implementados:**
+
+- `toEntity()`: JSON → Base de datos (para crear/actualizar)
+- `toConfirmation()`: Base de datos → JSON respuesta (para consultas)
+- `toReservation()`: Base de datos → JSON completo (para operaciones completas)
+
+**Transformaciones Clave:**
+
+- Enum ↔ String (DayOfWeekEnum ↔ "Lun", "Mar", etc.)
+- Long ↔ Integer (PanacheEntity.id ↔ API IDs)
+- BigDecimal ↔ Double (Precisión BD ↔ Simplicidad API)
+
+**Beneficios:**
+
+- **Desacoplamiento**: Cambios en BD no afectan API y viceversa
+- **Seguridad**: Manejo de nulls y conversiones fallidas
+- **Mantenibilidad**: Punto único de transformación de datos
+- **Flexibilidad**: Permite diferentes representaciones del mismo dato
+
+El mapper es esencial para una arquitectura limpia y mantenible. 🚀
 ## 💼 Paso 6: Actualizar el service con operaciones CRUD completas
 
 Ahora actualizaremos nuestro `ReservationService` para usar la base de datos real.
