@@ -498,7 +498,7 @@ mvn clean compile
 ### 7.2 Ejecutar en modo desarrollo
 
 ```bash
-./mvnw quarkus:dev
+mvnw quarkus:dev
 ```
 
 ### 7.3 Verificar la conexión a la Base de Datos
