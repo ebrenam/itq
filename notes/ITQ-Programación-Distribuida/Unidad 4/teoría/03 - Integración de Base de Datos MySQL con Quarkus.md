@@ -12,7 +12,7 @@ Este documento continúa desde donde dejamos en la **"Creación de Proyecto OAS
 
 ---
 
-## 🗄️ Paso 1: Validación de ls configurar MySQL y Base de Datos
+## 🗄️ Paso 1: Validación de la configuración MySQL y Base de Datos
 
 Primero, necesitamos preparar nuestra base de datos.
 
@@ -32,13 +32,11 @@ Abre el cliente de tu elección y conecta con los siguientes datos:
 
 > Si no cuentas con una Base de Datos ya creada, necesitas realizar los pasos del punto `8.4 Configuración con Volúmenes Docker (Recomendado para producción)` del documento **Configuración de Base de Datos MySQL con Docker**.
 
----
+## 📦 Paso 2: Agregar Dependencias de Base de Datos al `pom.xml`
 
-## 📦 Paso 2: Agregar Dependencias de Base de Datos al `pom.xml`
+Abre tu archivo `pom.xml` y agrega las siguientes dependencias dentro de la sección `<dependencies>`:
 
-Abre tu archivo `pom.xml` y agrega las siguientes dependencias dentro de la sección `<dependencies>`:
-
-```bash
+```xml
         <!-- Dependencias para MySQL y Hibernate ORM -->
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -67,9 +65,9 @@ Abre tu archivo `pom.xml` y agrega las siguientes dependencias dentro de la se
 
 ## ⚙️ Paso 3: Configurar la Conexión a la Base de Datos
 
-Abre el archivo `src/main/resources/application.properties` y agrega la configuración de la base de datos:
+Abre el archivo `src/main/resources/application.properties` y agrega la configuración de la base de datos:
 
-```bash
+```properties
 # Configuración de la base de datos MySQL
 quarkus.datasource.db-kind=mysql
 quarkus.datasource.username=quarkus_user
@@ -77,24 +75,20 @@ quarkus.datasource.password=quarkus_password
 quarkus.datasource.jdbc.url=jdbc:mysql://localhost:3306/reservation_system
 
 # Configuración de Hibernate
-quarkus.hibernate-orm.database.generation=none
+quarkus.hibernate-orm.database.generation=validate
 quarkus.hibernate-orm.log.sql=true
-quarkus.hibernate-orm.sql-load-script=no-file
 
 # Configuración del pool de conexiones
 quarkus.datasource.jdbc.min-size=2
 quarkus.datasource.jdbc.max-size=10
-``` 
+```
 
-**💡 Explicación de las propiedades:**
-
-- `db-kind`: Tipo de base de datos
-- `username/password`: Credenciales de acceso
-- `jdbc.url`: URL de conexión a MySQL
-- `database.generation=none`: No generar esquema automáticamente (ya lo creamos manualmente)
-- `log.sql=true`: Mostrar las consultas SQL en los logs (útil para desarrollo)
-
----
+💡 **Explicación de las propiedades:**
+• `db-kind`: Tipo de base de datos
+• `username/password`: Credenciales de acceso
+• `jdbc.url`: URL de conexión a MySQL
+• `database.generation=validate`: Validar que la estructura de la BD coincida con las entidades
+• `log.sql=true`: Mostrar las consultas SQL en los logs (útil para desarrollo)
 
 ## 🏗️ Paso 4: Crear la Entidad JPA
 
@@ -102,13 +96,13 @@ En lugar de usar solo el modelo generado por OpenAPI, crearemos una entidad JPA 
 
 ### 4.1 Crear el Paquete Entity
 
-Crea un nuevo paquete: `src/main/java/com/ejemplo/api/entity`
+Crea un nuevo paquete: `src/main/java/com/ejemplo/api/entity`
 
 ### 4.2 Crear la Entidad ReservationEntity
 
-Crea el archivo `ReservationEntity.java` en el paquete `entity`:
+Crea el archivo `ReservationEntity.java` en el paquete `entity`:
 
-```bash
+```java
 package com.ejemplo.api.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -120,13 +114,19 @@ import java.time.LocalDateTime;
 @Table(name = "reservations")
 public class ReservationEntity extends PanacheEntity {
 
-    @Column(name = "id_reservation", insertable = false, updatable = false)
-    public Long idReservation;
-
     @Column(name = "id_client", nullable = false)
-    public Integer idClient;
+    public String idClient;
 
-    @Column(name = "id_room", nullable = false)
+    @Column(name = "activity", nullable = false)
+    public String activity;
+
+    @Column(name = "day_of_week", nullable = false)
+    public String dayOfWeek;
+
+    @Column(name = "time", nullable = false)
+    public String time;
+
+    @Column(name = "id_room")
     public Integer idRoom;
 
     @Column(name = "instructor", length = 100)
@@ -158,8 +158,10 @@ public class ReservationEntity extends PanacheEntity {
     public String toString() {
         return "ReservationEntity{" +
                 "id=" + id +
-                ", idReservation=" + idReservation +
-                ", idClient=" + idClient +
+                ", idClient='" + idClient + '\'' +
+                ", activity='" + activity + '\'' +
+                ", dayOfWeek='" + dayOfWeek + '\'' +
+                ", time='" + time + '\'' +
                 ", idRoom=" + idRoom +
                 ", instructor='" + instructor + '\'' +
                 ", discount=" + discount +
@@ -168,15 +170,12 @@ public class ReservationEntity extends PanacheEntity {
                 '}';
     }
 }
-``` 
+```
 
-**💡 Explicación:**
-
-- Extendemos `PanacheEntity` que nos da un campo `id` automático y métodos CRUD básicos
-- `@PrePersist` y `@PreUpdate` manejan automáticamente las fechas de creación y actualización
-- Los campos son públicos (patrón de Panache) para simplificar el acceso
-
----
+💡 **Explicación:**
+• Extendemos `PanacheEntity` que nos da un campo `id` automático y métodos CRUD básicos
+• `@PrePersist` y `@PreUpdate` manejan automáticamente las fechas de creación y actualización
+• Los campos son públicos (patrón de Panache) para simplificar el acceso
 
 ## 🔄 Paso 5: Crear el Mapper para Conversión de Datos
 
@@ -184,13 +183,13 @@ Necesitamos convertir entre nuestros modelos OpenAPI y las entidades JPA.
 
 ### 5.1 Crear el Paquete Mapper
 
-Crea el paquete: `src/main/java/com/ejemplo/api/mapper`
+Crea el paquete: `src/main/java/com/ejemplo/api/mapper`
 
 ### 5.2 Crear ReservationMapper
 
-Crea el archivo `ReservationMapper.java`:
+Crea el archivo `ReservationMapper.java`:
 
-```bash
+```java
 package com.ejemplo.api.mapper;
 
 import com.ejemplo.api.entity.ReservationEntity;
@@ -211,13 +210,14 @@ public class ReservationMapper {
 
         ReservationEntity entity = new ReservationEntity();
         entity.idClient = reservation.getIdClient();
-        entity.idRoom = reservation.getIdRoom();
-        entity.instructor = reservation.getInstructor();
-        
-        // Convertir Double a BigDecimal si no es null
-        if (reservation.getDiscount() != null) {
-            entity.discount = java.math.BigDecimal.valueOf(reservation.getDiscount());
-        }
+        entity.activity = reservation.getActivity();
+        entity.dayOfWeek = reservation.getDayOfWeek() != null ? reservation.getDayOfWeek().toString() : null;
+        entity.time = reservation.getTime();
+
+        // Asignar valores por defecto para simplificar
+        entity.idRoom = 1; // Sala por defecto
+        entity.instructor = "Instructor Asignado"; // Instructor por defecto
+        entity.discount = java.math.BigDecimal.valueOf(0.0); // Sin descuento por defecto
 
         return entity;
     }
@@ -253,136 +253,46 @@ public class ReservationMapper {
 
         Reservation reservation = new Reservation();
         reservation.setIdClient(entity.idClient);
-        reservation.setIdRoom(entity.idRoom);
-        reservation.setInstructor(entity.instructor);
+        reservation.setActivity(entity.activity);
+        reservation.setTime(entity.time);
         
-        if (entity.discount != null) {
-            reservation.setDiscount(entity.discount.doubleValue());
+        // Convertir string a enum
+        if (entity.dayOfWeek != null) {
+            try {
+                reservation.setDayOfWeek(Reservation.DayOfWeekEnum.valueOf(entity.dayOfWeek.toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                reservation.setDayOfWeek(Reservation.DayOfWeekEnum.LUN); // Valor por defecto
+            }
         }
 
         return reservation;
     }
 }
-``` 
+```
 
----
+## 💼 Paso 6: Actualizar el Service con Operaciones CRUD Completas
 
-## 🛠️ Paso 6: Crear el Repository (Patrón Repository)
+Ahora actualizaremos nuestro `ReservationService` para usar la base de datos real.
 
-Aunque Panache nos da métodos básicos, crearemos un repository para operaciones más complejas.
-
-### 6.1 Crear el Paquete Repository
-
-Crea el paquete: `src/main/java/com/ejemplo/api/repository`
-
-### 6.2 Crear ReservationRepository
-
-Crea el archivo `ReservationRepository.java`:
-
-```bash
-package com.ejemplo.api.repository;
-
-import com.ejemplo.api.entity.ReservationEntity;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-
-@ApplicationScoped
-public class ReservationRepository implements PanacheRepository<ReservationEntity> {
-
-    /**
-     * Buscar reservaciones por ID de cliente
-     */
-    public List<ReservationEntity> findByClientId(Integer clientId) {
-        return list("idClient", clientId);
-    }
-
-    /**
-     * Buscar reservaciones por instructor
-     */
-    public List<ReservationEntity> findByInstructor(String instructor) {
-        return list("instructor", instructor);
-    }
-
-    /**
-     * Buscar reservaciones por sala
-     */
-    public List<ReservationEntity> findByRoomId(Integer roomId) {
-        return list("idRoom", roomId);
-    }
-
-    /**
-     * Buscar reservación por ID (más explícito que el método heredado)
-     */
-    public Optional<ReservationEntity> findByIdOptional(Long id) {
-        return find("id", id).firstResultOptional();
-    }
-
-    /**
-     * Verificar si existe una reservación para una sala específica
-     */
-    public boolean existsByRoomId(Integer roomId) {
-        return count("idRoom", roomId) > 0;
-    }
-
-    /**
-     * Contar reservaciones por instructor
-     */
-    public long countByInstructor(String instructor) {
-        return count("instructor", instructor);
-    }
-
-    /**
-     * Eliminar reservaciones por cliente
-     */
-    @Transactional
-    public long deleteByClientId(Integer clientId) {
-        return delete("idClient", clientId);
-    }
-
-    /**
-     * Obtener todas las reservaciones ordenadas por fecha de creación
-     */
-    public List<ReservationEntity> findAllOrderedByCreatedAt() {
-        return list("ORDER BY createdAt DESC");
-    }
-}
-``` 
-
-**💡 Explicación:**
-
-- Implementamos `PanacheRepository` para obtener métodos CRUD básicos
-- Agregamos métodos de consulta específicos para nuestro dominio
-- `@Transactional` es necesario para operaciones que modifican datos
-
----
-
-## 💼 Paso 7: Actualizar el Service con Operaciones CRUD Completas
-
-Ahora actualizaremos nuestro `ReservationService` para usar la base de datos real.
-
-```bash
+```java
 package com.ejemplo.api.service;
 
 import com.ejemplo.api.entity.ReservationEntity;
 import com.ejemplo.api.mapper.ReservationMapper;
+import com.ejemplo.api.model.CancelConfirmation;
 import com.ejemplo.api.model.Confirmation;
+import com.ejemplo.api.model.ConfirmationList;
 import com.ejemplo.api.model.Reservation;
-import com.ejemplo.api.repository.ReservationRepository;
+import com.ejemplo.api.model.ReservationPatch;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ReservationService {
-
-    @Inject
-    ReservationRepository reservationRepository;
 
     @Inject
     ReservationMapper reservationMapper;
@@ -398,7 +308,7 @@ public class ReservationService {
         ReservationEntity entity = reservationMapper.toEntity(reservation);
         
         // Persistir en la base de datos
-        reservationRepository.persist(entity);
+        entity.persist();
         
         // Convertir la entidad guardada a modelo de confirmación
         Confirmation confirmation = reservationMapper.toConfirmation(entity);
@@ -408,15 +318,33 @@ public class ReservationService {
     }
 
     /**
+     * Obtener todas las reservaciones
+     */
+    public ConfirmationList getReservations(String idClient, String activity, String dayOfWeek, String time) {
+        System.out.println("Service - Obteniendo todas las reservaciones");
+        
+        List<ReservationEntity> entities = ReservationEntity.listAll();
+        
+        List<Confirmation> confirmations = entities.stream()
+                .map(reservationMapper::toConfirmation)
+                .toList();
+                
+        ConfirmationList confirmationList = new ConfirmationList();
+        confirmationList.setConfirmations(confirmations);
+        confirmationList.setTotal(confirmations.size());
+        
+        return confirmationList;
+    }
+
+    /**
      * Obtener reservación por ID
      */
-    public Confirmation getReservationById(Long reservationId) {
+    public Confirmation getReservationById(Integer reservationId) {
         System.out.println("Service - Buscando reservación con ID: " + reservationId);
         
-        Optional<ReservationEntity> entityOptional = reservationRepository.findByIdOptional(reservationId);
+        ReservationEntity entity = ReservationEntity.findById(reservationId.longValue());
         
-        if (entityOptional.isPresent()) {
-            ReservationEntity entity = entityOptional.get();
+        if (entity != null) {
             System.out.println("Service - Reservación encontrada: " + entity.toString());
             return reservationMapper.toConfirmation(entity);
         } else {
@@ -426,40 +354,20 @@ public class ReservationService {
     }
 
     /**
-     * Obtener todas las reservaciones
-     */
-    public List<Confirmation> getAllReservations() {
-        System.out.println("Service - Obteniendo todas las reservaciones");
-        
-        List<ReservationEntity> entities = reservationRepository.findAllOrderedByCreatedAt();
-        
-        return entities.stream()
-                .map(reservationMapper::toConfirmation)
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Actualizar una reservación existente
      */
     @Transactional
-    public Confirmation updateReservation(Long reservationId, Reservation reservation) {
+    public Confirmation updateReservation(Integer reservationId, Reservation reservation) {
         System.out.println("Service - Actualizando reservación con ID: " + reservationId);
         
-        Optional<ReservationEntity> entityOptional = reservationRepository.findByIdOptional(reservationId);
+        ReservationEntity entity = ReservationEntity.findById(reservationId.longValue());
         
-        if (entityOptional.isPresent()) {
-            ReservationEntity entity = entityOptional.get();
-            
+        if (entity != null) {
             // Actualizar los campos
             entity.idClient = reservation.getIdClient();
-            entity.idRoom = reservation.getIdRoom();
-            entity.instructor = reservation.getInstructor();
-            
-            if (reservation.getDiscount() != null) {
-                entity.discount = java.math.BigDecimal.valueOf(reservation.getDiscount());
-            } else {
-                entity.discount = null;
-            }
+            entity.activity = reservation.getActivity();
+            entity.dayOfWeek = reservation.getDayOfWeek().toString();
+            entity.time = reservation.getTime();
             
             // Panache automáticamente detecta cambios y los persiste
             System.out.println("Service - Reservación actualizada: " + entity.toString());
@@ -471,69 +379,85 @@ public class ReservationService {
     }
 
     /**
+     * Actualizar parcialmente una reservación existente (PATCH)
+     */
+    @Transactional
+    public Confirmation patchReservation(Integer reservationId, ReservationPatch reservationPatch) {
+        System.out.println("Service - Actualizando parcialmente reservación con ID: " + reservationId);
+        
+        ReservationEntity entity = ReservationEntity.findById(reservationId.longValue());
+        
+        if (entity != null) {
+            // Actualizar solo los campos que no son nulos (actualización parcial)
+            if (reservationPatch.getIdClient() != null) {
+                entity.idClient = reservationPatch.getIdClient();
+            }
+            if (reservationPatch.getActivity() != null) {
+                entity.activity = reservationPatch.getActivity();
+            }
+            if (reservationPatch.getDayOfWeek() != null) {
+                entity.dayOfWeek = reservationPatch.getDayOfWeek().toString();
+            }
+            if (reservationPatch.getTime() != null) {
+                entity.time = reservationPatch.getTime();
+            }
+            
+            // Panache automáticamente detecta cambios y los persiste
+            System.out.println("Service - Reservación actualizada parcialmente: " + entity.toString());
+            return reservationMapper.toConfirmation(entity);
+        } else {
+            System.out.println("Service - No se puede actualizar. Reservación no encontrada con ID: " + reservationId);
+            return null;
+        }
+    }
+
+    /**
      * Eliminar una reservación
      */
     @Transactional
-    public boolean deleteReservation(Long reservationId) {
+    public CancelConfirmation cancelReservation(Integer reservationId) {
         System.out.println("Service - Eliminando reservación con ID: " + reservationId);
         
-        boolean deleted = reservationRepository.deleteById(reservationId);
+        boolean deleted = ReservationEntity.deleteById(reservationId.longValue());
+        
+        CancelConfirmation cancelConfirmation = new CancelConfirmation();
+        cancelConfirmation.setIdReservation(reservationId);
         
         if (deleted) {
             System.out.println("Service - Reservación eliminada exitosamente");
+            cancelConfirmation.setStatus(CancelConfirmation.StatusEnum.CANCELLED);
+            cancelConfirmation.setMessage("Reserva cancelada exitosamente");
         } else {
             System.out.println("Service - No se pudo eliminar. Reservación no encontrada con ID: " + reservationId);
+            cancelConfirmation.setStatus(CancelConfirmation.StatusEnum.FAILED);
+            cancelConfirmation.setMessage("No se pudo cancelar. Reservación no encontrada");
         }
         
-        return deleted;
-    }
-
-    /**
-     * Buscar reservaciones por cliente
-     */
-    public List<Confirmation> getReservationsByClientId(Integer clientId) {
-        System.out.println("Service - Buscando reservaciones para cliente: " + clientId);
-        
-        List<ReservationEntity> entities = reservationRepository.findByClientId(clientId);
-        
-        return entities.stream()
-                .map(reservationMapper::toConfirmation)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Buscar reservaciones por instructor
-     */
-    public List<Confirmation> getReservationsByInstructor(String instructor) {
-        System.out.println("Service - Buscando reservaciones para instructor: " + instructor);
-        
-        List<ReservationEntity> entities = reservationRepository.findByInstructor(instructor);
-        
-        return entities.stream()
-                .map(reservationMapper::toConfirmation)
-                .collect(Collectors.toList());
+        cancelConfirmation.setCancelledAt(OffsetDateTime.now());
+        return cancelConfirmation;
     }
 }
-``` 
+```
 
-**💡 Explicación:**
+💡 **Explicación:**
+• `@Transactional` es necesario para operaciones que modifican la base de datos
+• Usamos el mapper para convertir entre modelos OpenAPI y entidades JPA
+• Manejamos casos donde la reservación no existe retornando `null` o `false`
 
-- `@Transactional` es necesario para operaciones que modifican la base de datos
-- Usamos el mapper para convertir entre modelos OpenAPI y entidades JPA
-- Manejamos casos donde la reservación no existe retornando `null` o `false`
+## 🎮 Paso 6.1: Actualizar el ReservationResource con PATCH
 
----
+El ReservationResource no requiere cambios significativos, solo asegúrate de que tenga el import correcto para `ReservationPatch`:
 
-## 🌐 Paso 8: Actualizar el Resource con Endpoints CRUD Completos
-
-Ahora expandimos nuestro `ReservationResource` para incluir todas las operaciones CRUD:
-
-```bash
+```java
 package com.ejemplo.api.resource;
 
 import com.ejemplo.api.model.ApiError;
+import com.ejemplo.api.model.CancelConfirmation;
 import com.ejemplo.api.model.Confirmation;
+import com.ejemplo.api.model.ConfirmationList;
 import com.ejemplo.api.model.Reservation;
+import com.ejemplo.api.model.ReservationPatch; // <-- Importante para PATCH
+
 import com.ejemplo.api.service.ReservationService;
 
 import jakarta.inject.Inject;
@@ -541,7 +465,6 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
 
 @Path("/api/v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -551,386 +474,252 @@ public class ReservationResource {
     @Inject
     ReservationService reservationService;
 
-    /**
-     * CREATE - Crear una nueva reservación
-     * POST /api/v1/reservations
-     */
-    @POST
-    @Path("/reservations")
-    public Response createReservation(@Valid Reservation reservationRequest) {
-        System.out.println("Resource - Creando reservación para cliente: " + reservationRequest.getIdClient());
-        
-        try {
-            Confirmation confirmation = reservationService.createReservation(reservationRequest);
-            return Response.status(Response.Status.CREATED).entity(confirmation).build();
-        } catch (Exception e) {
-            System.err.println("Error al crear reservación: " + e.getMessage());
-            
-            ApiError error = new ApiError();
-            error.setCode("500");
-            error.setMessage("Error interno del servidor al crear la reservación");
-            error.setDetails(e.getMessage());
-            
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
-        }
-    }
+    // ... otros métodos (POST, GET, PUT) ...
 
-    /**
-     * READ - Obtener una reservación por ID
-     * GET /api/v1/reservations/{reservationId}
-     */
-    @GET
+    @PATCH
     @Path("/reservations/{reservationId}")
-    public Response getReservationById(@PathParam("reservationId") Long reservationId) {
-        System.out.println("Resource - Buscando reservación con ID: " + reservationId);
+    public Response patchReservation(
+            @PathParam("reservationId") Integer reservationId,
+            @Valid ReservationPatch reservationPatch) {
         
-        // Validación básica del ID
-        if (reservationId == null || reservationId < 1) {
-            ApiError error = new ApiError();
-            error.setCode("400");
-            error.setMessage("El ID de la reservación es inválido");
-            error.setDetails("ID debe ser un número positivo");
-            
-            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+        System.out.println("Resource - Actualizando parcialmente Reservation con ID: " + reservationId);
+        
+        // Validación básica del ID (igual que en otros métodos)
+        if (reservationId == null || reservationId < 1 || reservationId > 999999) {
+            ApiError errorResponse = new ApiError();
+            errorResponse.setCode("400");
+            errorResponse.setMessage("El ID de la reserva es inválido. Debe estar entre 1 y 999999.");
+            errorResponse.setDetails("ID proporcionado: " + reservationId);
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
         }
         
-        Confirmation confirmation = reservationService.getReservationById(reservationId);
+        Confirmation confirmationResponse = reservationService.patchReservation(reservationId, reservationPatch);
         
-        if (confirmation != null) {
-            return Response.ok(confirmation).build();
-        } else {
-            ApiError error = new ApiError();
-            error.setCode("404");
-            error.setMessage("Reservación no encontrada");
-            error.setDetails("No existe una reservación con ID: " + reservationId);
-            
-            return Response.status(Response.Status.NOT_FOUND).entity(error).build();
-        }
+        return Response.ok(confirmationResponse).build();
     }
-
-    /**
-     * READ - Obtener todas las reservaciones
-     * GET /api/v1/reservations
-     */
-    @GET
-    @Path("/reservations")
-    public Response getAllReservations() {
-        System.out.println("Resource - Obteniendo todas las reservaciones");
-        
-        try {
-            List<Confirmation> reservations = reservationService.getAllReservations();
-            return Response.ok(reservations).build();
-        } catch (Exception e) {
-            System.err.println("Error al obtener reservaciones: " + e.getMessage());
-            
-            ApiError error = new ApiError();
-            error.setCode("500");
-            error.setMessage("Error interno del servidor al obtener las reservaciones");
-            error.setDetails(e.getMessage());
-            
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
-        }
-    }
-
-    /**
-     * UPDATE - Actualizar una reservación existente
-     * PUT /api/v1/reservations/{reservationId}
-     */
-    @PUT
-    @Path("/reservations/{reservationId}")
-    public Response updateReservation(@PathParam("reservationId") Long reservationId, 
-                                    @Valid Reservation reservationRequest) {
-        System.out.println("Resource - Actualizando reservación con ID: " + reservationId);
-        
-        // Validación básica del ID
-        if (reservationId == null || reservationId < 1) {
-            ApiError error = new ApiError();
-            error.setCode("400");
-            error.setMessage("El ID de la reservación es inválido");
-            error.setDetails("ID debe ser un número positivo");
-            
-            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
-        }
-        
-        try {
-            Confirmation confirmation = reservationService.updateReservation(reservationId, reservationRequest);
-            
-            if (confirmation != null) {
-                return Response.ok(confirmation).build();
-            } else {
-                ApiError error = new ApiError();
-                error.setCode("404");
-                error.setMessage("Reservación no encontrada para actualizar");
-                error.setDetails("No existe una reservación con ID: " + reservationId);
-                
-                return Response.status(Response.Status.NOT_FOUND).entity(error).build();
-            }
-        } catch (Exception e) {
-            System.err.println("Error al actualizar reservación: " + e.getMessage());
-            
-            ApiError error = new ApiError();
-            error.setCode("500");
-            error.setMessage("Error interno del servidor al actualizar la reservación");
-            error.setDetails(e.getMessage());
-            
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
-        }
-    }
-
-    /**
-     * DELETE - Eliminar una reservación
-     * DELETE /api/v1/reservations/{reservationId}
-     */
-    @DELETE
-    @Path("/reservations/{reservationId}")
-    public Response deleteReservation(@PathParam("reservationId") Long reservationId) {
-        System.out.println("Resource - Eliminando reservación con ID: " + reservationId);
-        
-        // Validación básica del ID
-        if (reservationId == null || reservationId < 1) {
-            ApiError error = new ApiError();
-            error.setCode("400");
-            error.setMessage("El ID de la reservación es inválido");
-            error.setDetails("ID debe ser un número positivo");
-            
-            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
-        }
-        
-        try {
-            boolean deleted = reservationService.deleteReservation(reservationId);
-            
-            if (deleted) {
-                return Response.noContent().build(); // 204 No Content
-            } else {
-                ApiError error = new ApiError();
-                error.setCode("404");
-                error.setMessage("Reservación no encontrada para eliminar");
-                error.setDetails("No existe una reservación con ID: " + reservationId);
-                
-                return Response.status(Response.Status.NOT_FOUND).entity(error).build();
-            }
-        } catch (Exception e) {
-            System.err.println("Error al eliminar reservación: " + e.getMessage());
-            
-            ApiError error = new ApiError();
-            error.setCode("500");
-            error.setMessage("Error interno del servidor al eliminar la reservación");
-            error.setDetails(e.getMessage());
-            
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
-        }
-    }
-
-    /**
-     * BÚSQUEDA - Obtener reservaciones por cliente
-     * GET /api/v1/reservations/client/{clientId}
-     */
-    @GET
-    @Path("/reservations/client/{clientId}")
-    public Response getReservationsByClientId(@PathParam("clientId") Integer clientId) {
-        System.out.println("Resource - Buscando reservaciones para cliente: " + clientId);
-        
-        if (clientId == null || clientId < 1) {
-            ApiError error = new ApiError();
-            error.setCode("400");
-            error.setMessage("El ID del cliente es inválido");
-            error.setDetails("ID del cliente debe ser un número positivo");
-            
-            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
-        }
-        
-        try {
-            List<Confirmation> reservations = reservationService.getReservationsByClientId(clientId);
-            return Response.ok(reservations).build();
-        } catch (Exception e) {
-            System.err.println("Error al buscar reservaciones por cliente: " + e.getMessage());
-            
-            ApiError error = new ApiError();
-            error.setCode("500");
-            error.setMessage("Error interno del servidor al buscar reservaciones por cliente");
-            error.setDetails(e.getMessage());
-            
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
-        }
-    }
-
-    /**
-     * BÚSQUEDA - Obtener reservaciones por instructor
-     * GET /api/v1/reservations/instructor/{instructor}
-     */
-    @GET
-    @Path("/reservations/instructor/{instructor}")
-    public Response getReservationsByInstructor(@PathParam("instructor") String instructor) {
-        System.out.println("Resource - Buscando reservaciones para instructor: " + instructor);
-        
-        if (instructor == null || instructor.trim().isEmpty()) {
-            ApiError error = new ApiError();
-            error.setCode("400");
-            error.setMessage("El nombre del instructor es inválido");
-            error.setDetails("El nombre del instructor no puede estar vacío");
-            
-            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
-        }
-        
-        try {
-            List<Confirmation> reservations = reservationService.getReservationsByInstructor(instructor);
-            return Response.ok(reservations).build();
-        } catch (Exception e) {
-            System.err.println("Error al buscar reservaciones por instructor: " + e.getMessage());
-            
-            ApiError error = new ApiError();
-            error.setCode("500");
-            error.setMessage("Error interno del servidor al buscar reservaciones por instructor");
-            error.setDetails(e.getMessage());
-            
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
-        }
-    }
+    
+    // ... método DELETE ...
 }
-``` 
+```
 
----
+💡 **Puntos clave del método PATCH:**
+• Usa `@PATCH` en lugar de `@PUT`
+• Recibe `ReservationPatch` en lugar de `Reservation`
+• La validación de ID es idéntica a otros métodos
+• Delega la lógica al servicio como los demás endpoints
 
-## 🧪 Paso 9: Compilar y Probar la Aplicación
+## 🧪 Paso 7: Compilar y Probar la Aplicación
 
-### 9.1 Compilar el Proyecto
+### 7.1 Compilar el Proyecto
 
 ```bash
 mvn clean compile
-``` 
+```
 
-### 9.2 Ejecutar en Modo Desarrollo
+### 7.2 Ejecutar en Modo Desarrollo
 
 ```bash
-mvn quarkus:dev
-``` 
+./mvnw quarkus:dev
+```
 
-### 9.3 Verificar la Conexión a la Base de Datos
+### 7.3 Verificar la Conexión a la Base de Datos
 
 En los logs, deberías ver algo como:
 
-```bash
-2024-01-15 10:30:45,123 INFO  [io.qua.hib.orm.dep.HibernateOrmProcessor] (build-4) Setting quarkus.hibernate-orm.database.generation=none
-2024-01-15 10:30:45,456 INFO  [io.qua.agi.dep.AgroalProcessor] (build-4) Agroal connection pool created for: <default>
-``` 
+```text
+2025-11-30 17:04:19,573 INFO  [io.quarkus] (Quarkus Main Thread) oas-api-rest 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.29.0) started in 2.487s. Listening on: http://localhost:8080
+2025-11-30 17:04:19,574 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-mysql, rest, rest-jackson]
+```
 
----
+**Nota:** Si ves advertencias sobre `reservations_SEQ`, es normal - Hibernate la crea automáticamente para el manejo de IDs.
 
-## 🔧 Paso 10: Probar con Postman - CRUD Completo
+## 🔧 Paso 8: Probar con Postman - CRUD Completo
 
-### 10.1 **CREATE** - Crear Reservación
+### 8.1 CREATE - Crear Reservación
 
-- **Método:** `POST`
-- **URL:** `http://localhost:8080/api/v1/reservations`
-- **Body (JSON):**
+• Método: `POST`
+• URL: `http://localhost:8080/api/v1/reservations`
+• Body (JSON):
 
-```bash
+```json
 {
-    "idClient": 2001,
-    "idRoom": 8,
+    "idClient": "BC-123",
+    "activity": "Yoga",
+    "dayOfWeek": "Lun",
+    "time": "18:30"
+}
+```
+
+Respuesta esperada: `201 Created`
+
+```json
+{
+    "idReservation": 108,
+    "idRoom": 1,
+    "instructor": "Instructor Asignado",
+    "discount": 0.0
+}
+```
+
+### 8.2 READ - Obtener Todas las Reservaciones
+
+• Método: `GET`
+• URL: `http://localhost:8080/api/v1/reservations`
+
+Respuesta esperada: `200 OK` con lista de todas las reservaciones
+
+### 8.3 READ - Obtener Reservación por ID
+
+• Método: `GET`
+• URL: `http://localhost:8080/api/v1/reservations/1`
+
+Respuesta esperada: `200 OK` con los datos de la reservación:
+
+```json
+{
+    "idReservation": 1,
+    "idRoom": 1,
     "instructor": "María García",
-    "discount": 20.5
+    "discount": 5.0
 }
-``` 
+```
 
-**Respuesta esperada:** `201 Created`
+### 8.4 UPDATE - Actualizar Reservación (PUT)
 
-```bash
+• Método: `PUT`
+• URL: `http://localhost:8080/api/v1/reservations/1`
+• Body (JSON):
+
+```json
 {
-    "idReservation": 4,
-    "idRoom": 8,
+    "idClient": "BC-123",
+    "activity": "Yoga Avanzado",
+    "dayOfWeek": "Mar",
+    "time": "10:30"
+}
+```
+
+Respuesta esperada: `200 OK` con los datos actualizados:
+
+```json
+{
+    "idReservation": 1,
+    "idRoom": 1,
     "instructor": "María García",
-    "discount": 20.5
+    "discount": 5.0
 }
-``` 
+```
 
-### 10.2 **READ** - Obtener Todas las Reservaciones
+💡 **Diferencia PUT vs PATCH:** PUT reemplaza completamente el recurso (requiere todos los campos), mientras que PATCH actualiza solo los campos enviados.
 
-- **Método:** `GET`
-- **URL:** `http://localhost:8080/api/v1/reservations`
+### 8.5 PATCH - Actualizar Parcialmente Reservación
 
-**Respuesta esperada:** `200 OK` con lista de todas las reservaciones
+• Método: `PATCH`
+• URL: `http://localhost:8080/api/v1/reservations/1`
+• Body (JSON) - Solo los campos que quieres cambiar:
 
-### 10.3 **READ** - Obtener Reservación por ID
-
-- **Método:** `GET`
-- **URL:** `http://localhost:8080/api/v1/reservations/1`
-
-**Respuesta esperada:** `200 OK` con los datos de la reservación
-
-### 10.4 **UPDATE** - Actualizar Reservación
-
-- **Método:** `PUT`
-- **URL:** `http://localhost:8080/api/v1/reservations/1`
-- **Body (JSON):**
-
-```bash
+```json
 {
-    "idClient": 1001,
-    "idRoom": 10,
-    "instructor": "Juan Pérez Actualizado",
-    "discount": 25.0
+    "activity": "Pilates Avanzado"
 }
-``` 
+```
 
-**Respuesta esperada:** `200 OK` con los datos actualizados
+O cambiar múltiples campos:
 
-### 10.5 **DELETE** - Eliminar Reservación
+```json
+{
+    "activity": "Zumba",
+    "time": "19:00"
+}
+```
 
-- **Método:** `DELETE`
-- **URL:** `http://localhost:8080/api/v1/reservations/4`
+Respuesta esperada: `200 OK` con los datos actualizados:
 
-**Respuesta esperada:** `204 No Content`
+```json
+{
+    "idReservation": 1,
+    "idRoom": 1,
+    "instructor": "María García",
+    "discount": 5.0
+}
+```
 
-### 10.6 **BÚSQUEDAS** - Filtros Específicos
+💡 **Ventaja del PATCH:** Solo necesitas enviar los campos que quieres actualizar, el resto se mantiene igual.
 
-**Por Cliente:**
+**Ejemplo práctico de la diferencia:**
 
-- **Método:** `GET`
-- **URL:** `http://localhost:8080/api/v1/reservations/client/1001`
+| Operación | PUT (Reemplaza todo) | PATCH (Actualiza parcial) |
+|-----------|---------------------|----------------------------|
+| **Body requerido** | Todos los campos | Solo campos a cambiar |
+| **Campos omitidos** | Se pierden/null | Se mantienen igual |
+| **Uso típico** | Actualización completa | Cambios pequeños |
 
-**Por Instructor:**
+### 8.6 DELETE - Eliminar Reservación
 
-- **Método:** `GET`
-- **URL:** `http://localhost:8080/api/v1/reservations/instructor/Juan%20Pérez`
+• Método: `DELETE`
+• URL: `http://localhost:8080/api/v1/reservations/1`
 
----
+Respuesta esperada: `200 OK` con confirmación de cancelación:
 
-## 📊 Paso 11: Verificación en la Base de Datos
+```json
+{
+    "idReservation": 1,
+    "status": "CANCELLED",
+    "message": "Reserva cancelada exitosamente",
+    "cancelledAt": "2025-11-30T23:45:00Z"
+}
+```
 
-Puedes verificar los cambios directamente en MySQL:
+## 📊 Paso 9: Verificación en la Base de Datos
+
+Puedes verificar los cambios directamente en MySQL usando Docker:
 
 ```bash
+# Conectar al contenedor MySQL
+docker exec mysql-quarkus-volumes mysql -u quarkus_user -pquarkus_password reservation_system
+```
+
+```sql
 -- Ver todas las reservaciones
 SELECT * FROM reservations ORDER BY created_at DESC;
 
 -- Ver reservaciones por cliente
-SELECT * FROM reservations WHERE id_client = 1001;
+SELECT * FROM reservations WHERE id_client = 'BC-123';
 
--- Ver reservaciones por instructor
-SELECT * FROM reservations WHERE instructor LIKE '%Juan%';
-``` 
+-- Ver reservaciones por actividad
+SELECT * FROM reservations WHERE activity LIKE '%Yoga%';
 
----
+-- Ver cambios después de PATCH (verificar que solo algunos campos cambiaron)
+SELECT id, activity, day_of_week, time, updated_at 
+FROM reservations 
+WHERE id = 1;
+
+-- Ver estructura de las tablas
+DESCRIBE reservations;
+DESCRIBE reservations_SEQ;
+```
+
+**Nota:** La tabla `reservations_SEQ` es creada automáticamente por Hibernate para manejar la generación de IDs con la estrategia de secuencias.
 
 ## 🎯 Resumen de lo Aprendido
 
-1. **Configuración de MySQL** con Quarkus usando `application.properties`
-2. **Entidades JPA** con Panache para mapeo objeto-relacional
-3. **Patrón Repository** para operaciones de base de datos complejas
-4. **Mapper** para conversión entre modelos OpenAPI y entidades JPA
-5. **Transacciones** con `@Transactional` para operaciones que modifican datos
-6. **CRUD completo** con manejo de errores y validaciones
-7. **Búsquedas personalizadas** por diferentes criterios
-
----
+1. Configuración de MySQL con Quarkus usando `application.properties`
+2. Entidades JPA con Panache para mapeo objeto-relacional
+3. Patrón Mapper para conversión entre modelos OpenAPI y entidades JPA
+4. Transacciones con `@Transactional` para operaciones que modifican datos
+5. CRUD completo con manejo de errores básico
+6. Uso de Panache para simplificar las operaciones de base de datos
+7. **Diferencia entre PUT y PATCH:**
+   - **PUT**: Reemplaza completamente el recurso (requiere todos los campos)
+   - **PATCH**: Actualiza solo los campos enviados (actualización parcial)
+8. Validación condicional en PATCH (solo actualizar campos no nulos)
 
 ## 🚀 Próximos Pasos
 
-- Agregar paginación para consultas que retornan muchos resultados
-- Implementar validaciones de negocio más complejas
-- Agregar logging estructurado
-- Configurar profiles para diferentes ambientes (dev, test, prod)
-- Implementar tests unitarios e integración
+• Agregar validaciones de negocio más complejas
+• Implementar manejo de excepciones personalizado
+• Agregar logging estructurado
+• Configurar profiles para diferentes ambientes (dev, test, prod)
+• Implementar tests unitarios e integración
 
 ¡Has completado exitosamente la integración de Quarkus con MySQL y tienes un API REST completamente funcional con operaciones CRUD!
