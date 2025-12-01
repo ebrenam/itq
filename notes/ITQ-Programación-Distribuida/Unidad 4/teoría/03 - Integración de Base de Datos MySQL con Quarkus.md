@@ -75,12 +75,7 @@ quarkus.datasource.password=quarkus_password
 quarkus.datasource.jdbc.url=jdbc:mysql://localhost:3306/reservation_system
 
 # Configuración de Hibernate
-quarkus.hibernate-orm.database.generation=validate
 quarkus.hibernate-orm.log.sql=true
-
-# Configuración del pool de conexiones
-quarkus.datasource.jdbc.min-size=2
-quarkus.datasource.jdbc.max-size=10
 ```
 
 💡 **Explicación de las propiedades:**
