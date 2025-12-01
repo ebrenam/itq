@@ -198,7 +198,8 @@ public class ReservationMapper {
     /**
      * Convierte de modelo OpenAPI a entidad JPA
      */
-    public ReservationEntity toEntity(Reservation reservation) {
+    public ReservationEntity toEntity(Reservation reservation)
+    {
         if (reservation == null) {
             return null;
         }
@@ -220,7 +221,8 @@ public class ReservationMapper {
     /**
      * Convierte de entidad JPA a modelo de confirmación
      */
-    public Confirmation toConfirmation(ReservationEntity entity) {
+    public Confirmation toConfirmation(ReservationEntity entity)
+    {
         if (entity == null) {
             return null;
         }
@@ -241,7 +243,8 @@ public class ReservationMapper {
     /**
      * Convierte de entidad JPA a modelo Reservation
      */
-    public Reservation toReservation(ReservationEntity entity) {
+    public Reservation toReservation(ReservationEntity entity)
+    {
         if (entity == null) {
             return null;
         }
@@ -296,7 +299,8 @@ public class ReservationService {
      * Crear una nueva reservación
      */
     @Transactional
-    public Confirmation createReservation(Reservation reservation) {
+    public Confirmation createReservation(Reservation reservation)
+    {
         System.out.println("Service - Creando reservación para cliente: " + reservation.getIdClient());
         
         // Convertir el modelo OpenAPI a entidad JPA
@@ -315,7 +319,8 @@ public class ReservationService {
     /**
      * Obtener todas las reservaciones
      */
-    public ConfirmationList getReservations(String idClient, String activity, String dayOfWeek, String time) {
+    public ConfirmationList getReservations(String idClient, String activity, String dayOfWeek, String time)
+    {
         System.out.println("Service - Obteniendo todas las reservaciones");
         
         List<ReservationEntity> entities = ReservationEntity.listAll();
@@ -334,7 +339,8 @@ public class ReservationService {
     /**
      * Obtener reservación por ID
      */
-    public Confirmation getReservationById(Integer reservationId) {
+    public Confirmation getReservationById(Integer reservationId)
+    {
         System.out.println("Service - Buscando reservación con ID: " + reservationId);
         
         ReservationEntity entity = ReservationEntity.findById(reservationId.longValue());
@@ -352,7 +358,8 @@ public class ReservationService {
      * Actualizar una reservación existente
      */
     @Transactional
-    public Confirmation updateReservation(Integer reservationId, Reservation reservation) {
+    public Confirmation updateReservation(Integer reservationId, Reservation reservation)
+    {
         System.out.println("Service - Actualizando reservación con ID: " + reservationId);
         
         ReservationEntity entity = ReservationEntity.findById(reservationId.longValue());
@@ -377,7 +384,8 @@ public class ReservationService {
      * Actualizar parcialmente una reservación existente (PATCH)
      */
     @Transactional
-    public Confirmation patchReservation(Integer reservationId, ReservationPatch reservationPatch) {
+    public Confirmation patchReservation(Integer reservationId, ReservationPatch reservationPatch)
+    {
         System.out.println("Service - Actualizando parcialmente reservación con ID: " + reservationId);
         
         ReservationEntity entity = ReservationEntity.findById(reservationId.longValue());
@@ -410,7 +418,8 @@ public class ReservationService {
      * Eliminar una reservación
      */
     @Transactional
-    public CancelConfirmation cancelReservation(Integer reservationId) {
+    public CancelConfirmation cancelReservation(Integer reservationId)
+    {
         System.out.println("Service - Eliminando reservación con ID: " + reservationId);
         
         boolean deleted = ReservationEntity.deleteById(reservationId.longValue());
